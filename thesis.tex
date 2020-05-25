@@ -17,13 +17,10 @@
 \usepackage{array}% http://ctan.org/pkg/array
 \usepackage{longtable}
 \usepackage{import}
-\usepackage{color, colortbl}
 %\usepackage{subcaption}
 %\usepackage{algorithmic}
 \DeclareMathOperator*{\argmax}{arg\,max}
-\newcommand{\sunxuezhang}[1]{\textcolor{red}{[#1]}}
-%\DeclareMathOperator{\argmax}{argmax}
-%\def\mclimits_#1{\limits_{\mathclap{#1}}}
+
 
 % \documentclass[bachelor, openany, oneside, submit]{sjtuthesis}
 % \documentclass[master, review]{sjtuthesis}
@@ -63,7 +60,6 @@
 \fi
 \makeatother
 
-
 \frontmatter 	% 使用罗马数字对前言编号
 
 %% 摘要
@@ -74,12 +70,12 @@
 \tableofcontents
 \listoffigures
 \addcontentsline{toc}{chapter}{\listfigurename} %将插图目录加入全文目录
-%\listoftables
-%\addcontentsline{toc}{chapter}{\listtablename}  %将表格目录加入全文目录
-%\listofalgorithms
-%\addcontentsline{toc}{chapter}{\listalgorithmname} %将算法目录加入全文目录
+\listoftables
+\addcontentsline{toc}{chapter}{\listtablename}  %将表格目录加入全文目录
+\listofalgorithms
+\addcontentsline{toc}{chapter}{\listalgorithmname} %将算法目录加入全文目录
 
-%\include{tex/symbol} % 主要符号、缩略词对照表
+% \include{tex/symbol} % 主要符号、缩略词对照表
 
 \mainmatter	% 使用阿拉伯数字对正文编号
 
@@ -90,8 +86,6 @@
 \include{tex/chapter02}
 \include{tex/chapter03}
 \include{tex/chapter04}
-\include{tex/chapter05}
-
 %\include{tex/example}
 %\include{tex/faq}
 %\include{tex/summary}
@@ -137,7 +131,7 @@
     \include{tex/pubreview}
     \include{tex/projectsreview}  
   \else
-    \include{tex/pub}	      %% 发表论文
+    % \include{tex/pub}	      %% 发表论文
     %\include{tex/projects}  %% 参与的项目
   \fi
 \fi

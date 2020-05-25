@@ -1,0 +1,1237 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.0 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global}
+    \entry{MapReduce}{inproceedings}{}
+      \name{author}{2}{}{%
+        {{hash=4aecfb0cc2e1e3b7899129fa2a94e2b8}{%
+           family={Dean},
+           familyi={D\bibinitperiod},
+           given={Jeffrey},
+           giveni={J\bibinitperiod}}}%
+        {{hash=193bcec5240237591ad8fb697869f013}{%
+           family={Ghemawat},
+           familyi={G\bibinitperiod},
+           given={Sanjay},
+           giveni={S\bibinitperiod}}}%
+      }
+      \name{editor}{2}{}{%
+        {{hash=0bd1f649dbf7110fe95ba1833204085d}{%
+           family={Brewer},
+           familyi={B\bibinitperiod},
+           given={Eric\bibnamedelima A.},
+           giveni={E\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=f417c8a2c2cedb8cd12ec2bfa953f4f0}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \list{publisher}{1}{%
+        {{USENIX} Association}%
+      }
+      \strng{namehash}{22dbff284f8d6a274d7a4dcc5e95ffea}
+      \strng{fullhash}{59b423e9fed33260f87a089f738c1beb}
+      \strng{bibnamehash}{59b423e9fed33260f87a089f738c1beb}
+      \strng{authorbibnamehash}{59b423e9fed33260f87a089f738c1beb}
+      \strng{authornamehash}{22dbff284f8d6a274d7a4dcc5e95ffea}
+      \strng{authorfullhash}{59b423e9fed33260f87a089f738c1beb}
+      \strng{editorbibnamehash}{0576478993f85915fddde5fbe343f1dc}
+      \strng{editornamehash}{9cfc5bd48d8c6294913471d2b46224b5}
+      \strng{editorfullhash}{0576478993f85915fddde5fbe343f1dc}
+      \field{sortinit}{1}
+      \field{sortinithash}{2174f786c6195e7fe2ee1c229b416e29}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{6th Symposium on Operating System Design and Implementation {(OSDI} 2004), San Francisco, California, USA, December 6-8, 2004}
+      \field{langid}{english}
+      \field{title}{MapReduce: Simplified Data Processing on Large Clusters}
+      \field{usera}{C}
+      \field{userc}{english}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{2004}
+      \field{dateera}{ce}
+      \field{pages}{137\bibrangedash 150}
+      \range{pages}{14}
+      \verb{urlraw}
+      \verb http://www.usenix.org/events/osdi04/tech/dean.html
+      \endverb
+      \verb{url}
+      \verb http://www.usenix.org/events/osdi04/tech/dean.html
+      \endverb
+      \keyw{MapReduce}
+    \endentry
+    \entry{giantvm}{inproceedings}{}
+      \name{author}{7}{}{%
+        {{hash=eb96d0b531eeac5c6b8b186634522d92}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Jin},
+           giveni={J\bibinitperiod}}}%
+        {{hash=281c3afb6a038c297912c234f75eba82}{%
+           family={Ding},
+           familyi={D\bibinitperiod},
+           given={Zhuocheng},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=a6fd54e4890ee393000abc231cded9d1}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Yubin},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=a152b8d9e80ffb105263f3ae4bbd6b99}{%
+           family={Jia},
+           familyi={J\bibinitperiod},
+           given={Xingguo},
+           giveni={X\bibinitperiod}}}%
+        {{hash=ae9a47da402c99b1a858cd8b5c1e8abc}{%
+           family={Yu},
+           familyi={Y\bibinitperiod},
+           given={Boshi},
+           giveni={B\bibinitperiod}}}%
+        {{hash=d2484cb3f893290c6226360e792c6d2c}{%
+           family={Qi},
+           familyi={Q\bibinitperiod},
+           given={Zhengwei},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=193fe22ab9a3b44f8ae467e9c216bcec}{%
+           family={Guan},
+           familyi={G\bibinitperiod},
+           given={Haibing},
+           giveni={H\bibinitperiod}}}%
+      }
+      \name{editor}{3}{}{%
+        {{hash=7b776fba86b9fe4185a1d051c5642baa}{%
+           family={Nagarakatte},
+           familyi={N\bibinitperiod},
+           given={Santosh},
+           giveni={S\bibinitperiod}}}%
+        {{hash=f59ce827f75602b52081106f2f68301c}{%
+           family={Baumann},
+           familyi={B\bibinitperiod},
+           given={Andrew},
+           giveni={A\bibinitperiod}}}%
+        {{hash=4a7eb91156808ee4f74c2ae5cfee9d11}{%
+           family={Kasikci},
+           familyi={K\bibinitperiod},
+           given={Baris},
+           giveni={B\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \list{publisher}{1}{%
+        {ACM}%
+      }
+      \strng{namehash}{7acc8b64a1422194f4fffbaf725b68bb}
+      \strng{fullhash}{eedde7d86f1da9e85f5bc6ca98e70fad}
+      \strng{bibnamehash}{a1f9d2e4473df4e426810828b406644c}
+      \strng{authorbibnamehash}{a1f9d2e4473df4e426810828b406644c}
+      \strng{authornamehash}{7acc8b64a1422194f4fffbaf725b68bb}
+      \strng{authorfullhash}{eedde7d86f1da9e85f5bc6ca98e70fad}
+      \strng{editorbibnamehash}{c0db100c860a04718d9a64bac24f65f2}
+      \strng{editornamehash}{15c177b467c6853f3d75b4ad2e6e8d24}
+      \strng{editorfullhash}{c0db100c860a04718d9a64bac24f65f2}
+      \field{sortinit}{2}
+      \field{sortinithash}{cbff857e587bcb4635511624d773949e}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{{VEE} '20: 16th {ACM} {SIGPLAN/SIGOPS} International Conference on Virtual Execution Environments, virtual event [Lausanne, Switzerland], March 17, 2020}
+      \field{langid}{english}
+      \field{title}{GiantVM: a type-II hypervisor implementing many-to-one virtualization}
+      \field{usera}{C}
+      \field{userc}{english}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{2020}
+      \field{dateera}{ce}
+      \field{pages}{30\bibrangedash 44}
+      \range{pages}{15}
+      \verb{doi}
+      \verb 10.1145/3381052.3381324
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1145/3381052.3381324
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1145/3381052.3381324
+      \endverb
+      \keyw{giantvm}
+    \endentry
+    \entry{residual}{article}{}
+      \name{author}{2}{}{%
+        {{hash=7694f70887e732e716c521cede34f75e}{%
+           family={Douglis},
+           familyi={D\bibinitperiod},
+           given={Fred},
+           giveni={F\bibinitperiod}}}%
+        {{hash=0f8083af11561300929c9156a46eace9}{%
+           family={Ousterhout},
+           familyi={O\bibinitperiod},
+           given={John\bibnamedelima K.},
+           giveni={J\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \strng{namehash}{4e993ae0bdb75e2eb1a825463e0dd98c}
+      \strng{fullhash}{5226188b950e04cd8026ea36fcfccaaa}
+      \strng{bibnamehash}{5226188b950e04cd8026ea36fcfccaaa}
+      \strng{authorbibnamehash}{5226188b950e04cd8026ea36fcfccaaa}
+      \strng{authornamehash}{4e993ae0bdb75e2eb1a825463e0dd98c}
+      \strng{authorfullhash}{5226188b950e04cd8026ea36fcfccaaa}
+      \field{sortinit}{3}
+      \field{sortinithash}{a4b52e5432884761f50fb9571273b93e}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Softw. Pract. Exp.}
+      \field{langid}{english}
+      \field{number}{8}
+      \field{title}{Transparent Process Migration: Design Alternatives and the Sprite Implementation}
+      \field{usera}{J}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{volume}{21}
+      \field{year}{1991}
+      \field{dateera}{ce}
+      \field{pages}{757\bibrangedash 785}
+      \range{pages}{29}
+      \verb{doi}
+      \verb 10.1002/spe.4380210802
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1002/spe.4380210802
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1002/spe.4380210802
+      \endverb
+      \keyw{residual}
+    \endentry
+    \entry{livemigration}{inproceedings}{}
+      \name{author}{8}{}{%
+        {{hash=9edd3110f9350150b9a22ef5b7d45d25}{%
+           family={Clark},
+           familyi={C\bibinitperiod},
+           given={Christopher},
+           giveni={C\bibinitperiod}}}%
+        {{hash=629ffb46786b71518682f61124cc155b}{%
+           family={Fraser},
+           familyi={F\bibinitperiod},
+           given={Keir},
+           giveni={K\bibinitperiod}}}%
+        {{hash=ae4b8fa8c5628beeb183f814b5bbfcae}{%
+           family={Hand},
+           familyi={H\bibinitperiod},
+           given={Steven},
+           giveni={S\bibinitperiod}}}%
+        {{hash=cc1ca13ca869675be75204010b1086fb}{%
+           family={Hansen},
+           familyi={H\bibinitperiod},
+           given={Jacob\bibnamedelima Gorm},
+           giveni={J\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=71fd90a7a6a09671ba4b3245cf343c00}{%
+           family={Jul},
+           familyi={J\bibinitperiod},
+           given={Eric},
+           giveni={E\bibinitperiod}}}%
+        {{hash=0fe7d6e7ff58a784ebb0a50a65e6a522}{%
+           family={Limpach},
+           familyi={L\bibinitperiod},
+           given={Christian},
+           giveni={C\bibinitperiod}}}%
+        {{hash=54b3452c2c006403f10e98ce4fb7a0fc}{%
+           family={Pratt},
+           familyi={P\bibinitperiod},
+           given={Ian},
+           giveni={I\bibinitperiod}}}%
+        {{hash=1741586c200c40cae80d9e75886f8e56}{%
+           family={Warfield},
+           familyi={W\bibinitperiod},
+           given={Andrew},
+           giveni={A\bibinitperiod}}}%
+      }
+      \name{editor}{2}{}{%
+        {{hash=8999178b72243773300917591e511e88}{%
+           family={Vahdat},
+           familyi={V\bibinitperiod},
+           given={Amin},
+           giveni={A\bibinitperiod}}}%
+        {{hash=ed3fc532903c051209e0750c2c89f2ac}{%
+           family={Wetherall},
+           familyi={W\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \list{publisher}{1}{%
+        {USENIX}%
+      }
+      \strng{namehash}{292622a793304f2d4f11a1aba6f50987}
+      \strng{fullhash}{d6177bc421ae096dcb50629002916c2e}
+      \strng{bibnamehash}{20e7231adc74234cd596b34ab95c1994}
+      \strng{authorbibnamehash}{20e7231adc74234cd596b34ab95c1994}
+      \strng{authornamehash}{292622a793304f2d4f11a1aba6f50987}
+      \strng{authorfullhash}{d6177bc421ae096dcb50629002916c2e}
+      \strng{editorbibnamehash}{36ed66339723d28b50d9b22a0dd51d84}
+      \strng{editornamehash}{652f204b9fdea3968ac36fb4acd06374}
+      \strng{editorfullhash}{36ed66339723d28b50d9b22a0dd51d84}
+      \field{sortinit}{4}
+      \field{sortinithash}{11cdaee3b18e01d77f3f428b13c1fc76}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2nd Symposium on Networked Systems Design and Implementation {(NSDI} 2005), May 2-4, 2005, Boston, Massachusetts, USA, Proceedings}
+      \field{langid}{english}
+      \field{title}{Live Migration of Virtual Machines}
+      \field{usera}{C}
+      \field{userc}{english}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{2005}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb http://www.usenix.org/events/nsdi05/tech/clark.html
+      \endverb
+      \verb{url}
+      \verb http://www.usenix.org/events/nsdi05/tech/clark.html
+      \endverb
+      \keyw{livemigration}
+    \endentry
+    \entry{mesos}{inproceedings}{}
+      \name{author}{8}{}{%
+        {{hash=2e070b40ecff4acfea6fb611a8716760}{%
+           family={Hindman},
+           familyi={H\bibinitperiod},
+           given={Benjamin},
+           giveni={B\bibinitperiod}}}%
+        {{hash=a146737a08c92a0e901d58d45cdca770}{%
+           family={Konwinski},
+           familyi={K\bibinitperiod},
+           given={Andy},
+           giveni={A\bibinitperiod}}}%
+        {{hash=00dc518b94dfa6349c86e70661a1a5ef}{%
+           family={Zaharia},
+           familyi={Z\bibinitperiod},
+           given={Matei},
+           giveni={M\bibinitperiod}}}%
+        {{hash=dfd14c69d2338ce9cf556c819a32d286}{%
+           family={Ghodsi},
+           familyi={G\bibinitperiod},
+           given={Ali},
+           giveni={A\bibinitperiod}}}%
+        {{hash=aeb54aa0c3d97e1b5901682fd058a86e}{%
+           family={Joseph},
+           familyi={J\bibinitperiod},
+           given={Anthony\bibnamedelima D.},
+           giveni={A\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=9d213316309bd0e96a3d09387dbe799b}{%
+           family={Katz},
+           familyi={K\bibinitperiod},
+           given={Randy\bibnamedelima H.},
+           giveni={R\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=8d2fd528d2484047352789c731e250a5}{%
+           family={Shenker},
+           familyi={S\bibinitperiod},
+           given={Scott},
+           giveni={S\bibinitperiod}}}%
+        {{hash=51d9ef26181e2e8a9dc546b401e0bb26}{%
+           family={Stoica},
+           familyi={S\bibinitperiod},
+           given={Ion},
+           giveni={I\bibinitperiod}}}%
+      }
+      \name{editor}{2}{}{%
+        {{hash=89b4b2a6fa735d08993dc81c86f31571}{%
+           family={Andersen},
+           familyi={A\bibinitperiod},
+           given={David\bibnamedelima G.},
+           giveni={D\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=5e416f1c3bac232f5462c576ed99c202}{%
+           family={Ratnasamy},
+           familyi={R\bibinitperiod},
+           given={Sylvia},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \list{publisher}{1}{%
+        {{USENIX} Association}%
+      }
+      \strng{namehash}{624ebada1d39b82fde17b75e65de7c8c}
+      \strng{fullhash}{a929df3cfb5f8be2aaf2947c0214bbbe}
+      \strng{bibnamehash}{25ee2d26755365d5bae0a297a5c94140}
+      \strng{authorbibnamehash}{25ee2d26755365d5bae0a297a5c94140}
+      \strng{authornamehash}{624ebada1d39b82fde17b75e65de7c8c}
+      \strng{authorfullhash}{a929df3cfb5f8be2aaf2947c0214bbbe}
+      \strng{editorbibnamehash}{7f35d7d67a45768f8413d86b9d80d981}
+      \strng{editornamehash}{c7f4195a9d0bb65d7ab41562fcf4b24d}
+      \strng{editorfullhash}{7f35d7d67a45768f8413d86b9d80d981}
+      \field{sortinit}{5}
+      \field{sortinithash}{3c19c3776b658b3558e9e2e4840c01e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the 8th {USENIX} Symposium on Networked Systems Design and Implementation, {NSDI} 2011, Boston, MA, USA, March 30 - April 1, 2011}
+      \field{langid}{english}
+      \field{title}{Mesos: {A} Platform for Fine-Grained Resource Sharing in the Data Center}
+      \field{usera}{C}
+      \field{userc}{english}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{2011}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb https://www.usenix.org/conference/nsdi11/mesos-platform-fine-grained-resource-sharing-data-center
+      \endverb
+      \verb{url}
+      \verb https://www.usenix.org/conference/nsdi11/mesos-platform-fine-grained-resource-sharing-data-center
+      \endverb
+      \keyw{mesos}
+    \endentry
+    \entry{omega}{inproceedings}{}
+      \name{author}{4}{}{%
+        {{hash=090eda7bf97076b0df739ac29207efe5}{%
+           family={Schwarzkopf},
+           familyi={S\bibinitperiod},
+           given={Malte},
+           giveni={M\bibinitperiod}}}%
+        {{hash=a146737a08c92a0e901d58d45cdca770}{%
+           family={Konwinski},
+           familyi={K\bibinitperiod},
+           given={Andy},
+           giveni={A\bibinitperiod}}}%
+        {{hash=de60ddd9eca082003cdeace0d776e7a3}{%
+           family={Abd{-}El{-}Malek},
+           familyi={A\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod}}}%
+        {{hash=5f3c579f3b21ba42d76c7a3ee89b6ca2}{%
+           family={Wilkes},
+           familyi={W\bibinitperiod},
+           given={John},
+           giveni={J\bibinitperiod}}}%
+      }
+      \name{editor}{4}{}{%
+        {{hash=ed9a9fb88ff2598f87b63c23d88eecf7}{%
+           family={Hanz{á}lek},
+           familyi={H\bibinitperiod},
+           given={Zdenek},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=50d9327dbdc8bba245a39326e52b8400}{%
+           family={H{ä}rtig},
+           familyi={H\bibinitperiod},
+           given={Hermann},
+           giveni={H\bibinitperiod}}}%
+        {{hash=084730901e78fd30411e6af546d8540f}{%
+           family={Castro},
+           familyi={C\bibinitperiod},
+           given={Miguel},
+           giveni={M\bibinitperiod}}}%
+        {{hash=e5e5e71c98f9baacd735af99a12dc3b1}{%
+           family={Kaashoek},
+           familyi={K\bibinitperiod},
+           given={M.\bibnamedelimi Frans},
+           giveni={M\bibinitperiod\bibinitdelim F\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \list{publisher}{1}{%
+        {ACM}%
+      }
+      \strng{namehash}{e36dbe3e378b1b8d4c2d3ae3e503125b}
+      \strng{fullhash}{bf85a97176dd21c5275957aa4b39dc16}
+      \strng{bibnamehash}{55da11fc3f357f7b977da0b7c8658e28}
+      \strng{authorbibnamehash}{55da11fc3f357f7b977da0b7c8658e28}
+      \strng{authornamehash}{e36dbe3e378b1b8d4c2d3ae3e503125b}
+      \strng{authorfullhash}{bf85a97176dd21c5275957aa4b39dc16}
+      \strng{editorbibnamehash}{33999404bd392e74941675e0752deec0}
+      \strng{editornamehash}{6204bd0c94e07d7185ef1ae76d3dc452}
+      \strng{editorfullhash}{97c29667c70286b5ac244bb413c6caa1}
+      \field{sortinit}{6}
+      \field{sortinithash}{57e57fb8451e7fcfa45d1e069f6d3136}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Eighth Eurosys Conference 2013, EuroSys '13, Prague, Czech Republic, April 14-17, 2013}
+      \field{langid}{english}
+      \field{title}{Omega: flexible, scalable schedulers for large compute clusters}
+      \field{usera}{C}
+      \field{userc}{english}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{2013}
+      \field{dateera}{ce}
+      \field{pages}{351\bibrangedash 364}
+      \range{pages}{14}
+      \verb{doi}
+      \verb 10.1145/2465351.2465386
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1145/2465351.2465386
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1145/2465351.2465386
+      \endverb
+      \keyw{omega}
+    \endentry
+    \entry{sparrow}{inproceedings}{}
+      \name{author}{4}{}{%
+        {{hash=7270e2f2d76ca65712af49b0257af29d}{%
+           family={Ousterhout},
+           familyi={O\bibinitperiod},
+           given={Kay},
+           giveni={K\bibinitperiod}}}%
+        {{hash=54749885e1243b01239492a603b6a69e}{%
+           family={Wendell},
+           familyi={W\bibinitperiod},
+           given={Patrick},
+           giveni={P\bibinitperiod}}}%
+        {{hash=00dc518b94dfa6349c86e70661a1a5ef}{%
+           family={Zaharia},
+           familyi={Z\bibinitperiod},
+           given={Matei},
+           giveni={M\bibinitperiod}}}%
+        {{hash=51d9ef26181e2e8a9dc546b401e0bb26}{%
+           family={Stoica},
+           familyi={S\bibinitperiod},
+           given={Ion},
+           giveni={I\bibinitperiod}}}%
+      }
+      \name{editor}{2}{}{%
+        {{hash=4ce7390da57289e9d86884c3d923b036}{%
+           family={Kaminsky},
+           familyi={K\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod}}}%
+        {{hash=b19e90ae78c6cbe6c09d46e2ce1ecfc1}{%
+           family={Dahlin},
+           familyi={D\bibinitperiod},
+           given={Mike},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \list{publisher}{1}{%
+        {ACM}%
+      }
+      \strng{namehash}{73ecaf7243aec952e028ea44f1c4fe2a}
+      \strng{fullhash}{d06e48b969273d81ba6cb4f951d40167}
+      \strng{bibnamehash}{9a5857c14d88b9ac012ee120d5b2ac9f}
+      \strng{authorbibnamehash}{9a5857c14d88b9ac012ee120d5b2ac9f}
+      \strng{authornamehash}{73ecaf7243aec952e028ea44f1c4fe2a}
+      \strng{authorfullhash}{d06e48b969273d81ba6cb4f951d40167}
+      \strng{editorbibnamehash}{1cd6cb3892c87de5edf569c61c85f67d}
+      \strng{editornamehash}{c1c40911b31261665e0eceb210e5105b}
+      \strng{editorfullhash}{1cd6cb3892c87de5edf569c61c85f67d}
+      \field{sortinit}{7}
+      \field{sortinithash}{c818dd9105a2852444fc9f5e145c294e}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{{ACM} {SIGOPS} 24th Symposium on Operating Systems Principles, {SOSP} '13, Farmington, PA, USA, November 3-6, 2013}
+      \field{langid}{english}
+      \field{title}{Sparrow: distributed, low latency scheduling}
+      \field{usera}{C}
+      \field{userc}{english}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{2013}
+      \field{dateera}{ce}
+      \field{pages}{69\bibrangedash 84}
+      \range{pages}{16}
+      \verb{doi}
+      \verb 10.1145/2517349.2522716
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1145/2517349.2522716
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1145/2517349.2522716
+      \endverb
+      \keyw{sparrow}
+    \endentry
+    \entry{graphene}{inproceedings}{}
+      \name{author}{5}{}{%
+        {{hash=54b8b507efb31d98eee526192bd2ad42}{%
+           family={Grandl},
+           familyi={G\bibinitperiod},
+           given={Robert},
+           giveni={R\bibinitperiod}}}%
+        {{hash=01b7874900a60eb87de24eded06ed296}{%
+           family={Kandula},
+           familyi={K\bibinitperiod},
+           given={Srikanth},
+           giveni={S\bibinitperiod}}}%
+        {{hash=54e572c8dcc19a2c613d5ca21bd03ed2}{%
+           family={Rao},
+           familyi={R\bibinitperiod},
+           given={Sriram},
+           giveni={S\bibinitperiod}}}%
+        {{hash=e0f924d882649acf998332fe435297e7}{%
+           family={Akella},
+           familyi={A\bibinitperiod},
+           given={Aditya},
+           giveni={A\bibinitperiod}}}%
+        {{hash=1d2d6cbff9ca0477ee058d93afaff0e4}{%
+           family={Kulkarni},
+           familyi={K\bibinitperiod},
+           given={Janardhan},
+           giveni={J\bibinitperiod}}}%
+      }
+      \name{editor}{2}{}{%
+        {{hash=e71eb8b5f93f95b3c7000c5247d7216e}{%
+           family={Keeton},
+           familyi={K\bibinitperiod},
+           given={Kimberly},
+           giveni={K\bibinitperiod}}}%
+        {{hash=3351249bacafbbb43a8093a86c7a58ae}{%
+           family={Roscoe},
+           familyi={R\bibinitperiod},
+           given={Timothy},
+           giveni={T\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \list{publisher}{1}{%
+        {{USENIX} Association}%
+      }
+      \strng{namehash}{0650ca7a2a115aad0e5b3d806c0df0b9}
+      \strng{fullhash}{cd7c2fe629bba2d9e40836ffaf66bccc}
+      \strng{bibnamehash}{8fdc9f199504c55fa36bd52a6a108894}
+      \strng{authorbibnamehash}{8fdc9f199504c55fa36bd52a6a108894}
+      \strng{authornamehash}{0650ca7a2a115aad0e5b3d806c0df0b9}
+      \strng{authorfullhash}{cd7c2fe629bba2d9e40836ffaf66bccc}
+      \strng{editorbibnamehash}{cffca8dbb743670813a3d958bb0be2cd}
+      \strng{editornamehash}{fe99b3ee2ea6b2f40e57d631d393696f}
+      \strng{editorfullhash}{cffca8dbb743670813a3d958bb0be2cd}
+      \field{sortinit}{8}
+      \field{sortinithash}{07edf88d4ea82509b9c4b4d13f41c452}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{12th {USENIX} Symposium on Operating Systems Design and Implementation, {OSDI} 2016, Savannah, GA, USA, November 2-4, 2016}
+      \field{langid}{english}
+      \field{title}{{GRAPHENE:} Packing and Dependency-Aware Scheduling for Data-Parallel Clusters}
+      \field{usera}{C}
+      \field{userc}{english}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{2016}
+      \field{dateera}{ce}
+      \field{pages}{81\bibrangedash 97}
+      \range{pages}{17}
+      \verb{urlraw}
+      \verb https://www.usenix.org/conference/osdi16/technical-sessions/presentation/grandl\_graphene
+      \endverb
+      \verb{url}
+      \verb https://www.usenix.org/conference/osdi16/technical-sessions/presentation/grandl%5C_graphene
+      \endverb
+      \keyw{graphene}
+    \endentry
+    \entry{sysv}{book}{}
+      \name{author}{2}{}{%
+        {{hash=237226e58c9c8c055d568a27e659edda}{%
+           family={英特尔开源软件技术中心},
+           familyi={英\bibinitperiod}}}%
+        {{hash=97033eee6331bb57b68c29b42d473a93}{%
+           family={复旦大学并行处理研究所},
+           familyi={复\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {chinese}%
+      }
+      \list{location}{1}{%
+        {北京}%
+      }
+      \list{publisher}{1}{%
+        {清华大学出版社}%
+      }
+      \strng{namehash}{f9c3640559647395ccbff0e6f309e44b}
+      \strng{fullhash}{7b902f3f94062eb36d984f17919626a1}
+      \strng{bibnamehash}{7b902f3f94062eb36d984f17919626a1}
+      \strng{authorbibnamehash}{7b902f3f94062eb36d984f17919626a1}
+      \strng{authornamehash}{f9c3640559647395ccbff0e6f309e44b}
+      \strng{authorfullhash}{7b902f3f94062eb36d984f17919626a1}
+      \field{sortinit}{9}
+      \field{sortinithash}{1dd72ab054147731c9d824b49aba0534}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{langid}{english}
+      \field{title}{系统虚拟化：原理与实现}
+      \field{usera}{M}
+      \field{userd}{chinese}
+      \field{userf}{chinese}
+      \field{year}{2009}
+      \field{dateera}{ce}
+      \keyw{sysv}
+    \endentry
+    \entry{artofxen}{inproceedings}{}
+      \name{author}{5}{}{%
+        {{hash=08cf514c08137f94d73b590060797f5b}{%
+           family={Barham},
+           familyi={B\bibinitperiod},
+           given={Paul},
+           giveni={P\bibinitperiod}}}%
+        {{hash=d189df3dbfa35215ce11c7a50f75ef9b}{%
+           family={Dragovic},
+           familyi={D\bibinitperiod},
+           given={Boris},
+           giveni={B\bibinitperiod}}}%
+        {{hash=629ffb46786b71518682f61124cc155b}{%
+           family={Fraser},
+           familyi={F\bibinitperiod},
+           given={Keir},
+           giveni={K\bibinitperiod}}}%
+        {{hash=ae4b8fa8c5628beeb183f814b5bbfcae}{%
+           family={Hand},
+           familyi={H\bibinitperiod},
+           given={Steven},
+           giveni={S\bibinitperiod}}}%
+        {{hash=38026ba4ee6b102b47bf3ffb41325c8f}{%
+           family={al},
+           familyi={a\bibinitperiod},
+           prefix={et},
+           prefixi={e\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \list{location}{1}{%
+        {Bolton Landing, NY, USA}%
+      }
+      \strng{namehash}{e4194f7530e001a55fb104495f1875c1}
+      \strng{fullhash}{812cedb8dd0d8aeb575e4dc6b8314df3}
+      \strng{bibnamehash}{02ca208278fe4aa97ea3fbefbf41da39}
+      \strng{authorbibnamehash}{02ca208278fe4aa97ea3fbefbf41da39}
+      \strng{authornamehash}{e4194f7530e001a55fb104495f1875c1}
+      \strng{authorfullhash}{812cedb8dd0d8aeb575e4dc6b8314df3}
+      \field{sortinit}{1}
+      \field{sortinithash}{2174f786c6195e7fe2ee1c229b416e29}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Proceedings of the Nineteenth ACM Symposium on Operating Systems Principles}
+      \field{month}{10}
+      \field{title}{Xen and the art of virtualization}
+      \field{usera}{C}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{2003}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb http://doi.acm.org/10.1145/945445.945462
+      \endverb
+      \verb{url}
+      \verb http://doi.acm.org/10.1145/945445.945462
+      \endverb
+      \keyw{artofxen}
+    \endentry
+    \entry{intelv}{article}{}
+      \name{author}{10}{}{%
+        {{hash=4c96ba85d10677bc8ceb12c37991c3e9}{%
+           family={{Uhlig}},
+           familyi={U\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+        {{hash=9e5f9ca390d55ba1c5dc6828925cb799}{%
+           family={{Neiger}},
+           familyi={N\bibinitperiod},
+           given={G.},
+           giveni={G\bibinitperiod}}}%
+        {{hash=459a649142a8474c25296d3b5e7fe8ad}{%
+           family={{Rodgers}},
+           familyi={R\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod}}}%
+        {{hash=11c7073ff3bd0c090f0625450cedfab6}{%
+           family={{Santoni}},
+           familyi={S\bibinitperiod},
+           given={A.\bibnamedelimi L.},
+           giveni={A\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=f5a029ca7193cb2d6240b767a1093109}{%
+           family={{Martins}},
+           familyi={M\bibinitperiod},
+           given={F.\bibnamedelimi C.\bibnamedelimi M.},
+           giveni={F\bibinitperiod\bibinitdelim C\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=fa11f7e42881229e7189e0b54e2b1270}{%
+           family={{Anderson}},
+           familyi={A\bibinitperiod},
+           given={A.\bibnamedelimi V.},
+           giveni={A\bibinitperiod\bibinitdelim V\bibinitperiod}}}%
+        {{hash=91ece541a9d5b90aae2f45146983843c}{%
+           family={{Bennett}},
+           familyi={B\bibinitperiod},
+           given={S.\bibnamedelimi M.},
+           giveni={S\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=b4f69f316bf6aedfe783f6585baa2a78}{%
+           family={{Kagi}},
+           familyi={K\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=1028aa606ac94d0a4feeff513e73da7c}{%
+           family={{Leung}},
+           familyi={L\bibinitperiod},
+           given={F.\bibnamedelimi H.},
+           giveni={F\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=15cd73dee708f7270010e36377a40f73}{%
+           family={{Smith}},
+           familyi={S\bibinitperiod},
+           given={L.},
+           giveni={L\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \strng{namehash}{8997f772f6364e0275ef564136db5483}
+      \strng{fullhash}{9cdbbaeab6dc465b9bc016d442b06abf}
+      \strng{bibnamehash}{c85273af42b15bdac1f4878c5e816e92}
+      \strng{authorbibnamehash}{c85273af42b15bdac1f4878c5e816e92}
+      \strng{authornamehash}{8997f772f6364e0275ef564136db5483}
+      \strng{authorfullhash}{9cdbbaeab6dc465b9bc016d442b06abf}
+      \field{sortinit}{1}
+      \field{sortinithash}{2174f786c6195e7fe2ee1c229b416e29}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Computer}
+      \field{langid}{english}
+      \field{number}{5}
+      \field{title}{Intel virtualization technology}
+      \field{usera}{J}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{volume}{38}
+      \field{year}{2005}
+      \field{dateera}{ce}
+      \field{pages}{48\bibrangedash 56}
+      \range{pages}{9}
+      \verb{urlraw}
+      \verb https://ieeexplore.ieee.org/document/1430631
+      \endverb
+      \verb{url}
+      \verb https://ieeexplore.ieee.org/document/1430631
+      \endverb
+      \keyw{intelv}
+    \endentry
+    \entry{amdv}{article}{}
+      \name{author}{1}{}{%
+        {{hash=d1e80722536107e97c02e58ecea408d8}{%
+           family={Advanced-Micro-Devices},
+           familyi={A\bibinithyphendelim M\bibinithyphendelim D\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \strng{namehash}{d1e80722536107e97c02e58ecea408d8}
+      \strng{fullhash}{d1e80722536107e97c02e58ecea408d8}
+      \strng{bibnamehash}{d1e80722536107e97c02e58ecea408d8}
+      \strng{authorbibnamehash}{d1e80722536107e97c02e58ecea408d8}
+      \strng{authornamehash}{d1e80722536107e97c02e58ecea408d8}
+      \strng{authorfullhash}{d1e80722536107e97c02e58ecea408d8}
+      \field{sortinit}{1}
+      \field{sortinithash}{2174f786c6195e7fe2ee1c229b416e29}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{langid}{english}
+      \field{title}{AMD64 Virtualization Codenamed “Pacifica” Technology: Secure Virtual Machine Architecture Reference Manual}
+      \field{usera}{J}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{2005}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb http://www.0x04.net/doc/amd/33047.pdf
+      \endverb
+      \verb{url}
+      \verb http://www.0x04.net/doc/amd/33047.pdf
+      \endverb
+      \keyw{amdv}
+    \endentry
+    \entry{intelSDM}{article}{}
+      \name{author}{1}{}{%
+        {{hash=ff97a9fdede09eaf6e1c8ec9f6a61dd5}{%
+           family={Intel},
+           familyi={I\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \strng{namehash}{ff97a9fdede09eaf6e1c8ec9f6a61dd5}
+      \strng{fullhash}{ff97a9fdede09eaf6e1c8ec9f6a61dd5}
+      \strng{bibnamehash}{ff97a9fdede09eaf6e1c8ec9f6a61dd5}
+      \strng{authorbibnamehash}{ff97a9fdede09eaf6e1c8ec9f6a61dd5}
+      \strng{authornamehash}{ff97a9fdede09eaf6e1c8ec9f6a61dd5}
+      \strng{authorfullhash}{ff97a9fdede09eaf6e1c8ec9f6a61dd5}
+      \field{sortinit}{1}
+      \field{sortinithash}{2174f786c6195e7fe2ee1c229b416e29}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{langid}{english}
+      \field{month}{5}
+      \field{title}{Intel 64 and IA-32 Architectures Software Developer Manual}
+      \field{usera}{J}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{2020}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb https://software.intel.com/content/www/us/en/develop/articles/intel-sdm.html
+      \endverb
+      \verb{url}
+      \verb https://software.intel.com/content/www/us/en/develop/articles/intel-sdm.html
+      \endverb
+      \keyw{intelSDM}
+    \endentry
+    \entry{highperf}{thesis}{}
+      \name{author}{1}{}{%
+        {{hash=2e65c752858cfb96752c73b1e77f20a9}{%
+           family={董耀祖},
+           familyi={董\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {上海交通大学}%
+      }
+      \list{language}{1}{%
+        {chinese}%
+      }
+      \list{location}{1}{%
+        {上海}%
+      }
+      \strng{namehash}{2e65c752858cfb96752c73b1e77f20a9}
+      \strng{fullhash}{2e65c752858cfb96752c73b1e77f20a9}
+      \strng{bibnamehash}{2e65c752858cfb96752c73b1e77f20a9}
+      \strng{authorbibnamehash}{2e65c752858cfb96752c73b1e77f20a9}
+      \strng{authornamehash}{2e65c752858cfb96752c73b1e77f20a9}
+      \strng{authorfullhash}{2e65c752858cfb96752c73b1e77f20a9}
+      \field{sortinit}{1}
+      \field{sortinithash}{2174f786c6195e7fe2ee1c229b416e29}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{langid}{english}
+      \field{title}{高性能虚拟化及其适用性研究}
+      \field{type}{phdthesis}
+      \field{usera}{D}
+      \field{userd}{chinese}
+      \field{userf}{chinese}
+      \field{year}{2015}
+      \field{dateera}{ce}
+      \keyw{highperf}
+    \endentry
+    \entry{KVM}{misc}{}
+      \list{language}{1}{%
+        {english}%
+      }
+      \field{sortinit}{1}
+      \field{sortinithash}{2174f786c6195e7fe2ee1c229b416e29}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Website}
+      \field{langid}{english}
+      \field{note}{\url{https://www.linux-kvm.org/page/Main_Page}}
+      \field{title}{Kernel Virtual Machine}
+      \field{usera}{Z}
+      \field{userd}{english}
+      \field{year}{2020}
+      \field{dateera}{ce}
+      \keyw{KVM,\url{https://www.linux-kvm.org/page/Main_Page}}
+    \endentry
+    \entry{QEMU}{misc}{}
+      \list{language}{1}{%
+        {english}%
+      }
+      \field{sortinit}{1}
+      \field{sortinithash}{2174f786c6195e7fe2ee1c229b416e29}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Website}
+      \field{langid}{english}
+      \field{note}{\url{https://www.qemu.org/}}
+      \field{title}{the FAST! processor emulator}
+      \field{usera}{Z}
+      \field{userd}{english}
+      \field{year}{2020}
+      \field{dateera}{ce}
+      \keyw{QEMU,\url{https://www.qemu.org/}}
+    \endentry
+    \entry{tcbbd}{thesis}{}
+      \name{author}{1}{}{%
+        {{hash=1d97a3481034b852582fdc4d0484cc0f}{%
+           family={丁卓成},
+           familyi={丁\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {上海交通大学}%
+      }
+      \list{language}{1}{%
+        {chinese}%
+      }
+      \list{location}{1}{%
+        {上海}%
+      }
+      \strng{namehash}{1d97a3481034b852582fdc4d0484cc0f}
+      \strng{fullhash}{1d97a3481034b852582fdc4d0484cc0f}
+      \strng{bibnamehash}{1d97a3481034b852582fdc4d0484cc0f}
+      \strng{authorbibnamehash}{1d97a3481034b852582fdc4d0484cc0f}
+      \strng{authornamehash}{1d97a3481034b852582fdc4d0484cc0f}
+      \strng{authorfullhash}{1d97a3481034b852582fdc4d0484cc0f}
+      \field{sortinit}{2}
+      \field{sortinithash}{cbff857e587bcb4635511624d773949e}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{langid}{english}
+      \field{title}{虚拟化系统中基于RDMA的分布式共享内存研究}
+      \field{usera}{D}
+      \field{userd}{chinese}
+      \field{userf}{chinese}
+      \field{year}{2019}
+      \field{dateera}{ce}
+      \keyw{tcbbd}
+    \endentry
+    \entry{ivy}{article}{}
+      \name{author}{2}{}{%
+        {{hash=4838f7fdd28d5cefb28f3b3c734976d4}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Kai},
+           giveni={K\bibinitperiod}}}%
+        {{hash=ebfbf9d5ed6e5a1698b8fe9fb2b322a4}{%
+           family={Hudak},
+           familyi={H\bibinitperiod},
+           given={Paul},
+           giveni={P\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \strng{namehash}{b3f698a3666c5669ec9d523ad2dd1389}
+      \strng{fullhash}{47627464faf7d9f20026ea0518ed9bea}
+      \strng{bibnamehash}{47627464faf7d9f20026ea0518ed9bea}
+      \strng{authorbibnamehash}{47627464faf7d9f20026ea0518ed9bea}
+      \strng{authornamehash}{b3f698a3666c5669ec9d523ad2dd1389}
+      \strng{authorfullhash}{47627464faf7d9f20026ea0518ed9bea}
+      \field{sortinit}{2}
+      \field{sortinithash}{cbff857e587bcb4635511624d773949e}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{{ACM} Trans. Comput. Syst.}
+      \field{langid}{english}
+      \field{number}{4}
+      \field{title}{Memory Coherence in Shared Virtual Memory Systems}
+      \field{usera}{J}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{volume}{7}
+      \field{year}{1989}
+      \field{dateera}{ce}
+      \field{pages}{321\bibrangedash 359}
+      \range{pages}{39}
+      \verb{doi}
+      \verb 10.1145/75104.75105
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1145/75104.75105
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1145/75104.75105
+      \endverb
+      \keyw{ivy}
+    \endentry
+    \entry{tso}{article}{}
+      \name{author}{5}{}{%
+        {{hash=36aa14ea12e51326290dd02c24f754c2}{%
+           family={Sewell},
+           familyi={S\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod}}}%
+        {{hash=05af72045565493cd85f8d5167330aa2}{%
+           family={Sarkar},
+           familyi={S\bibinitperiod},
+           given={Susmit},
+           giveni={S\bibinitperiod}}}%
+        {{hash=04b670f6d1f73db0f24b85e5b4562755}{%
+           family={Owens},
+           familyi={O\bibinitperiod},
+           given={Scott},
+           giveni={S\bibinitperiod}}}%
+        {{hash=b733b008a9b6175da6851725a3c8761e}{%
+           family={Nardelli},
+           familyi={N\bibinitperiod},
+           given={Francesco\bibnamedelima Zappa},
+           giveni={F\bibinitperiod\bibinitdelim Z\bibinitperiod}}}%
+        {{hash=252a9f312905933ebf5c567099ef9b22}{%
+           family={Myreen},
+           familyi={M\bibinitperiod},
+           given={Magnus\bibnamedelima O.},
+           giveni={M\bibinitperiod\bibinitdelim O\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \strng{namehash}{6ca2f31e18ab97942f3253b0a8c44063}
+      \strng{fullhash}{0c4ccbbe8ecca5b8ac27053a01a2968d}
+      \strng{bibnamehash}{5e96f75f4982474e9738919bfd7d5abf}
+      \strng{authorbibnamehash}{5e96f75f4982474e9738919bfd7d5abf}
+      \strng{authornamehash}{6ca2f31e18ab97942f3253b0a8c44063}
+      \strng{authorfullhash}{0c4ccbbe8ecca5b8ac27053a01a2968d}
+      \field{sortinit}{2}
+      \field{sortinithash}{cbff857e587bcb4635511624d773949e}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Commun. {ACM}}
+      \field{langid}{english}
+      \field{number}{7}
+      \field{title}{x86-TSO: a rigorous and usable programmer's model for x86 multiprocessors}
+      \field{usera}{J}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{volume}{53}
+      \field{year}{2010}
+      \field{dateera}{ce}
+      \field{pages}{89\bibrangedash 97}
+      \range{pages}{9}
+      \verb{doi}
+      \verb 10.1145/1785414.1785443
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1145/1785414.1785443
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1145/1785414.1785443
+      \endverb
+      \keyw{tso}
+    \endentry
+    \entry{sharing}{article}{}
+      \name{author}{8}{}{%
+        {{hash=fa4c3e6a489d9364c2df9e47fc10250d}{%
+           family={Amza},
+           familyi={A\bibinitperiod},
+           given={Cristiana},
+           giveni={C\bibinitperiod}}}%
+        {{hash=e5c80af1f4ba850e3fe9d7de4baebbfd}{%
+           family={Cox},
+           familyi={C\bibinitperiod},
+           given={Alan\bibnamedelima L.},
+           giveni={A\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=e0332c94c19851e31a53337a329c5d0f}{%
+           family={Dwarkadas},
+           familyi={D\bibinitperiod},
+           given={Sandhya},
+           giveni={S\bibinitperiod}}}%
+        {{hash=123e290b9867d59c29d5eb10a2f00026}{%
+           family={Keleher},
+           familyi={K\bibinitperiod},
+           given={Peter\bibnamedelima J.},
+           giveni={P\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=d6a0da9443a414142eeff1607a8adf97}{%
+           family={Lu},
+           familyi={L\bibinitperiod},
+           given={Honghui},
+           giveni={H\bibinitperiod}}}%
+        {{hash=ce286ef0a6c2e480180276ad4cf40dca}{%
+           family={Rajamony},
+           familyi={R\bibinitperiod},
+           given={Ramakrishnan},
+           giveni={R\bibinitperiod}}}%
+        {{hash=dcec1c4d116cb72fd48b93a064f24bf3}{%
+           family={Yu},
+           familyi={Y\bibinitperiod},
+           given={Weimin},
+           giveni={W\bibinitperiod}}}%
+        {{hash=5915bd38485ffd37e32e01d1e3d46795}{%
+           family={Zwaenepoel},
+           familyi={Z\bibinitperiod},
+           given={Willy},
+           giveni={W\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \strng{namehash}{d4f3d0a13c5d978100f268c02869e741}
+      \strng{fullhash}{967d15fc2a87b796e6695edd52f5eb20}
+      \strng{bibnamehash}{58a19b6a690fdb0b33f142ba20b110c3}
+      \strng{authorbibnamehash}{58a19b6a690fdb0b33f142ba20b110c3}
+      \strng{authornamehash}{d4f3d0a13c5d978100f268c02869e741}
+      \strng{authorfullhash}{967d15fc2a87b796e6695edd52f5eb20}
+      \field{sortinit}{2}
+      \field{sortinithash}{cbff857e587bcb4635511624d773949e}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{{IEEE} Computer}
+      \field{langid}{english}
+      \field{number}{2}
+      \field{title}{ThreadMarks: Shared Memory Computing on Networks of Workstations}
+      \field{usera}{J}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{volume}{29}
+      \field{year}{1996}
+      \field{dateera}{ce}
+      \field{pages}{18\bibrangedash 28}
+      \range{pages}{11}
+      \verb{doi}
+      \verb 10.1109/2.485843
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1109/2.485843
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1109/2.485843
+      \endverb
+      \keyw{sharing}
+    \endentry
+    \entry{csapp}{book}{}
+      \name{author}{1}{}{%
+        {{hash=92abbf56e51c6f0ea22a4f983eed9376}{%
+           family={{Randal E. Bryant et al}},
+           familyi={R\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {chinese}%
+      }
+      \list{location}{1}{%
+        {北京}%
+      }
+      \list{publisher}{1}{%
+        {机械工业出版社}%
+      }
+      \strng{namehash}{92abbf56e51c6f0ea22a4f983eed9376}
+      \strng{fullhash}{92abbf56e51c6f0ea22a4f983eed9376}
+      \strng{bibnamehash}{92abbf56e51c6f0ea22a4f983eed9376}
+      \strng{authorbibnamehash}{92abbf56e51c6f0ea22a4f983eed9376}
+      \strng{authornamehash}{92abbf56e51c6f0ea22a4f983eed9376}
+      \strng{authorfullhash}{92abbf56e51c6f0ea22a4f983eed9376}
+      \field{sortinit}{2}
+      \field{sortinithash}{cbff857e587bcb4635511624d773949e}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{langid}{english}
+      \field{note}{{ISBN} 978-7-111-54493-7}
+      \field{title}{深入理解计算机系统}
+      \field{usera}{M}
+      \field{userd}{chinese}
+      \field{userf}{english}
+      \field{year}{2016}
+      \field{dateera}{ce}
+      \keyw{csapp,{ISBN} 978-7-111-54493-7}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

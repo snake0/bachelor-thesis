@@ -1,661 +1,311 @@
 %# -*- coding: utf-8-unix -*-
-@book{reinforce,
-  author = {R. S. Sutton and A. G. Barto},
-  title = {Reinforcement Learning: An Introduction},
-  publisher = {MIT Press},
-  year = {1998}
-}
-
-@inproceedings{benson2010under,
-  author = {T. Benson and A. Anand and A. Akella and M. Zhang},
-  title = {Understanding data center traffic characteristics},
-  journal = {SIGCOMM},
-  year = {2010},
-}
-@inproceedings{benson2010network,
-  author = {T. Benson and A. Akella and D. A. Maltz},
-  title = {Network traffic characteristics of data centers in the wild},
-  journal = {SIGCOMM},
-  year = {2010},
-}
-@inproceedings{netflow2018,
-  author = {},
-  title = {CISCO IOS NetFlow},
-  journal = {CISCO report},
-  year = {2018},
-}
-
-@inproceedings{wang2014Expeditus,
-  author = {P. Wang and H. Xu},
-  title = {Expeditus: Distributed load balancing with
-global congestion information in data center networks},
-  journal = {CoNEXT},
-  year = {2014},
-}
-
-@inproceedings{maha2014VxLAN,
-  author = {M. Mahalingam  },
-  title = {Virtual extensible local area network (VXLAN): A framework for overlaying virtualized layer 2 networks over layer 3 networks},
-  journal = {Internet Eng. Task Force},
-  year = {2014},
-}
-
-
-@inproceedings{guo2009bcube,
-  author = {C. Guo  },
-  title = {BCube: A high performance, server-centric network
-architecture for modular data centers},
-  journal = {SIGCOMM},
+@book{sysv,
+  author = {英特尔开源软件技术中心 and 复旦大学并行处理研究所},
+  title = {系统虚拟化：原理与实现},
+  publisher = {清华大学出版社},
   year = {2009},
+  address = {北京}
 }
 
-@inproceedings{raiciu2011MPTCP,
-  author = {C. Raiciu  },
-  title = {Improving datacenter performance and robustness with multipath TCP},
-  journal = {SIGCOMM},
-  year = {2011},
+@inproceedings{artofxen,
+  author =       { Paul Barham and Boris Dragovic and Keir Fraser and Steven Hand and et al},
+  title =        { Xen and the art of virtualization},
+  month= {10},
+  year =         {2003},
+  modifydate =         {2003-10-19},
+  TypeofLit =    {C/OL},
+  journal = {Proceedings of the Nineteenth ACM Symposium on Operating Systems Principles},
+  url =          {http://doi.acm.org/10.1145/945445.945462},
+  address = {Bolton Landing, NY, USA},
+  language = {en}
 }
 
-@inproceedings{alizadeh2014CONGA,
-  author = {M. Alizadeh  },
-  title = {CONGA: Distributed congestion-aware load bal- ancing for datacenters},
-  journal = {SIGCOMM},
-  year = {2014},
+@article{intelv,
+  author={R. {Uhlig} and G. {Neiger} and D. {Rodgers} and A. L. {Santoni} and F. C. M. {Martins} and A. V. {Anderson} and S. M. {Bennett} and A. {Kagi} and F. H. {Leung} and L. {Smith}},
+  journal={Computer}, 
+  title={Intel virtualization technology}, 
+  year={2005},
+  volume={38},
+  number={5},
+  pages={48-56},
+  url =   {https://ieeexplore.ieee.org/document/1430631},
+}
+@article{amdv,
+  author = { Advanced-Micro-Devices },
+  title = {AMD64 Virtualization Codenamed “Pacifica” Technology: Secure Virtual Machine Architecture Reference Manual},
+  year = {2005},
+  url={http://www.0x04.net/doc/amd/33047.pdf}
 }
 
-@inproceedings{he2014Presto,
-  author = {K. He  },
-  title = {Presto: Edge-based load balancing for fast datacenter networks},
-  journal = {SIGCOMM},
-  year = {2015},
+@article{intelSDM,
+  author = { Intel },
+  title = { Intel 64 and IA-32 Architectures Software Developer Manual },
+  month = {5},
+  modifydate={2020-5-19},
+  year = {2020},
+  url = {https://software.intel.com/content/www/us/en/develop/articles/intel-sdm.html}
 }
 
-@inproceedings{sen2013LocalFlow,
-  author = {S. Sen  },
-  title = {Scalable, optimal flow routing in datacenters via local link balancing},
-  journal = {CoNEXT},
-  year = {2013},
-}
-@inproceedings{perry2014Fastpass,
-  author = {J. Perry  },
-  title = {Fastpass: A centralized ‘zero-queue’ datacenter network},
-  journal = {SIGCOMM},
-  year = {2014},
-}
-@inproceedings{fares2010hedera,
-  author = {M. Al-Fares  },
-  title = {Hedera: Dynamic flow scheduling for data center networks},
-  journal = {USENIX NSDI},
-  year = {2010},
-}
-@inproceedings{katta2016CLOVE,
-  author = {N. Katta  },
-  title = {CLOVE: How I learned to stop worrying about the core and love the edge},
-  journal = {HotNets},
-  year = {2016},
-}
-@inproceedings{chen2018auto,
-  author = {Li Chen and Justinas Lingys and Kai Chen and Feng Liu},
-  title = {AuTO: Scaling Deep Reinforcement Learning
-for Datacenter-Scale Automatic Tra ic Optimization},
-  journal = {SIGCOMM},
-  year = {2018},
-}
-@inproceedings{mysore2009Portland,
-  author = {Radhika Niranjan Mysore  },
-  title = {PortLand: A Scalable Fault-Tolerant Layer 2 Data Center Network Fabric},
-  journal = {SIGCOMM},
-  year = {2009},
+@inproceedings{giantvm,
+  author    = {Jin Zhang and
+               Zhuocheng Ding and
+               Yubin Chen and
+               Xingguo Jia and
+               Boshi Yu and
+               Zhengwei Qi and
+               Haibing Guan},
+  editor    = {Santosh Nagarakatte and
+               Andrew Baumann and
+               Baris Kasikci},
+  title     = {GiantVM: a type-II hypervisor implementing many-to-one virtualization},
+  booktitle = {{VEE} '20: 16th {ACM} {SIGPLAN/SIGOPS} International Conference on
+               Virtual Execution Environments, virtual event [Lausanne, Switzerland],
+               March 17, 2020},
+  pages     = {30--44},
+  publisher = {{ACM}},
+  year      = {2020},
+  url       = {https://doi.org/10.1145/3381052.3381324},
+  doi       = {10.1145/3381052.3381324},
+  timestamp = {Fri, 20 Mar 2020 14:55:26 +0100},
+  biburl    = {https://dblp.org/rec/conf/vee/ZhangDCJYQG20.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 
-@inproceedings{alizadeh2010dctcp,
-  author = {Mohammad Alizadeh  },
-  title = {Data Center TCP (DCTCP)},
-  journal = {SIGCOMM},
-  year = {2010},
-}
-@inproceedings{bai2015pias,
-  author = {Wei Bai  },
-  title = {PIAS: Practical Information-Agnostic Flow Scheduling for Commodity Data Centers},
-  journal = {USENIX NSDI},
-  year = {2015},
-}
-@inproceedings{mitzen2001power,
-  author = {M. Mitzenmacher},
-  title = {The power of two choices in randomized load
-balancing},
-  journal = {IEEE Trans. Parallel Distrib. Syst.},
-  year = {2001},
+@article{residual,
+  author    = {Fred Douglis and
+               John K. Ousterhout},
+  title     = {Transparent Process Migration: Design Alternatives and the Sprite
+               Implementation},
+  journal   = {Softw. Pract. Exp.},
+  volume    = {21},
+  number    = {8},
+  pages     = {757--785},
+  year      = {1991},
+  url       = {https://doi.org/10.1002/spe.4380210802},
+  doi       = {10.1002/spe.4380210802},
+  timestamp = {Thu, 09 Apr 2020 17:13:39 +0200},
+  biburl    = {https://dblp.org/rec/journals/spe/DouglisO91.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 
-@inproceedings{dixit2013towards,
-  author = {A. Dixit and F. Hao and S. Mukherjee and T. V. Lakshman and R. Kompella},
-  title = {Towards an elastic distributed SDN controller},
-  journal = {SIGCOMM},
-  year = {2013},
-}
-@inproceedings{berde2014onos,
-  author = {P. Berde  },
-  title = {ONOS: Towards an open, distributed SDN OS},
-  journal = {Workshop Hot Topics Softw. Defined Netw.},
-  year = {2014},
-}
-
-@inproceedings{cui2015fmtcp,
-  author = {Y. Cui and L. Wang and X. Wang and H. Wang and Y. Wang},
-  title = {FMTCP: A foun- tain code-based multipath transmission control protocol},
-  journal = {IEEE/ACM Trans. Netw.},
-  year = {2015},
-}
-
-
-@inproceedings{Coudron2013AMPTCP,
-  author = {M.Coudron and S.Secci and G.Pujolle and P.Raad and P.Gallard},
-  title = {Cross-layer cooperation to boost multipath TCP performance in cloud networks},
-  journal = {IEEE CloudNet},
-  year = {2013},
+@inproceedings{livemigration,
+  author    = {Christopher Clark and
+               Keir Fraser and
+               Steven Hand and
+               Jacob Gorm Hansen and
+               Eric Jul and
+               Christian Limpach and
+               Ian Pratt and
+               Andrew Warfield},
+  editor    = {Amin Vahdat and
+               David Wetherall},
+  title     = {Live Migration of Virtual Machines},
+  booktitle = {2nd Symposium on Networked Systems Design and Implementation {(NSDI}
+               2005), May 2-4, 2005, Boston, Massachusetts, USA, Proceedings},
+  publisher = {{USENIX}},
+  year      = {2005},
+  url       = {http://www.usenix.org/events/nsdi05/tech/clark.html},
+  timestamp = {Wed, 04 Jul 2018 13:06:34 +0200},
+  biburl    = {https://dblp.org/rec/conf/nsdi/ClarkFHHJLPW05.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 
-@inproceedings{koomey2011growth,
-  author = {J. Koomey},
-  title = {Growth in Data Center Electricity Use 2005 to 2010},
-  journal = {Analytical Press},
-  year = {2011},
+@inproceedings{mesos,
+  author    = {Benjamin Hindman and
+               Andy Konwinski and
+               Matei Zaharia and
+               Ali Ghodsi and
+               Anthony D. Joseph and
+               Randy H. Katz and
+               Scott Shenker and
+               Ion Stoica},
+  editor    = {David G. Andersen and
+               Sylvia Ratnasamy},
+  title     = {Mesos: {A} Platform for Fine-Grained Resource Sharing in the Data
+               Center},
+  booktitle = {Proceedings of the 8th {USENIX} Symposium on Networked Systems Design
+               and Implementation, {NSDI} 2011, Boston, MA, USA, March 30 - April
+               1, 2011},
+  publisher = {{USENIX} Association},
+  year      = {2011},
+  url       = {https://www.usenix.org/conference/nsdi11/mesos-platform-fine-grained-resource-sharing-data-center},
+  timestamp = {Wed, 04 Jul 2018 13:06:34 +0200},
+  biburl    = {https://dblp.org/rec/conf/nsdi/HindmanKZGJKSS10.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 
-@inproceedings{zhang2011modeling,
-  author = {J. Zhang and F. Ren and C. Lin},
-  title = {Modeling and understanding TCP incast in data center networks},
-  journal = {INFOCOM},
-  year = {2011},
+@inproceedings{omega,
+  author    = {Malte Schwarzkopf and
+               Andy Konwinski and
+               Michael Abd{-}El{-}Malek and
+               John Wilkes},
+  editor    = {Zdenek Hanz{\'{a}}lek and
+               Hermann H{\"{a}}rtig and
+               Miguel Castro and
+               M. Frans Kaashoek},
+  title     = {Omega: flexible, scalable schedulers for large compute clusters},
+  booktitle = {Eighth Eurosys Conference 2013, EuroSys '13, Prague, Czech Republic,
+               April 14-17, 2013},
+  pages     = {351--364},
+  publisher = {{ACM}},
+  year      = {2013},
+  url       = {https://doi.org/10.1145/2465351.2465386},
+  doi       = {10.1145/2465351.2465386},
+  timestamp = {Tue, 06 Nov 2018 16:58:31 +0100},
+  biburl    = {https://dblp.org/rec/conf/eurosys/SchwarzkopfKAW13.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 
-@inproceedings{wang2014rethinking,
-  author = {T. Wang and Z. Su and Y. Xia and M. Hamdi},
-  title = {Rethinking the data center networking: Architecture, network protocols, and resource sharing},
-  journal = {IEEE Access},
-  year = {2014},
-}
-@inproceedings{costa2012camcube,
-  author = {P. Costa},
-  title = {CamCube: Rethinking the data center cluster},
-  journal = {Workshop Trends High Perform. Distrib. Comput.},
-  year = {2012},
-}
-@inproceedings{alfares2008fattree,
-  author = {M. Al-Fares and A. Loukissas and A. Vahdat},
-  title = {A scalable, commodity data center network architecture},
-  journal = {SIGCOMM},
-  year = {2008},
-}
-@inproceedings{greenberg2009vl2,
-  author = {A. Greenberg  },
-  title = {VL2: A scalable and flexible data center network},
-  journal = {SIGCOMM},
-  year = {2009},
-}
-@inproceedings{guo2008dcell,
-  author = {C. Guo  },
-  title = {Dcell: A scalable and fault-tolerant network structure for data centers},
-  journal = {SIGCOMM},
-  year = {2008},
-}
-@inproceedings{alphago,
-  author = {David Silver  },
-  title = {Mastering the game of Go with deep neural network and tree search},
-  journal = {Nature},
-  year = {2016},
+@inproceedings{sparrow,
+  author    = {Kay Ousterhout and
+               Patrick Wendell and
+               Matei Zaharia and
+               Ion Stoica},
+  editor    = {Michael Kaminsky and
+               Mike Dahlin},
+  title     = {Sparrow: distributed, low latency scheduling},
+  booktitle = {{ACM} {SIGOPS} 24th Symposium on Operating Systems Principles, {SOSP}
+               '13, Farmington, PA, USA, November 3-6, 2013},
+  pages     = {69--84},
+  publisher = {{ACM}},
+  year      = {2013},
+  url       = {https://doi.org/10.1145/2517349.2522716},
+  doi       = {10.1145/2517349.2522716},
+  timestamp = {Tue, 06 Nov 2018 16:59:32 +0100},
+  biburl    = {https://dblp.org/rec/conf/sosp/OusterhoutWZS13.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 
-
-
-
-@inproceedings{docker,
-  %author = {C. Guo  },
-  title = {Build and run Docker containers leveraging NVIDIA GPUs},
-  journal = {https://github.com/NVIDIA/nvidia-docker},
-  year = {2018},
+@inproceedings{graphene,
+  author    = {Robert Grandl and
+               Srikanth Kandula and
+               Sriram Rao and
+               Aditya Akella and
+               Janardhan Kulkarni},
+  editor    = {Kimberly Keeton and
+               Timothy Roscoe},
+  title     = {{GRAPHENE:} Packing and Dependency-Aware Scheduling for Data-Parallel
+               Clusters},
+  booktitle = {12th {USENIX} Symposium on Operating Systems Design and Implementation,
+               {OSDI} 2016, Savannah, GA, USA, November 2-4, 2016},
+  pages     = {81--97},
+  publisher = {{USENIX} Association},
+  year      = {2016},
+  url       = {https://www.usenix.org/conference/osdi16/technical-sessions/presentation/grandl\_graphene},
+  timestamp = {Tue, 29 Jan 2019 17:35:36 +0100},
+  biburl    = {https://dblp.org/rec/conf/osdi/GrandlKRAK16.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 
-@inproceedings{tensorflow,
-  %author = {C. Guo  },
-  title = {API Documentation: TensorFlow},
-  journal = {https://www. tensor ow.org/api_docs/},
-  year = {2017},
-}
-@inproceedings{niu2010cell,
-  author = {Z. Niu and Y. Wu and J. Gong  },
-  title = {Cell zooming for cost-efficient green cellular networks},
-  journal = {IEEE Commun. Mag.},
-  year = {2010},
-}
-@inproceedings{zhang2018survey,
-  author = {Jiao Zhang and F. Richard Yu and Shuo Wang  },
-  title = {Load Balancing in Data Center Networks: A Survey},
-  journal = {IEEE COMMUNICATIONS SURVEYS & TUTORIALS},
-  year = {2018},
-}
-
-@inproceedings{khodashenas20165g,
-  author = {P. S. Khodashenas and J. Aznar and A. Legarrea  },
-  title = {5G Network Challenges and Realization Insights},
-  journal = {ICTON},
-  year = {2016},
-}
-@inproceedings{tsai2017load,
-  author = {Chin Tsai and Melody Moh},
-  title = {Load Balancing in 5G Cloud Radio Access Networks Supporting IoT Communications for Smart Communities},
-  journal = {ISSPIT},
-  year = {2017},
-}
-@inproceedings{lin2010efficient,
-  author = {X. Lin and S. Wang},
-  title = {Efficient Remote Radio Head Switching Scheme in Cloud Radio Access Network: A Load Balancing Perspective},
-  journal = {INFOCOM},
-  year = {2017},
-}
-
-@inproceedings{shah2015generic,
-  author = {B. Shahriari and M. Moh},
-  title = {Generic Online Learning for Partial Visible Dynamic Environment with Delayed Feedback - Online Learning for 5G C-RAN Load-Balancer},
-  journal = {HPCS},
-  year = {2017},
-}
-@inproceedings{hong2006dns,
-  author = {Y. S. Hong and J.H. No and S. Y. Kim},
-  title = {DNS-based load balancing in distributed Web-server systems},
-  journal = {WCCIA},
-  year = {2006},
-}
-@inproceedings{wang2016novel,
-  author = {Z. Wang and C. Chen and H. Li and D. Dong and T. Tarn},
-  title = {A novel incremental learning scheme for reinforcement learning in dynamic environments},
-  journal = {WCICA},
-  year = {2016},
-}
-@inproceedings{ghorbani2015drill,
-  author = {S. Ghorbani  },
-  title = {Micro load balancing in data centers with DRILL},
-  journal = {HotNets},
-  year = {2015},
-}
-
-@journal{bengio2011onthe,
-  author = {Y. Bengio and O. Delalleau},
-  title = {On the expressive power of deep architectures},
-  journal = {Algorithmic Learning Theory},
-  year = {2011},
-}
-
-
-
-@inproceedings{ran2015optimal,
-  author = {C. Ran and S. Wang and C. Wang},
-  title = {Optimal load balancing in cloud radio access networks},
-  journal = {WCNC},
-  year = {2015},
-}
-@inproceedings{ioffe2015batch,
-  author = {Ioffe Sergey and Szegedy Christian},
-  title = {Batch normalization: Accelerating deep network training by reducing internal covariate shift},
-  journal = {ICML},
-  year = {2015},
-}
-
-@inproceedings{uhlenbeck1930on,
-  author = {Uhlenbeck George and Ornstein Leonard},
-  title = {On the theory of the brownian motion},
-  journal = {Physical review},
-  year = {1930},
-}
-
-@inproceedings{hado2010double,
-  author = {Hado van Hasselt},
-  title = {Double Q-learning},
-  journal = {NIPS},
-  year = {2010},
-}
-@inproceedings{hado2016deep,
-  author = {Hado van Hasselt and Arthur Guez and David Silver},
-  title = {Deep Reinforcement Learning with Double Q-learning},
-  journal = {AAAI},
-  year = {2016},
-}
-@inproceedings{timothy2016cont,
-  author = {Timothy P. Lillicrap and Jonathan J. Hunt and Alexander Pritzel  },
-  title = {Continuous control with deep reinforcement learning},
-  journal = {ICLR},
-  year = {2016},
-}
-@inproceedings{silver2014deter,
-  author = {David Silver and Guy Lever and Nicolas Heess  },
-  title = {Deterministic Policy Gradient Algorithms},
-  journal = {ICML},
-  year = {2014},
-}
-@inproceedings{sutton1999policy,
-  author = {Richard S. Sutton and David McAllester and Satinder Singh and Yishay Mansour},
-  title = {Policy Gradient Methods for Reinforcement Learning with Function Approximation},
-  journal = {NIPS},
-  year = {1999},
-}
-
-@inproceedings{hado2011double,
-  author = {Volodymyr Mnih and Koray Kavukcuoglu and David Silver  },
-  title = {Playing Atari with Deep Reinforcement Learning},
-  journal = {NIPS},
-  year = {2013},
-}
-
-@inproceedings{hado2012double,
-  author = {Volodymyr Mnih and Koray Kavukcuoglu and David Silver  },
-  title = {Human-level control through deep reinforcement learning},
-  journal = {Nature},
-  volume = {518},
-  year = {2015},
-  publisher = {Macmillan Publishers}
-}
-
-@inproceedings{watkins1988q,
-  author = {Watkins Ch. and Dayan P.},
-  title = {Q-Learning},
-  journal = {Machine Learning},
-  year = {1992},
-  publisher = {Kluwer Academic Publishers}
-}
-@book{Meta_CN,
-  title = {电磁超介质及其应用},
-  address = {北京},
-  publisher = {国防工业出版社},
-  year = {2008},
-  author = {崔万照 and 马伟 and 邱乐德 and 张洪太}
-}
-
-@book{JohnD,
-  title = {Photonic Crystals: Molding the Flow of Light},
-  publisher = {Princeton University Press},
-  year = {2008},
-  author = {Joannopoulos, J. D. and Johnson, S. G. and Winn, J. N.}
-}
-
-@book{IEEE-1363,
-  author={IEEE Std 1363-2000},
-  title={IEEE Standard Specifications for Public-Key Cryptography},
-  address={New York},
-  publisher={IEEE},
-  year={2000}
-}
-
-@inproceedings{chen2007act,
-  author = {Chen, H. and Chan, C. T.},
-  title = {Acoustic cloaking in three dimensions using acoustic metamaterials},
-  journal = {Applied Physics Letters},
-  year = {2007},
-  volume = {91},
-  pages = {183518},
-  publisher = {AIP}
-}
-
-@inproceedings{chen2007ewi,
-  author = {Chen, H. and Wu, B. I. and Zhang, B. and Kong, J. A.},
-  title = {Electromagnetic Wave Interactions with a Metamaterial Cloak},
-  journal = {Physical Review Letters},
-  year = {2007},
-  volume = {99},
-  pages = {63903},
-  number = {6},
-  publisher = {APS}
-}
-
-
-@inproceedings{kocher99,
-  author={C. Kocher and J. Jaffe and B. Jun},
-  title={Differential Power Analysis},
-  editor={M. Wiener},
-  booktitle={Advances in Cryptology ({CRYPTO}~'99)},
-  series={Lecture Notes in Computer Science},
-  volume={1666},
-  pages={388-397},
-  publisher={Springer-Verlag},
-  month={9},
-  year={1999}
-}
-
-@incollection{Krasnogor2004e,
-  AUTHOR = {N. Krasnogor},
-  TITLE = {Towards robust memetic algorithms},
-  BOOKTITLE = {Recent Advances in Memetic Algorithms},
-  PUBLISHER = {Springer Berlin Heidelberg},
-  YEAR = {2004},
-  PAGES = {185-207},
-  EDITOR = {W.E. Hart and N. Krasnogor and J.E. Smith},
-  VOLUME = {166},
-  SERIES = {Studies in Fuzziness and Soft Computing},  
-  ADDRESS = {New York},  
-}
-
-@incollection{zjsw,
-  AUTHOR = {班固},
-  TITLE = {苏武传},
-  BOOKTITLE = {传记散文英华},
-  PUBLISHER = {湖北人民出版社},
-  YEAR = {1998},  
-  PAGES = {65-69},
-  EDITOR = {郑在瀛 and 汪超宏 and 周文复},
-  VOLUME = {2},
-  SERIES = {新古文观止丛书},  
-  ADDRESS = {武汉},
-}
-
-
-@inbook{clzs,
-  AUTHOR = {阎真},
-  TITLE = {沧浪之水},
-  CHAPTER = {大人物还是讲人情的},
-  PAGES = {185-207},
-  PUBLISHER = {人民文学出版社},
-  YEAR = {2001},
-}
-
-@book{tex,
- author    = {Donald E. Knuth},
- title     = {The {\TeX} Book},
- publisher = {Addison-Wesley Publishing Company},
- address   = {Reading, MA},
- year      = 1989,
- edition   = {15th},
-}
-
-@book{companion,
- author    = {Michel Goosens and Frank Mittelbach and Alexander Samarin},
- title     = {The {\LaTeX} Companion},
- publisher = {Addison-Wesley Publishing Company},
- address   = {Reading, MA},
- PAGES = {112--125},
- year      = 1994,
-}
-
-@inproceedings{ELIDRISSI94,
-  AUTHOR =       {{Chafik El Idrissi}, M. and {Roney}, A. and {Frigon}, C. and
-                  {Larzilli{\`e}re}, M.},
-  TITLE =        {Measurements of total kinetic-energy released to the {$N=2$}
-                  dissociation limit of {H}$_2$ --- evidence of the dissociation
-                  of very high vibrational {R}ydberg states of {H}$_2$ by
-                  doubly-excited states},
-  JOURNAL =      {Chemical Physics Letters},
-  PAGES =        {260-266},
-  VOLUME =       224,
-  NUMBER =       10,
-  YEAR =         1994,
-}
-
-@inproceedings{MELLINGER96,
-  AUTHOR =       {Mellinger, A. and Vidal, C. R. and Jungen, Ch.},
-  TITLE =        {Laser reduced fluorescence study of the carbon-monoxide nd
-                  triplet {R}ydberg series-experimental results and multichannel
-                  quantum-defect analysis},
-  JOURNAL =      {J. Chem. Phys.},
-  PAGES =        {8913-8921},
-  VOLUME =       104,
-  NUMBER =       5,
-  YEAR =         1996,
-}
-
-@inproceedings{SHELL02,
-  AUTHOR =       {Michael Shell},
-  TITLE =        {How to Use the {IEEEtran \LaTeX} Class},
-  JOURNAL =      {Journal of {\LaTeX} Class Files},
-  YEAR =         2002,
-  VOLUME =       12,
-  NUMBER =       4,
-  PAGES =        {100--120}
-}
-
-@TechReport{NPB2,
-  title =        {The {NAS} Parallel Benchmarks 2.0},
-  author =       {Alex Woo and David Bailey and Maurice Yarrow and Wijngaart
-                  Wijngaart and Tim Harris and William Saphir},
-  year =         1995,
-  month =        12,
-  institution =  {The Pennsylvania State University CiteSeer Archives},
-  url =          {http://www.nasa.org/}
-}
-
-@INPROCEEDINGS{DPMG,
-  author =       {Kim, Sangbum and Woo, Namyoon and Yeom, Heon Y. and Park,
-                  Taesoon and Park, Hyoungwoo},
-  title =        {Design and {I}mplementation of {D}ynamic {P}rocess
-                  {M}anagement for {G}rid-enabled {MPICH}},
-  booktitle =    {the 10th European PVM/MPI Users' Group Conference},
-  year =         2003,
-  address =      {Venice, Italy},
-  month =        sep,
-}
-
-@INPROCEEDINGS{cnproceed,
-  author =       {王重阳 and 黄药师 and 欧阳峰 and 洪七公 and 段皇帝},
-  title =        {武林高手论文集},
-  booktitle =    {第~$N$~次华山论剑},
-  year =         2006,
-  address =      {西安, 中国},
-  publisher = {中国古籍出版社},
-  month =        sep,
-}
-
-@inproceedings{cninproceedings,
-  AUTHOR =       {贾宝玉 and 林黛玉 and 薛宝钗 and 贾探春},
-  TITLE =        {论刘姥姥食量大如牛之现实意义},
-  JOURNAL =      {红楼梦杂谈},
-  PAGES =        {260--266},
-  VOLUME =       224,
-  YEAR =         1800,
-}
-
-@thesis{zhubajie,
-  author =       {猪八戒},
-  title =        {论流体食物的持久保存},
-  school =       {广寒宫大学},
-  year =         2005,
-  address =      {北京},
-}
-
-@thesis{shaheshang,
-  title =        {论流沙河的综合治理},
-  author =       {沙和尚},
-  school =       {清华大学},
-  year =         2005,
-  address =      {北京},
-}
-
-@thesis{metamori2004,
-  author =       {Ashwin Raju Jeyakumar},
-  title =        {Metamori: A library for Incremental File Checkpointing},
-  school =       {Virgina Tech},
-  year =         2004,
-  month =        7,
-  address =      {Blacksburg},
-}
-
-@thesis{FistSystem01,
-  AUTHOR =       {Erez Zadok},
-  TITLE =        {FiST: A System for Stackable File System Code Generation},
-  YEAR =         2001,
-  MONTH =        {5},
-  SCHOOL =       {Computer Science Department, Columbia University},
-  ADDRESS =      {USA}
-}
-
-@INBOOK{ColdSources,
-  AUTHOR =       {P. Gr{\"o}ning and L. Nilsson and P. Ruffieux and R.
-                  Clergereaux and O. Gr{\"o}ning},
-  TITLE =        {Encyclopedia of Nanoscience and Nanotechnology},
-  pages =        {547--579},
-  PUBLISHER =    {American Scientific Publishers},
-  YEAR =         2004,
-  volume =       1,
-}
-
-@phdthesis{bai2008,
-	title={信用风险传染模型和信用衍生品的定价},
-	author={白云芬},
-	year={2008},
+@phdthesis{highperf,
+	title={高性能虚拟化及其适用性研究},
+	author={董耀祖},
+	year={2015},
 	school={上海交通大学},
 	address={上海},
 }
 
-
-%萧钰.出版业信息化迈人快车道[EB/OL]. (2001-12-19)[2002-04-15]. http://www.creader.com/news/20011219/200112190019. html.
-@inproceedings{xiaoyu2001,
-  author =       {萧钰},
-  title =        {出版业信息化迈人快车道},
-  year =         {2001},
-  TypeofLit =    {EB/OL},
-  modifydate =   {2001-12-19},
-  citedate =     {2002-04-15},
-  url =          {http://www.creader.com/news/20011219/200112190019.html},
+@misc{KVM,
+  title = {Kernel Virtual Machine},
+  howpublished = {Website},
+  year = {2020},
+  note = {\url{https://www.linux-kvm.org/page/Main_Page}}
 }
 
-% 在线析出文献
-@inproceedings{CHRISTINE1998,
-  author =       {Christine, Mlot},
-  title =        {Plant physiology: plant biology in the Genome Era},
-  journal =      {Science},
-  volume =       {281},
-  pages =        {331-332},
-  year =         {1998},
-  TypeofLit =    {J/OL},
-  citedate =     {1998-09-23},
-  url =           {http://www.sciencemag.org/cgi/collection/anatmorp},
+@misc{QEMU,
+  title = {the FAST! processor emulator},
+  howpublished = {Website},
+  year = {2020},
+  note = {\url{https://www.qemu.org/}}
 }
 
-@book{RManual,
-        Address = {Vienna, Austria},
-        Author = {{R Core Team}},
-        Note = {{ISBN} 3-900051-07-0},
-        Organization = {R Foundation for Statistical Computing},
-        title = {R: A Language and Environment for Statistical Computing},
-        url = {http://www.R-project.org/},
-        Year = {2012},
-}
-@book{OperatingSys,
-        Address = {United States of America},
-        Author = {Abraham Silberschatz and Peter Baer Galvin and Greg Gagne},
-        Note = {{ISBN} 0-471-69466-5},
-        Organization = {John Wiley & Sons. Inc.},
-        title = {Operating System Concepts},
-        %url = {http://www.R-project.org/},
-        Year = {2004},
+@article{tso,
+  author    = {Peter Sewell and
+               Susmit Sarkar and
+               Scott Owens and
+               Francesco Zappa Nardelli and
+               Magnus O. Myreen},
+  title     = {x86-TSO: a rigorous and usable programmer's model for x86 multiprocessors},
+  journal   = {Commun. {ACM}},
+  volume    = {53},
+  number    = {7},
+  pages     = {89--97},
+  year      = {2010},
+  url       = {https://doi.org/10.1145/1785414.1785443},
+  doi       = {10.1145/1785414.1785443},
+  timestamp = {Tue, 06 Nov 2018 12:51:37 +0100},
+  biburl    = {https://dblp.org/rec/journals/cacm/SewellSONM10.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 
-@inproceedings{ma2018coflow,
-  author = {马腾，胡宇翔，张校辉},
-  title = {基于深度增强学习的数据中心网络coflow调度机制},
-  journal = {电子学报},
-  year = {2018},
+@article{ivy,
+  author    = {Kai Li and
+               Paul Hudak},
+  title     = {Memory Coherence in Shared Virtual Memory Systems},
+  journal   = {{ACM} Trans. Comput. Syst.},
+  volume    = {7},
+  number    = {4},
+  pages     = {321--359},
+  year      = {1989},
+  url       = {https://doi.org/10.1145/75104.75105},
+  doi       = {10.1145/75104.75105},
+  timestamp = {Wed, 14 Nov 2018 10:49:58 +0100},
+  biburl    = {https://dblp.org/rec/journals/tocs/LiH89.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
 }
-@inproceedings{lei2015cran,
-  author = {雷秋燕，张治中，程方，胡昊南},
-  title = {基于CRAN的5G无线接入网架构},
-  journal = {电信科学},
-  year = {2015},
+
+@thesis{tcbbd,
+  author =       {丁卓成},
+  title =        {虚拟化系统中基于RDMA的分布式共享内存研究},
+  school =       {上海交通大学},
+  year =         2019,
+  address =      {上海},
+}
+
+@inproceedings{MapReduce,
+  author    = {Jeffrey Dean and
+               Sanjay Ghemawat},
+  editor    = {Eric A. Brewer and
+               Peter Chen},
+  title     = {MapReduce: Simplified Data Processing on Large Clusters},
+  booktitle = {6th Symposium on Operating System Design and Implementation {(OSDI}
+               2004), San Francisco, California, USA, December 6-8, 2004},
+  pages     = {137--150},
+  publisher = {{USENIX} Association},
+  year      = {2004},
+  url       = {http://www.usenix.org/events/osdi04/tech/dean.html},
+  timestamp = {Wed, 04 Jul 2018 13:06:35 +0200},
+  biburl    = {https://dblp.org/rec/conf/osdi/DeanG04.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+
+@article{sharing,
+  author    = {Cristiana Amza and
+               Alan L. Cox and
+               Sandhya Dwarkadas and
+               Peter J. Keleher and
+               Honghui Lu and
+               Ramakrishnan Rajamony and
+               Weimin Yu and
+               Willy Zwaenepoel},
+  title     = {ThreadMarks: Shared Memory Computing on Networks of Workstations},
+  journal   = {{IEEE} Computer},
+  volume    = {29},
+  number    = {2},
+  pages     = {18--28},
+  year      = {1996},
+  url       = {https://doi.org/10.1109/2.485843},
+  doi       = {10.1109/2.485843},
+  timestamp = {Wed, 14 Nov 2018 10:13:31 +0100},
+  biburl    = {https://dblp.org/rec/journals/computer/AmzaCDKLRYZ96.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+
+@book{csapp,
+  Address = {北京},
+  Author = {{Randal E. Bryant et al}},
+  Note = {{ISBN} 978-7-111-54493-7},
+  publisher = {机械工业出版社},
+  title = {深入理解计算机系统},
+  Year = {2016},
 }

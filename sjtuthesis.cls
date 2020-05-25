@@ -148,8 +148,8 @@
 % Title Settings at the chapter Level
 \ctexset{chapter={
 	format={\centering},
-	nameformat={\Large\bfseries},
-	titleformat={\Large\bfseries},
+	nameformat={\Large\heiti},
+	titleformat={\Large\heiti},
 	aftername={\quad},
 	beforeskip={15\p@},
 	afterskip={12\p@},
@@ -157,20 +157,20 @@
 }
 % Title Settings at the section Level
 \ctexset{section={
-	format={\large\bfseries},
+	format={\Large\heiti},
 	afterskip={1.0ex \@plus .2ex},
 	}
 }
 % Title Settings at the subection Level
 \ctexset{subsection={
-	format={\bfseries\normalsize},
+	format={\large\songti},
 	indent={0\ccwd},
 	afterskip={1.0ex \@plus .2ex},
 	}
 }
 % Title Settings at the subsubection Level
 \ctexset{subsubsection={
-	format={\normalfont\normalsize},
+	format={\normalfont\normalsize\heiti},
 	indent={0\ccwd},
 	afterskip={1.0ex \@plus .2ex},
 	}
@@ -188,7 +188,7 @@
 
 % Caption setting in caption and bicaption pacakge
 \DeclareCaptionFont{kaishu}{\kaishu}
-\captionsetup{format=plain,labelformat=simple,labelsep=space,justification=centering,font={small,kaishu}}
+\captionsetup{format=plain,labelformat=simple,labelsep=space,justification=centering,font={bf,songti}}
 \captionsetup[bi-first]{bi-first}
 \captionsetup[bi-second]{bi-second}
 \captionsetup[sub]{font=footnotesize}
@@ -525,10 +525,18 @@
 \def\markboxwidth{0.75\textwidth}
 \ifsjtu@bachelor
 	% 本科学位论文页眉页脚设置
+  %% 开章页页眉页脚
+	\fancypagestyle{plain}{% 设置开章页页眉页脚风格(只有页码作为页脚)
+	  \fancyhf{}
+	  \fancyhead[L]{\includegraphics{figure/sjtubanner}}
+	  \fancyhead[R]{\parbox[b]{\markboxwidth}{\raggedleft\nouppercase{\sjtu@fancyhead\sjtu@value@titlemark}}}
+	  \fancyfoot[C]{\sjtu@fancyfoot{\pageref{last}}}
+	  \renewcommand{\headheight}{32pt}
+	}
 	%% 正文页眉页脚
 	\fancypagestyle{main}{
 	  \fancyhf{}
-	  \fancyhead[L]{\includegraphics{figure/sjtubanner-2.pdf}}
+	  \fancyhead[L]{\includegraphics{figure/sjtubanner}}
 	  \fancyhead[R]{\parbox[b]{\markboxwidth}{\raggedleft\nouppercase{\sjtu@fancyhead\sjtu@value@titlemark}}}
 	  \fancyfoot[C]{\sjtu@fancyfoot{\pageref{last}}}
 	  \renewcommand{\headheight}{32pt}
@@ -536,19 +544,11 @@
   %% 英文大摘要
   \fancypagestyle{biglast}{
     \fancyhf{}
-    \fancyhead[L]{\includegraphics{figure/sjtubanner-2.pdf}}
+    \fancyhead[L]{\includegraphics{figure/sjtubanner}}
     \fancyhead[R]{\parbox[b]{\markboxwidth}{\raggedleft\nouppercase{\sjtu@fancyhead\sjtu@value@titlemark}}}
     \fancyfoot[C]{\sjtu@fancyfoot{\pageref{biglast}}}
     \renewcommand{\headheight}{32pt}
   }
-	%% 开章页页眉页脚
-	\fancypagestyle{plain}{% 设置开章页页眉页脚风格(只有页码作为页脚)
-	  \fancyhf{}
-	  \fancyhead[L]{\includegraphics{figure/sjtubanner-2.pdf}}
-	  \fancyhead[R]{\parbox[b]{\markboxwidth}{\raggedleft\nouppercase{\sjtu@fancyhead\sjtu@value@titlemark}}}
-	  \fancyfoot[C]{\sjtu@fancyfoot{\pageref{last}}}
-	  \renewcommand{\headheight}{32pt}
-	}
 \else
 	% 研究生学位论文页眉页脚设置
 	\if@twoside
@@ -588,16 +588,14 @@
 \fi
 
 % 中英文摘要
-\newenvironment{abstract}{\cleardoublepage \pdfbookmark[0]{\sjtu@label@abstract}{abstract} \ifsjtu@english\let\@afterindentfalse\relax\fi
+\newenvironment{abstract}{\clearpage \pdfbookmark[0]{\sjtu@label@abstract}{abstract} \ifsjtu@english\let\@afterindentfalse\relax\fi
 \chapter*{\sjtu@value@chinesetitle\vskip 20pt\sjtu@label@chineseabstract}\markboth{\sjtu@label@chineseabstract}{}}{}
-\newcommand\keywords[1]{\vspace{2ex}\noindent{\bfseries\large \sjtu@label@keywords} #1}
-\newenvironment{englishabstract}{\cleardoublepage
-\chapter*{\MakeUppercase\sjtu@value@englishtitle\vskip 20pt\bfseries \MakeUppercase\sjtu@label@englishabstract}\markboth{\sjtu@label@englishabstract}{}}{}
-\newcommand\englishkeywords[1]{\vspace{2ex}\noindent{\bfseries\large \sjtu@label@englishkeywords} #1}
+\newcommand\keywords[1]{\vspace{2ex}\noindent{\large\heiti \sjtu@label@keywords} #1}
+\newenvironment{englishabstract}{\clearpage
+\chapter*{\bfseries\MakeUppercase\sjtu@value@englishtitle\vskip 20pt\bfseries \MakeUppercase\sjtu@label@englishabstract}\markboth{\sjtu@label@englishabstract}{}}{}
+\newcommand\englishkeywords[1]{\vspace{2ex}\noindent{\bfseries\large\heiti \sjtu@label@englishkeywords} #1}
 
-% 主要符号对照表
-\newenvironment{nomenclaturename}{\cleardoublepage
-\chapter{\sjtu@nomenclature}{}}{}
+
 
 \renewcommand\tableofcontents{%
   \cleardoublepage
@@ -703,27 +701,19 @@
 \newenvironment{symbolnote}{\chapter{\sjtu@label@symbolnote}
 }{}
 
-\newenvironment{bigabstract}
-{
-\setcounter{page}{1}
-\fancypagestyle{biglast}{
-  \fancyhf{}
-  \fancyhead[L]{\includegraphics{figure/sjtubanner-2.pdf}}
-  \fancyhead[R]{\parbox[b]{\markboxwidth}{\raggedleft\nouppercase{\sjtu@fancyhead\sjtu@value@titlemark}}}
-  \fancyfoot[C]{\sjtu@fancyfoot{\pageref{biglast}}}
-  \renewcommand{\headheight}{32pt}
+
+\newenvironment{bigabstract}{%
+  \cleardoublepage
+  \pagestyle{fancy}
+  \chapter*{%
+    \bfseries
+    \MakeUppercase\sjtu@value@englishtitle
+    \vskip 20pt
+  }
+  \setcounter{page}{1}
+  \pageref{biglast}
 }
 
-\fancypagestyle{plain}{% 设置开章页页眉页脚风格(只有页码作为页脚)
-  \fancyhf{}
-  \fancyhead[L]{\includegraphics{figure/sjtubanner-2.pdf}}
-  \fancyhead[R]{\parbox[b]{\markboxwidth}{\raggedleft\nouppercase{\sjtu@fancyhead\sjtu@value@titlemark}}}
-  \fancyfoot[C]{\sjtu@fancyfoot{\pageref{biglast}}}
-  \renewcommand{\headheight}{32pt}
-}
-
-\chapter*{\bfseries\MakeUppercase{\sjtu@value@englishtitle}\vskip 20pt }
-}
 {\label{biglast}}
 
 \endinput

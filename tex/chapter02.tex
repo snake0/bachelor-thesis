@@ -3,220 +3,70 @@
 %% chapter02.tex for SJTU Bachelor Thesis
 %%==================================================
 
-%\bibliographystyle{sjtu2}%[此处用于每章都生产参考文献]
-
-\chapter{增强学习算法}
+\chapter{技术背景}
 \label{chap:RL}
-增强学习是一类算法，是让计算机实现从一开始什么都不懂，通过不断地尝试，从错误中学习，最后找到规律，学会达到目的的方法，这就是一个完整的增强学习过程。实际中的增强学习例子有很多，比如在2016年和2018年分别打败了人类最顶尖的棋手李世石和柯洁的AlphaGo\cite{alphago}，是机器第一次在围棋场上战胜人类高手；Google Deepmind和OpenAI的研究者们让计算机自己学着玩游戏Atari以及Dota2，并获得了非凡的表现，这些都是让计算机在不断的尝试中更新自己的行为准则，从而一步步学会如何下好围棋，如何操控游戏得到高分。
 
-增强学习算法是针对实时决策的最好算法之一，具体而言，它研究一个agent如何在交互式环境中连续地做出一系列动作，以获得最大累积奖励的问题。一般来说，增强学习将问题建模成一个马尔可夫决策过程，并有以下组成部分：状态空间$\mathcal{S}$，动作空间$\mathcal{A}$，状态转移概率$\mathcal{P}$和一个回报函数$r:\mathcal{S} \times \mathcal{A} \rightarrow \mathbb{R}$。对于状态-动作空间内的任意轨迹$s_1, a_1, s_2, a_2, ... , s_T, a_T$，状态转移满足马尔可夫性质：$Pr(s_{t+1}|s_1, a_1, ... , s_t, a_t) = Pr(s_{t+1}|s_t, a_t)$。当agent在状态$s$下选择了动作$a$，它会收到环境返回的奖励值$r$（可能为负值）并进入一个新的状态$s'$。在这个过程中，agent选择动作的方式被称为策略。
-\section{基于值函数的增强学习}
-\subsection{深度模型DQN}
-基于值函数的增强学习算法主要有以下几种：Q-Learning，Sarsa和DQN。这里的值函数由$Q$来表示，我们定义$Q(s,a)$为：对状态$s$下选择动作$a$的总回报的估计。在状态空间和动作空间有限时，一定存在某种策略是最优的，即该策略在每个状态下总能选择获得最多奖励（最终累积）的动作，我们将这样的最优策略的$Q$函数记为$Q^*$。如果我们得到了$Q^*$，那么策略的选取将会非常简单：在每个状态$s$下采用贪婪策略，即选择使$Q^*$最大的动作$a$。因此我们的目标就是找到一个对$Q^*$的较好的估计，并采取贪婪策略执行动作。考虑到较后面的动作产生的奖励对最开始的动作的$Q$值影响较小，我们引入折扣因子$\gamma$，那么就有
-\begin{equation}
-    Q^*(s,a) = r_1 + \gamma r_2 + \gamma^2 r_3 + \gamma^3 r_4 + ...
-\label{eq:Q*-1}
-\end{equation}
-其中，$\gamma$控制了状态$s$下$Q$取决于未来的程度，同时反映了agent预判未来动作带来回报的能力，通常我们设置$\gamma$为一个接近但小于1的数。我们可以将式\ref{eq:Q*-1}写成递归的形式：
-\begin{equation}
-    Q^*(s,a) = r_1 + \gamma(r_2 + \gamma r_3 + \gamma^2 r_4 + ...) = r_0 + \gamma \max_a Q^*(s,a)
-    \label{eq:Q*-2}
-\end{equation}
-事实上，上式就是一个贝尔曼方程 (Bellman equation)。我们可以将式\ref{eq:Q*-2}改写成值函数的通式：$Q(s,a) = r + \gamma \max_a Q(s,a)$。Watkins和Dayan证明了\cite{watkins1988q}只要状态空间是有限的，且每个状态-动作对都能重复出现，值函数$Q$就可以收敛到$Q^*$。Q-Learning和Sarsa算法通过在环境中的大量摸索，可以将$Q$表（即值函数，一个以状态$s$为列，以动作$a$为行的表）中的值不断更新，直到收敛至$Q^*$。
-\begin{figure}[ht]
-    \centering
-    \includegraphics[height=6cm]{figure/dqn.png}
-    \caption{Deep Q-Network结构图}
-    \label{fig:dqn}
+\section{系统虚拟化简介}
+在计算机科学中，许多问题都可以通过增加或减少一个抽象层解决。在不同的场景下添加不同的抽象层，得到的结果大不相同。虚拟化技术即为一个抽象层。如果将该抽象层置于CPU，则会产生进程的概念，为系统中所有的任务抽象出可以独占的CPU，从而使得物理CPU的性能得到充分的利用。如果将该抽象层置于物理内存之上，则产生虚拟内存的概念，进程获得了一个连续的广阔的虚拟地址空间，虽然物理内存不一定是连续的。如果抽象出一个ISA（Instruction set architecture，指令集架构），即一个计算机运行的硬件环境，则产生了系统虚拟化（system virtualization）的概念。通过设计一个VMM（Virtual machine monitor， 虚拟机监控器），即可将客户机操作系统（Guest Operating System， Guest OS）运行在虚拟的硬件之上。系统虚拟化带来了诸多的好处，例如良好的封装性、硬件无关性\cite{sysv}，这使得虚拟机可以在任何时候停止执行，通过快照在任何时间恢复先前的执行，这方便了虚拟机的热迁移，使得数据中心做到负载均衡。本文正是利用了这一优点。
+
+历史上的虚拟化技术由纯软件虚拟化渐渐转向硬件辅助的虚拟化。早期的虚拟机监控器采用二进制翻译技术，是完全基于软件的虚拟化。由于软件模拟硬件行为的复杂性，纯软件的虚拟机监控器工程量巨大，代码复杂，同时性能相比于硬件环境有明显下降。之后学术界提出了半虚拟化（Para-Virtualization）技术来弥补纯软件虚拟化方式的不足。其想法是通过修改客户机操作系统，使得客户机明确知晓自己处在虚拟化环境中，与虚拟机管理器相互配合，避免了体系结构造成的虚拟化漏洞。最具有代表性的基于半虚拟化的虚拟机监控器就是Xen\cite{artofxen}，客户机操作系统调用Xen提供的hypercall（虚拟化调用）配合VMM完成虚拟化功能。但是，由于Windows等闭源操作系统的存在，半虚拟化的可应用范围依然受限。现如今，基于硬件辅助的虚拟化大行其道，Intel推出的VT-x（Virtualization Technology for x86 processors）技术\cite{intelv}和AMD推出的SVM（Secure Virtual Machine Architecture）技术\cite{amdv}在现有的CPU指令集架构上增加了专用于虚拟化的指令，例如Intel的VMX指令\cite{intelSDM}。x86架构的处理器有两种运行模式，root mode（根模式）和non-root mode（非根模式），客户机运行在非根模式，当客户机需要执行特权指令时，触发VMexit，CPU运行模式由非根模式转换为根模式，通过trap-and-emulate（陷入并模拟）方式模拟客户机的特权指令。硬件辅助的虚拟化的优势在于，免去了对客户机的修改，由于客户机指令可以直接运行在宿主机的CPU上，又使得CPU虚拟化的代价大大减小。
+
+对于内存虚拟化，传统的方式是为每一个客户机进程维护一个影子页表（SPT，shadow page table），将客户机进程的页表（GPT，guest page table）添加上由GPA（guest physical address，客户机物理地址）到HPA（host physical address，宿主机物理地址）的映射，于是SPT可以将GVA（guest virtual address，客户机虚拟地址）映射到HPA。然而当客户机进程数量较大时，影子页表维护和保存的开销将会十分可观。同时，由于客户机修改自己的页表（GPT）时SPT也要进行相应的修改，VMM将GPT所占的内存标记为写保护（write protected），当客户机修改GPT时会引起VMexit，退出到VMM中由VMM完成对SPT的维护。这对于memory intensive（内存密集）型任务是一种灾难，会引起大量的VMexit，严重影响其性能。Intel提出了EPT（Extended Page Table），使用硬件维护GPA到HPA的映射，用硬件替代了软件。如图\ref{fig:EPT}所示，客户机依然使用自己的CR3指针进行地址翻译，将GVA翻译为GPA，而虚拟机监控器为每一个客户机维护一张扩展页表，EPT base pointer（扩展页表基指针）指向扩展页表（EPT），将GPA通过硬件翻译为HPA。于是在客户机修改自身的GPT（guest page table）时无需引起VMexit，从而提高了性能。硬件上也有类似于传统页表TLB（translation look aside buffer）的应用于EPT的页表，缓存了EPTE（Extended Page Table Entry，扩展页表表项），加快了由GPA到HPA的翻译。使用本文所使用的巨型虚拟机即利用了这一硬件扩展，实现了内存的高效虚拟化。至于I/O虚拟化和中断虚拟化，则不在本文的讨论范围内。
+
+\begin{figure}[!htp]
+  \centering
+  \includegraphics[width=15cm]{ept.png}
+  \bicaption[扩展页表结构]
+    {扩展页表（EPT）结构\cite{highperf}}
+    {Structure of Extended Page Table}
+  \label{fig:EPT}
 \end{figure}
-然而通常情况下，状态空间可能不是有限的，此时$Q$表就是一张无限大的表，我们不可能建立这样一张表并更新其中的值。我们知道，理论上神经网络可以对任意函数进行估计，因此我们考虑用神经网络估计值函数$Q$。该网络的输入是状态$s$，输出是对每个动作$a$的值函数$Q$的估计。如图\ref{fig:dqn}所示，当神经网络有很多层时，这种算法就是Deep Q-Network (DQN)。
 
-\subsection{经验回放}
-尽管我们可以用神经网络估计$Q$值，但是此时Watkins和Dayan的结论就不成立了。Volodymyr Mnih等研究者指出：使用神经网络表示值函数$Q$是不稳定的 \cite{hado2012double}。由此他们引入了一些能够使训练稳定的非常有用的机制，其中就包含经验回放 (experience replay)。
+根据虚拟机监控器的软件架构，VMM又可分为Type-\uppercase\expandafter{\romannumeral1}型和Type-\uppercase\expandafter{\romannumeral2}型。Type-\uppercase\expandafter{\romannumeral1}型又称为Hypervisor型，该类型虚拟机监控器直接运行在裸金属上，直接负责虚拟机的创建、调度、运行、电源管理等，是一个完备的操作系统，所以需要编写大量驱动，工程量较大，但也具有更好的性能。而Type-\uppercase\expandafter{\romannumeral2}型虚拟机监控器运行在宿主机操作系统上，仅仅具有虚拟化的功能，而其他的功能由宿主机操作系统实现。还有混合型虚拟机监控器，它同样运行在裸金属上，但是将设备驱动、设备模型的控制权交由一个特权虚拟机。Xen属于混合性虚拟机，它将操作系统应当实现的功能交由domain 0这一特权操作系统完成。然而，Type-\uppercase\expandafter{\romannumeral1}型和混合型虚拟机需要修改客户机操作系统，依赖于客户机操作系统中的特定驱动，这对闭源操作系统而言是不现实的，同时减小了虚拟化的灵活性，故没有得到大范围应用。而开源虚拟机监控器QEMU-KVM属于Type-\uppercase\expandafter{\romannumeral1}型，KVM\cite{KVM}是Linux内核中的内核模块，而QEMU\cite{QEMU}是运行于用户态的宿主机应用程序，主要处理客户机的I/O请求，将KVM作为其虚拟化加速器，KVM利用x86处理器的VT-x、EPT等硬件辅助虚拟化功能获得了更优的虚拟机执行效率，而无需修改客户机操作系统，故得到了广泛的应用。下一节中的巨型虚拟机即通过修改QEMU-KVM这一开源虚拟机监控器得以实现。
 
-在agent的学习过程中，它在某个状态$s$下执行了动作$a$，收到即时奖励$r$并到达下一个状态s'。注意到这种模式是不断重复的：($s, a, r, s'$)，若我们的优化过程是即时发生的（产生一个上述四元组就对网络参数更新一次）那么这种学习模式就是online的。由于神经网络不能直接对$Q(s,a)$赋值，我们采用梯度下降算法使$Q(s,a)$向$r + \gamma \max_a Q(s',a)$不断靠近，通过多次重复该过程，agent就获得了越来越多的正确信息，并使它的策略向最优策略收敛。然而这种online的学习也存在着一些问题：($s, a, r, s'$)四元组由于是连续产生的，它们彼此之间的相关性很高，因此可能会导致神经网络的过拟合以致不能有很好的泛化能力；对经验的使用较为低效，这是由于每个四元组只使用了一次。经验回放机制可以较好的解决这个问题：通过对这些状态转移的存储，在学习过程中我们可以从四元组库中随机选取minibatch并计算梯度以更新网络参数（加入经验回放机制的DQN如算法\ref{alg}所示）。
-
-\begin{algorithm}[h]
-\begin{algorithmic}
-\State Initialize replay memory $\mathcal{D}$ to capacity $N$
-\State Initialize action-value function $Q$ with random weights
-%\State Require preprocessor $h(s)$ that maps histories to fixed-length representations.
-\For{episode $=1,M$} 
-\State Initialise sequence $s_1 = \{x_1\}$ and preprocessed sequenced $\phi_1 = \phi(s_1)$
-\For {$t=1,T$}
-	\State With probability $\epsilon$ select a random action $a_t$
-	\State otherwise select $a_t = \max_{a} Q^*(\phi(s_t), a; \theta)$
-	\State Execute action $a_t$ in emulator and observe reward $r_t$ and image $x_{t+1}$
-	\State Set $s_{t+1} = s_t,a_t,x_{t+1}$ and preprocess $\phi_{t+1} = \phi(s_{t+1})$
-	\State Store transition $\left(\phi_t,a_t,r_t,\phi_{t+1}\right)$ in $\mathcal{D}$
-	%\For {$k=1$ to $K$}
-	\State Sample random minibatch of transitions $\left(\phi_j,a_j,r_j,\phi_{j+1}\right)$ from $\mathcal{D}$
-	\State Set
-	$y_j =
-    \left\{
-    \begin{array}{l l}
-      r_j  \quad & \text{for terminal } \phi_{j+1}\\
-      r_j + \gamma \max_{a'} Q(\phi_{j+1}, a'; \theta) \quad & \text{for non-terminal } \phi_{j+1}
-    \end{array} \right.$
-	\State Perform a gradient descent step on $\left(y_j - Q(\phi_j, a_j; \theta) \right)^2$
-	%\EndFor
-\EndFor
-\EndFor
-\end{algorithmic}
-\caption{Deep Q-learning with Experience Replay \cite{hado2011double}}
-\label{alg}
-\end{algorithm}
-
-\subsection{Double DQN}
-我们知道，DQN由于是Q-learning的扩展而包含了$\max_a Q^*(s,a)$，而在训练过程中的$Q$是神经网络在当前状态下对于值函数的预测，并不是真实的最优值，那么对$Q$取max就有可能包含了$Q$值的最大误差，直接用它对此时的神经网络更新参数就会带来overestimate的问题。Hado van Hasselt等人在2016年通过引入Double Q-learning \cite{hado2010double} 提出了Double DQN \cite{hado2016deep}的概念，很好地解决了这个问题。他们将原来DQN中使用同一个神经网络选择、评价动作的过程分离，在t时刻下分别用参数为$\theta_t$的最新的online神经网络估计值函数$Q$、用参数为$\theta'_t$的神经网络评价该策略的值（即计算loss以实现$\theta_t$网络的梯度反向传播），事实上我们每隔一段时间用$\theta_t$为$\theta'_t$更新参数。具体而言，$\theta_t$神经网络的更新目标$Y^{\text{DoubleQ}}_t$是：
-\begin{equation}
-Y^{\text{DoubleQ}}_t \!\equiv r_{t} + \gamma Q(s_{t+1}, \argmax_a Q(s_{t+1}, a; \theta_t); \theta'_t )
-\label{doubledqn}
-\end{equation}
-其中$r_{t}$是即时奖励，$\argmax_a Q$是由$\theta_t$网络对下一步动作的选择，这意味着和Q-learning相同，此处依然根据当前的网络参数估计、使用贪婪策略选择动作。
-\section{基于策略的增强学习}
-基于值函数的增强学习算法得到的是给定某状态下每种动作的$Q$值，agent选择$Q$值最大的动作（贪婪策略下）。与基于值函数的算法不同，基于策略的增强学习不输出某状态下的动作的值，而是直接输出具体的某个动作，即直接对策略进行建模。基于策略的增强学习算法按输出分为两类：Stochastic方法输出动作空间$\mathcal{A}$上的概率分布，Deterministic方法直接输出动作$a$本身。
-
-\subsection{Stochastic策略梯度方法}
-\label{sec:stochas_PG}
-在此种方法中，agent的动作由随机（stochastic）策略$\pi (s)$决定。随机策略的意思是它不输出一个单独的动作，而是输出各种动作的概率分布，所有动作的概率之和为1。我们采用$\pi (a|s)$表示状态$s$下选择动作$a$的概率。简单而言，策略$\pi$并不最大化任何值，只是对于某个状态s给出所有可能动作的概率。策略$\pi$的价值函数定义为折扣回报的期望：
-\begin{equation}
-V(s) = E_{\pi (s)}[r + \gamma V(s’)]
-\end{equation}
-这里我们对状态s下的所有可能动作的$r + \gamma V(s’)$取平均（而没有取最大值）。另外我们定义一个优势函数$A(s, a)$：$A(s,a) = Q(s,a) - V(s) $。显然，这个函数的意义是：在状态s下采取动作a带来的回报比动作空间的回报均值多出了多少。最后我们用$\rho$来表示状态的分布，即在某种状态的概率，那么$\rho^{s_0}$就是环境初始状态的概率分布，$\rho^\pi$则是在采取某策略$\pi$下的状态分布。
-%\begin{comment}
-%\begin{algorithm}[h]
-%  \caption{Reinforce Algorithm \cite{reinforce}} 
-%  \label{algo:reinforce}
-%  \begin{algorithmic}
-%    \State Initialize $\theta$ arbitrarily.
-%    \For{$episode = {s_1, a_1, r_1, ..., s_T, a_t} \sim \pi_\theta$}
-%      \For{t = 1 to T-1}
-%        \state $\theta \leftarrow \theta + \alpha \Delta_\theta log \pi_\theta(s_t, a_t)v_t$
-%      \EndFor
-%    \EndFor
-%  \end{algorithmic}
-%\end{algorithm}
-%\end{comment}
-与Deep Q-Network的想法类似，我们同样可以用神经网络（参数为$\theta$）估计策略（即一个以状态$s$为输入、动作概率分布$\pi_\theta$为输出的函数）。agent可以根据输出的动作概率选择下一步的动作。为了优化策略，我们需要定义衡量策略好坏的函数$J(\pi)$：
-\begin{equation}
-J(\pi) = E_{\rho^{s_0}}[V(s_0)]
-\end{equation}
-$J(\pi)$可以告诉我们对于所有可能的初始状态一个策略能够获得的折扣回报的平均值。根据策略梯度定理\cite{sutton1999policy}，我们知道$J(\pi)$的梯度可以轻易由下面的式子计算得到：
-\begin{equation}
-\begin{split}
-\nabla_\theta J(\pi_\theta) = \int_\mathcal{S}\rho^{\pi_\theta}(s)\int_\mathcal{A}\nabla_\theta \pi_\theta(a\vert s)Q^{\pi_\theta}(s,a) \texttt{d}a\texttt{d}s \\  = \mathbb{E}_{s\sim \rho^{\pi_\theta},a\in \pi_\theta}[\nabla_\theta log \pi_\theta(a\vert s)A(s,a)]
-\end{split}
-\label{stotheorem}
-\end{equation}
-式\ref{stotheorem}提供了神经网络参数更新的方向：$\nabla_\theta log \pi_\theta(a\vert s)$是状态$s$下选择动作$a$的概率增加的方向，$A(s,a)$是选择该动作的优势，两项结合起来就是得到比平均回报的多的动作的概率增加，得到比平均回报少的动作的概率减小。尽管我们不能对每一个状态和动作计算策略梯度，我们提前产生大量的样本，这些样本服从与期望值相接近的概率分布（可证明agent在环境中运行时所遇到的状态和执行的动作是服从$\rho^\pi$和$\pi(s)$的无偏差样本）。当我们收集了agent的足够多的四元组$(s,a,r,s’)$时，通过计算式\ref{stotheorem}，我们就可以使用梯度下降算法更新神经网络参数，提升策略的表现。
-\subsection{Deterministic策略梯度方法}
-Deterministic策略梯度方法\cite{silver2014deter}是2014年最先由David Silver等人提出的，他们考虑了一种决定性策略$a = \mu_\theta(s)$，即以$\theta$为参数的神经网络以状态$s$为输入，直接输出动作$a$。我们首先定义从$t$时刻开始的总折扣回报（total discounted reward）$r^\gamma_t$：
-\begin{equation}
-r^\gamma_t = \sum^\infty_{k=t}\gamma^{k-t} r(s_k,a_k), 0<\gamma<1
-\end{equation}
-与Stochastic策略梯度方法相似，我们定义一个衡量策略表现的函数$J(\mu_\theta) = \mathbb{E}[r^\gamma_1 \vert \mu_\theta]$（其意义就是在策略$\mu_\theta$下，从初始时刻$t=1$开始的总折扣回报的期望）和折扣状态分布$\rho^{\mu_\theta}(s)$。这样我们就有：
-\begin{equation}
-\begin{split}
-J(\mu_\theta) = \int_\mathcal{S}\rho^{\mu_\theta}(s) r(s, \mu_\theta(s))\texttt{d}s = \mathbb{E}_{s\sim \rho^{\mu_\theta}}[r(s, \mu_\theta(s)]
-\end{split}
-\label{detobj}
-\end{equation}
-Silver等人证明了决定性的策略梯度定理，打破了使决定性策略梯度算法变为可能：
-\begin{equation}
-\begin{split}
-\nabla_\theta J(\mu_\theta) = \int_\mathcal{S}\rho^{\mu_\theta}(s)\nabla_\theta \mu_\theta(s) \nabla_a Q^{\mu_\theta}(s,a) \vert_{a = \mu_\theta(s)} \texttt{d}s \\  = \mathbb{E}_{s\sim \rho^{\mu_\theta}}[\nabla_\theta \mu_\theta(s) \nabla_a Q^\mu(s,a) \vert_{a = \mu_\theta(s)}]
-\end{split}
-\label{dettheorem}
-\end{equation}
-通过使用式\ref{dettheorem}，我们就能够像随机策略梯度算法一样更新神经网络参数，利用agent在环境中得到的大量$(s,a,r,s’)$样本优化策略。
-\section{Actor-Critic方法}
-回顾基于值函数和基于策略的增强学习算法，我们发现它们都是利用神经网络来估计某个函数。那么我们不妨将二者结合起来，使用相同的神经网络，既估计策略本身又估计策略的价值函数。这样做有很多好处：我们同时优化两个目标函数可以使学习过程更快更有效；一同优化两个目标可以相互起到规范化的作用，带来训练过程中更大的稳定性。
-\begin{figure}
-    \centering
-    \includegraphics[height=6cm]{figure/actor-critic.png}
-    \caption{Actor-Critic结构图}
-    \label{fig:actor-critic}
+\section{巨型虚拟机架构简述}
+巨型虚拟机属于分布式虚拟机，即把一个分布式系统作为运行的物理基础，对上层提供统一的操作系统接口。其主要目的是为了资源聚合，即将分布式系统中的多个普通单机聚合起来，形成一个纵向扩展的虚拟机。举例而言，普通计算机的CPU核心数目一般在50以内，而更多CPU核心数目的机器则会非常昂贵\footnote{36个CPU核心是服务器较为典型的配置。详见 https://www.quora.com/What-are-the-specs-of-a-typical-modern-server}。有了巨型虚拟机，我们可以将多个普通且廉价的物理机聚合起来，启动一个拥有海量资源的虚拟机，例如将5个配备36个CPU的服务器进行资源聚集，我们可以得到一个拥有180个虚拟CPU的客户机，这是单个物理机很难达到的配置。
+\begin{figure}[!htp]
+  \centering
+  \includegraphics[width=10cm]{giantvm.png}
+  \bicaption[巨型虚拟机架构]
+    {巨型虚拟机架构\cite{giantvm}}
+    {Architecture of GiantVM}
+  \label{fig:SRR}
 \end{figure}
-\subsection{DPG算法}
-\label{sec:DPG}
-David Silver等人提出的DPG (Deterministic Policy Gradient)\cite{silver2014deter}算法都属于决定性的actor-critic算法。DPG能够很好地解决连续动作空间上的问题，主要分为on-policy和off-policy两种。On-policy算法中的critic负责估计动作的价值函数（这里使用一个可微的动作价值函数$Q^\omega(s,a)$替换真实的动作价值函数$Q^\mu(s,a)$，并使用Sarsa算法对其参数进行更新），actor负责通过策略梯度算法调整决定性策略$\mu_\theta(s)$。Off-policy算法与On-policy算法的不同之处在于critic的参数更新算法使用了Q-learning。Silver等人通过计算得到了衡量策略表现的函数$J$的梯度\cite{silver2014deter}（如式\ref{dpg_act}所示），由此DPG算法的actor就可以对折扣回报的期望应用链式法则以更新actor参数。
-\begin{equation}
-\begin{split}
-  \nabla_{\theta^\mu} J &\approx
-  \mathbb{E}_{s \sim \rho^{\mu_\theta}}\left[\nabla_{\theta^{\mu}}
-    Q(s, a | \theta^Q)|_{s = s_t, a = \mu(s_t | \theta^{\mu})}
-                   \right] \\
-                 & =
-    \mathbb{E}_{s \sim \rho^{\mu_\theta}}\left[\nabla_{a} Q(s, a | \theta^{Q})|_{s = s_t, a = \mu(s_t)}
-    \nabla_{\theta_\mu} \mu(s | \theta^{\mu})|_{s = s_t} \right]
-\end{split}
-\label{dpg_act}
-\end{equation}
+巨型虚拟机基于QEMU-KVM这一Type-\uppercase\expandafter{\romannumeral2}型虚拟机监控器，将QEMU-KVM的功能扩展为分布式虚拟机。其实现主要分为三个部分，这与系统虚拟化常见的三个需要完成的部分相同：CPU虚拟化，内存虚拟化，I/O虚拟化。巨型虚拟机的架构如图 \ref{fig:SRR}所示。支持巨型虚拟机运行的基础设施是多个物理机组成的集群，在集群的每个节点上，都运行着一个巨型虚拟机的QEMU实例。每个实例都拥有整个集群的资源，但是属于本机的资源标记为local（本地资源），而集群中其他节点的资源标记为remote（远程资源）。当本地虚拟机实例对远程资源发起请求的时候，路由模块会找到所访问资源的真实位置，将资源请求转发到真正拥有该资源的节点上。而内存资源是一个例外：所有的虚拟机的QEMU实例拥有全部的内存资源，由DSM（distributed shared memory）进行提供。完成分布式虚拟化的三个主要功能模块有：
+\begin{description}
+    \item[分布式vCPU] 巨型虚拟机添加了新的QEMU参数，将一部分本地运行的vCPU标记为local vCPU，而其他未标记的vCPU则是remote vCPU。QEMU为所有的vCPU创建APIC（advanced programmable interrupt controller， 高级可编程中断控制器）。local vCPU线程在完成初始化之后可以继续执行，而remote vCPU线程初始化完成后阻塞（被调度器放置于睡眠队列），直到虚拟机被销毁。当有IPI（inter processor interrupt，处理器间中断）发送给vCPU时，会向目标APIC的APIC ID寄存器、LDR（Logical Destination Register）寄存器、DFR（Destination Format Register）寄存器写入IPI请求。远端vCPU的APIC称为dummy APIC（傀儡APIC）。对于一个不会阻塞的vCPU而言，其在不会阻塞的QEMU实例上维护一个真实APIC，而在其他的所有QEMU实例上维护一个dummy APIC。在写入请求时，检查该IPI是否发送给远程vCPU，即检查上述三个寄存器的写入是否是对dummy APIC进行写入。如果是发送给本地vCPU，即向真实APIC写入，则按照原有流程处理；否则，该QEMU实例将对IPI请求进行转发，将IPI注入到远程APIC，同时将集群中所有该vCPU的APIC拷贝强制同步，由远程的QEMU实例接收IPI请求并进行处理。举例而言：集群中有四个节点，每个节点分别运行QEMU 0-3，而每个QEMU实例分别有vCPU 0-3。当vCPU 0向vCPU 3发送中断时，先向QEMU 0中vCPU 3的dummy APIC写入上述三个寄存器，同时QEMU 1-3从QEMU 0得到最新的APIC状态。QEMU 3通过APIC识别出vCPU 3是IPI的接收者，故QEMU 3将IPI注入到vCPU 3。
+    \item[分布式共享内存] 内存虚拟化模块是巨型虚拟机最关键的部件，为所有的QEMU实例提供了和普通内存完全相同的接口，使得所有虚拟机共享完全相同的虚拟地址空间。普通QEMU为虚拟机分配内存的原理是，在宿主机用户空间执行mmap()函数，为客户机分配内存。在分布式共享内存开发的初期，为了快速实现并测试分布式共享内存的代码，巨型虚拟机在单机上进行测试，将所有QEMU实例的虚拟机内存映射到同一块内存，即对相同的文件调用mmap()函数，从而使得所有QEMU实例拥有共享的内存空间。在开发的后期，在KVM中实现了DSM模块，并与QEMU对接，才转向真实的分布式共享内存的实现，即通过RDMA或TCP协议进行所有QEMU实例之间内存的同步。
 
-\subsection{DDPG算法}
-DDPG (Deep Deterministic Policy Gradient)\cite{timothy2016cont}算法是使用深度神经网络对DPG (Deterministic Policy Gradient)\cite{silver2014deter}中Off-policy算法的扩展，它与DPG一样都属于actor-critic算法。DDPG一共包含四个相互关联的深度神经网络，其中两个是对DPG中的actor $\theta^\mu$和critic $\theta^Q$分别进行估计的神经网络，另外两个来自如式\ref{doubledqn}中选择与评价分离机制（Double DQN的思想）的两个目标网络$\theta^{\mu'}$和$\theta^{Q'}$。训练过程中，$\theta^\mu$和$\theta^Q$都采用如算法\ref{alg}中的经验回放机制，对记忆库中的$(s_i,a_i,r_i,s_{i+1})$四元组采样出大小为$N$的minibatch，以避免时间上邻近的样本之间的相关性带来的网络过拟合情况。critic网络的损失函数$L$的计算过程如算法\ref{dpgalgo}所示，首先用$\theta^{\mu'}$和$\theta^{Q'}$计算目标$y$，再用当前的$\theta^{Q}$估计值函数$Q$，再对二者作差。actor网络参数的更新与DPG算法的式\ref{dpg_act}相同。
+    \begin{figure}[!htp]
+      \centering
+      \includegraphics[width=8cm]{msi.png}
+      \bicaption[MSI协议状态转化图]
+        {MSI协议状态转化图\cite{tcbbd}}
+        {Transition of States in MSI protocol}
+      \label{fig:MSI}
+    \end{figure}
+    
+    分布式共享内存的主要实现原理是，维护EPT中页表项的状态，即维护虚拟机所拥有物理内存页的状态。如图\ref{fig:MSI}，DSM的设计基于Ivy\cite{ivy}，Ivy实现了MSI protocol，满足了SC（sequential consistency，顺序一致性）。每个客户机物理页的状态分为Modified：本地vCPU对页作出修改，远程vCPU尚未获得该页的修改，Shared：本地vCPU和远程多个vCPU共享该页，Invalid：需要向其他节点获取该页的最新拷贝，否则本地vCPU无权对该页进行读写。所以，当本地的vCPU发生Page fault时，需要使用RDMA协议或TCP协议向远程节点请求最新的数据页。由于巨型虚拟机中的分布式共享内存需要至少实现x86-TSO（Total Store Order）\cite{tso}弱的内存模型，故节点间内存同步的次数和较弱的内存一致性模型相比更多。如果巨型虚拟机的两个节点上的进程相互共享过多的内存，势必会增加内存同步的开销。分析并减小这类开销是本文关注的重点之一。
+    
+    \item[I / O虚拟化] I/O虚拟化需要解决的问题有，虚拟机vCPU如何对远程节点上的的模拟设备进行I/O访问，以及如何使得远程的虚拟设备产生的中断准确的路由到对应的vCPU。对于第二个问题，分布式vCPU的虚拟化中对于IPI的处理已经给出了答案，即在QEMU 0上放置master IOAPIC，而在QEMU 1-3上放置dummy IOAPIC。在设备中断到达之后写入dummy IOAPIC时，将信息同步至master IOAPIC，由master IOAPIC将中断通过dummy APIC转发给目的vCPU。对于第一个问题，CPU对设备进行I/O访问有两种方式：PIO（Programmed I/O，针对于x86架构）和MMIO（Memory Mapped I/O）。客户机执行I/O指令后退出到VMM，VMM检查I/O指令的目的设备。如果I/O访问的目的设备是远程机器上的设备，则需要将该请求转发给远程设备，在处理完成后将处理结果发送回来。目前，巨型虚拟机的模拟设备全部放置在master node上。
+\end{description}
 
-目标网络$\theta^{\mu'}$和$\theta^{Q'}$的训练采用一种平滑的更新机制，通过设置$\tau$，它们的参数缓慢地跟着$\theta^{\mu}$和$\theta^{Q}$更新：$\theta' \leftarrow \tau\theta + (1 - \tau) \theta'$, $\tau \ll 1$。这意味着目标网络参数的改动是被限制的，这能够提升学习过程的稳定性\cite{timothy2016cont}。对于agent观察到的环境是用低维特征向量表示的场景，不同的特征向量可能具有不同的物理单位，因而使用一个网络对不同尺度的输入进行建模是困难的。Timothy P. Lillicrap等人利用批标准化技术 (batch normalization\cite{ioffe2015batch})解决了这一问题。在低维的情形下，他们对状态输入、$\theta_\mu$网络的所有层、$\theta_Q$网络的所有层应用了批标准化，抑制了差异值偏差 (covariate shift)在训练过程中的扩大，进而可以缓解训练中的梯度消失 (gradient vanishing)问题。另外，连续的动作空间中很容易出现agent对环境探索不足的问题，但由于DDPG采用Off-policy机制，agent对于环境的探索与学习算法是分离的，因而可以对策略$\mu$引入噪声，每个时刻的噪声从一个噪声随机过程$\mathcal{N}$中采样得到：
-\begin{equation}
-  \mu'(s_t) = \mu(s_t | \theta^\mu_t) + \mathcal{N}
-\end{equation}
-其中$\mathcal{N}$是一种适应于agent所处环境的Ornstein-Uhlenbeck过程\cite{uhlenbeck1930on}。该过程具有时间互相关性，适合于增强学习的场景。
+\section{分布式共享内存性能问题}
+综上所述，巨型虚拟机相比于普通虚拟机的实现增加的部分有：（1）分布式共享内存，这一部分需要通过RDMA、TCP等网络协议在集群之间同步物理页的状态；（2）转发机制，将对于远程资源的访问请求转发到对应的节点上去，由真实的资源拥有者处理访问请求。这两部分均会产生网络开销，而网络开销最大的则是分布式共享内存这一组件。由于顺序一致性是是较强的一致性模型，分布式共享内存会产生false sharing（伪共享）现象和page thrashing（页面颠簸）现象\cite{sharing}。伪共享现象是指两个运行在不同CPU核心上的线程不断的写入同一个cache line（缓存行）中的变量，当其中一个线程对变量写入后，另一个核上的缓存行即会失效，于是另一个线程需要从内存中读取最新的数据，而写入变量的线程也需要将缓存行写回主存。如此循环往复即出现了伪共享现象。而页面颠簸现象是由于内存页的换入换出。虚拟内存作为磁盘空间的缓存，可以支持大于物理地址空间的虚拟地址空间。当一个进程频繁访问的页面数量多于总的物理页面数量，或者操作系统为进程选取的驻留集（又称工作集，Resident Set Size， RSS，可以通过ps aux等命令行工具观察进程的驻留集）小于其频繁访问的虚拟空间大小，则会有虚拟页面不断换出到磁盘上，即产生了页面抖动现象。
+
+伪共享现象和页面抖动现象都是因为不同层次的存储器访问延迟大不相同造成的。现代计算机有如下几个存储器层次\cite{csapp}：
+\begin{itemize}
+  \item L0 寄存器（Register）：在CPU内部用来存储指令和数据。通常在一个时钟周期内即可读写数据，用于缓存来自高速缓存（L1-L3）的数据
+  \item L1-L3 高速缓存（SRAM）：静态RAM（Static Random Access Memory），L1访问需要几个时钟周期（约为4个时钟周期），L2访问需要几十个时钟周期（约为10个时钟周期），L3访问需要近百个时钟周期（约为40个）。L1分为数据缓存（dcache）和指令缓存（icache），L1、L2由单个CPU核独享，L3（LLC， Last Level Cache）由处理器中所有的核共享，保存来自于L4的数据\footnote{数据来源：https://v2ex.com/t/523069}。
+  \item L4 主存（DRAM）：动态RAM（Dynamic Random Access Memory），访问需要几百个时钟周期（100ns），用来缓存来自磁盘的数据。
+  \item L5 本地的二级存储，即磁盘（Disk）：磁盘分为SSD（固态硬盘）和HDD（机械硬盘）。SSD一次读取时间为16，000纳秒，HDD一次读取时间为2，000，000纳秒。
+  \item L6 远程二级存储（Web服务器等）：经过网络协议与网络进行数据交换，访问时间约为150，000，000纳秒。\footnote{数据来源：https://stackoverflow.com/questions/4087280/approximate-cost-to-access-various-caches-and-main-memory}
+\end{itemize}
+
+为了获得更大的容量，则会产生更高的延迟。由于分布式共享内存增加了物理内存的容量，需要通过网络访问远程节点的内存，虽然减小了所以引起了更加严重的性能问题。如果在不同节点上的应用程序频繁访问共享的地址空间，则需要分布式共享内存模块进行大量的内存同步工作，不仅造成内存访问的延迟明显提高，使得巨型虚拟机可扩展性降低，还会占用集群中宝贵的网络带宽。虽然分布式共享内存模块已经利用RDMA、压缩优化等技术大大减小了其占用的网络带宽，但仍需要解决根本问题，即对巨型虚拟机的客户机调度器进行重新设计，使得节点间访问共享内存的机会更少，增强客户机内存访问的局部性。
+\section{DSM原理介绍}
 
 
 
-\begin{algorithm}[h]
-  \caption{Deep Deterministic Policy Gradient \cite{timothy2016cont} \label{algo:ddpg}}
-  \label{dpgalgo}
-  \begin{algorithmic}
-    \State Randomly initialize critic network $Q(s, a | \theta^Q)$ and actor
-    $\mu(s | \theta^{\mu})$ with weights $\theta^{Q}$ and $\theta^{\mu}$.
-    \State Initialize target network $Q'$ and $\mu'$ with weights $\theta^{Q'}
-    \leftarrow \theta^{Q}$, $\theta^{\mu'} \leftarrow \theta^{\mu}$
-    \State Initialize replay buffer $R$
-    \For{episode = 1, M}
-      \State Initialize a random process $\mathcal{N}$ for action
-      exploration
-      \State Receive initial observation state $s_1$
-      \For{t = 1, T}
-        \State Select action $a_t = \mu(s_t | \theta^{\mu}) + \mathcal{N}_t$
-        according to the current policy and exploration noise
-        \State Execute action $a_t$ and observe
-        reward $r_t$ and observe new state $s_{t+1}$
-        \State Store transition $(s_t, a_t,
-                r_t, s_{t+1})$ in $R$
-        \State Sample a random minibatch of $N$ transitions
-               $(s_i, a_i,
-        r_i, s_{i + 1})$ from $R$
-        \State Set $ y_i = r_i + \gamma Q'(s_{i + 1},
-        \mu'(s_{i+1} | \theta^{\mu'}) | \theta^{Q'}) $
-            %\begin{cases}
-            %r_t + \gamma Q'(\mathbf{s}_{j + 1}, \mu'(\mathbf{s}_{j+1})) &
-            %                      \text {for non terminal } \\
-            %                      r_t & \text{ for terminal } \\
-            %\end{cases} $
-        \State Update critic by minimizing the loss:
-               $L = \frac{1}{N} \sum_i (y_i -
-               Q(s_i, a_i | \theta^Q))^2$
-        \State Update the actor policy using the sampled policy gradient:
-        \begin{equation*}
-            \nabla_{\theta^{\mu}} J \approx
-            \frac{1}{N} \sum_i
-               \nabla_{a} Q(s, a | \theta^Q)|_{s = s_i, a = \mu(s_i)}
-               \nabla_{\theta^\mu} \mu(s | \theta^\mu)|_{s_i}
-         \end{equation*}
-        \State Update the target networks:
-          \begin{equation*}
-            \theta^{Q'} \leftarrow \tau \theta^{Q} + (1 - \tau) \theta^{Q'}
-          \end{equation*}
-          \begin{equation*}
-            \theta^{\mu'} \leftarrow \tau \theta^{\mu} +
-                (1 - \tau) \theta^{\mu'}
-          \end{equation*}
-        \EndFor
-    \EndFor
-  \end{algorithmic}
-\end{algorithm}
-
-\section{本章小结}
-本章论述了目前在各场景下表现较好的增强学习算法，这些算法有些是针对离散的动作空间的，有些是针对连续的状态空间的，另外，本章提到的对于深度神经网络的使用、经验回放机制、actor-critic算法等为后续章节建立本文提出的流量优化系统中用到的算法做以铺垫，在第四章我们会看到，基于数据中心网络负载均衡的需求特性和增强学习算法的优势，将二者结合是自然的，并会为均衡算法带来很大的性能提升。
