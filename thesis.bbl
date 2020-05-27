@@ -649,6 +649,104 @@
       \endverb
       \keyw{graphene}
     \endentry
+    \entry{linux}{misc}{}
+      \list{language}{1}{%
+        {english}%
+      }
+      \field{sortinit}{9}
+      \field{sortinithash}{1dd72ab054147731c9d824b49aba0534}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Website}
+      \field{langid}{english}
+      \field{note}{\url{https://github.com/torvalds/linux/}}
+      \field{title}{Linux kernel source tree}
+      \field{usera}{Z}
+      \field{userd}{english}
+      \field{year}{2020}
+      \field{dateera}{ce}
+      \keyw{linux,\url{https://github.com/torvalds/linux/}}
+    \endentry
+    \entry{go}{misc}{}
+      \list{language}{1}{%
+        {chinese}%
+      }
+      \field{sortinit}{1}
+      \field{sortinithash}{2174f786c6195e7fe2ee1c229b416e29}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Website}
+      \field{langid}{english}
+      \field{note}{\url{http://scriptllh.info}}
+      \field{title}{go-性能分析}
+      \field{usera}{Z}
+      \field{userd}{chinese}
+      \field{year}{2020}
+      \field{dateera}{ce}
+      \keyw{go,\url{http://scriptllh.info}}
+    \endentry
+    \entry{phymem}{misc}{}
+      \list{language}{1}{%
+        {chinese}%
+      }
+      \field{sortinit}{1}
+      \field{sortinithash}{2174f786c6195e7fe2ee1c229b416e29}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Website}
+      \field{langid}{english}
+      \field{note}{\url{https://www.ibm.com/developerworks/cn/linux/l-numa/index.html}}
+      \field{title}{Linux 的 NUMA 技术}
+      \field{usera}{Z}
+      \field{userd}{chinese}
+      \field{year}{2004}
+      \field{dateera}{ce}
+      \keyw{phymem,\url{https://www.ibm.com/developerworks/cn/linux/l-numa/index.html}}
+    \endentry
+    \entry{balancing}{article}{}
+      \name{author}{2}{}{%
+        {{hash=5d7aae2aededcc7615038b14e7398667}{%
+           family={Riel},
+           familyi={R\bibinitperiod},
+           given={Rik},
+           giveni={R\bibinitperiod},
+           prefix={van},
+           prefixi={v\bibinitperiod}}}%
+        {{hash=2f9cd11779d71598f55c61f2b10a118a}{%
+           family={Chegu},
+           familyi={C\bibinitperiod},
+           given={Vinod},
+           giveni={V\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \list{location}{1}{%
+        {San Francisco}%
+      }
+      \strng{namehash}{597cfcd3be7d9d61a1227f79c15be8be}
+      \strng{fullhash}{15af6d6167f289a89e880ae7270bafa9}
+      \strng{bibnamehash}{15af6d6167f289a89e880ae7270bafa9}
+      \strng{authorbibnamehash}{15af6d6167f289a89e880ae7270bafa9}
+      \strng{authornamehash}{597cfcd3be7d9d61a1227f79c15be8be}
+      \strng{authorfullhash}{15af6d6167f289a89e880ae7270bafa9}
+      \field{sortinit}{1}
+      \field{sortinithash}{2174f786c6195e7fe2ee1c229b416e29}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{langid}{english}
+      \field{month}{4}
+      \field{title}{Automatic NUMA Balancing}
+      \field{usera}{J}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{2014}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb https://www.linux-kvm.org/images/7/75/01x07b-NumaAutobalancing.pdf
+      \endverb
+      \verb{url}
+      \verb https://www.linux-kvm.org/images/7/75/01x07b-NumaAutobalancing.pdf
+      \endverb
+      \keyw{balancing}
+    \endentry
     \entry{sysv}{book}{}
       \name{author}{2}{}{%
         {{hash=237226e58c9c8c055d568a27e659edda}{%
@@ -673,8 +771,8 @@
       \strng{authorbibnamehash}{7b902f3f94062eb36d984f17919626a1}
       \strng{authornamehash}{f9c3640559647395ccbff0e6f309e44b}
       \strng{authorfullhash}{7b902f3f94062eb36d984f17919626a1}
-      \field{sortinit}{9}
-      \field{sortinithash}{1dd72ab054147731c9d824b49aba0534}
+      \field{sortinit}{1}
+      \field{sortinithash}{2174f786c6195e7fe2ee1c229b416e29}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{langid}{english}
@@ -901,47 +999,12 @@
       \endverb
       \keyw{intelSDM}
     \endentry
-    \entry{highperf}{thesis}{}
-      \name{author}{1}{}{%
-        {{hash=2e65c752858cfb96752c73b1e77f20a9}{%
-           family={董耀祖},
-           familyi={董\bibinitperiod}}}%
-      }
-      \list{institution}{1}{%
-        {上海交通大学}%
-      }
-      \list{language}{1}{%
-        {chinese}%
-      }
-      \list{location}{1}{%
-        {上海}%
-      }
-      \strng{namehash}{2e65c752858cfb96752c73b1e77f20a9}
-      \strng{fullhash}{2e65c752858cfb96752c73b1e77f20a9}
-      \strng{bibnamehash}{2e65c752858cfb96752c73b1e77f20a9}
-      \strng{authorbibnamehash}{2e65c752858cfb96752c73b1e77f20a9}
-      \strng{authornamehash}{2e65c752858cfb96752c73b1e77f20a9}
-      \strng{authorfullhash}{2e65c752858cfb96752c73b1e77f20a9}
-      \field{sortinit}{1}
-      \field{sortinithash}{2174f786c6195e7fe2ee1c229b416e29}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{langid}{english}
-      \field{title}{高性能虚拟化及其适用性研究}
-      \field{type}{phdthesis}
-      \field{usera}{D}
-      \field{userd}{chinese}
-      \field{userf}{chinese}
-      \field{year}{2015}
-      \field{dateera}{ce}
-      \keyw{highperf}
-    \endentry
     \entry{KVM}{misc}{}
       \list{language}{1}{%
         {english}%
       }
-      \field{sortinit}{1}
-      \field{sortinithash}{2174f786c6195e7fe2ee1c229b416e29}
+      \field{sortinit}{2}
+      \field{sortinithash}{cbff857e587bcb4635511624d773949e}
       \field{labeltitlesource}{title}
       \field{howpublished}{Website}
       \field{langid}{english}
@@ -957,8 +1020,8 @@
       \list{language}{1}{%
         {english}%
       }
-      \field{sortinit}{1}
-      \field{sortinithash}{2174f786c6195e7fe2ee1c229b416e29}
+      \field{sortinit}{2}
+      \field{sortinithash}{cbff857e587bcb4635511624d773949e}
       \field{labeltitlesource}{title}
       \field{howpublished}{Website}
       \field{langid}{english}
@@ -969,40 +1032,6 @@
       \field{year}{2020}
       \field{dateera}{ce}
       \keyw{QEMU,\url{https://www.qemu.org/}}
-    \endentry
-    \entry{tcbbd}{thesis}{}
-      \name{author}{1}{}{%
-        {{hash=1d97a3481034b852582fdc4d0484cc0f}{%
-           family={丁卓成},
-           familyi={丁\bibinitperiod}}}%
-      }
-      \list{institution}{1}{%
-        {上海交通大学}%
-      }
-      \list{language}{1}{%
-        {chinese}%
-      }
-      \list{location}{1}{%
-        {上海}%
-      }
-      \strng{namehash}{1d97a3481034b852582fdc4d0484cc0f}
-      \strng{fullhash}{1d97a3481034b852582fdc4d0484cc0f}
-      \strng{bibnamehash}{1d97a3481034b852582fdc4d0484cc0f}
-      \strng{authorbibnamehash}{1d97a3481034b852582fdc4d0484cc0f}
-      \strng{authornamehash}{1d97a3481034b852582fdc4d0484cc0f}
-      \strng{authorfullhash}{1d97a3481034b852582fdc4d0484cc0f}
-      \field{sortinit}{2}
-      \field{sortinithash}{cbff857e587bcb4635511624d773949e}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{langid}{english}
-      \field{title}{虚拟化系统中基于RDMA的分布式共享内存研究}
-      \field{usera}{D}
-      \field{userd}{chinese}
-      \field{userf}{chinese}
-      \field{year}{2019}
-      \field{dateera}{ce}
-      \keyw{tcbbd}
     \endentry
     \entry{ivy}{article}{}
       \name{author}{2}{}{%
@@ -1230,6 +1259,322 @@
       \field{year}{2016}
       \field{dateera}{ce}
       \keyw{csapp,{ISBN} 978-7-111-54493-7}
+    \endentry
+    \entry{barrelfish}{inproceedings}{}
+      \name{author}{9}{}{%
+        {{hash=f59ce827f75602b52081106f2f68301c}{%
+           family={Baumann},
+           familyi={B\bibinitperiod},
+           given={Andrew},
+           giveni={A\bibinitperiod}}}%
+        {{hash=08cf514c08137f94d73b590060797f5b}{%
+           family={Barham},
+           familyi={B\bibinitperiod},
+           given={Paul},
+           giveni={P\bibinitperiod}}}%
+        {{hash=0cabdfa476d8ee9d8ff3d59cf493d098}{%
+           family={Dagand},
+           familyi={D\bibinitperiod},
+           given={Pierre{-}{É}variste},
+           giveni={P\bibinitperiod}}}%
+        {{hash=0074fd9f9da537e51b88596b5f635943}{%
+           family={Harris},
+           familyi={H\bibinitperiod},
+           given={Tim},
+           giveni={T\bibinitperiod}}}%
+        {{hash=f7d7e0101ad5b439d1efaccb9707d501}{%
+           family={Isaacs},
+           familyi={I\bibinitperiod},
+           given={Rebecca},
+           giveni={R\bibinitperiod}}}%
+        {{hash=fd62d7a7c7f4126ea2a2171664da8229}{%
+           family={Peter},
+           familyi={P\bibinitperiod},
+           given={Simon},
+           giveni={S\bibinitperiod}}}%
+        {{hash=3351249bacafbbb43a8093a86c7a58ae}{%
+           family={Roscoe},
+           familyi={R\bibinitperiod},
+           given={Timothy},
+           giveni={T\bibinitperiod}}}%
+        {{hash=59c3974fbffb348f8554cc9e45b9e37f}{%
+           family={Sch{ü}pbach},
+           familyi={S\bibinitperiod},
+           given={Adrian},
+           giveni={A\bibinitperiod}}}%
+        {{hash=2fdb055341d480ba873658e006816b65}{%
+           family={Singhania},
+           familyi={S\bibinitperiod},
+           given={Akhilesh},
+           giveni={A\bibinitperiod}}}%
+      }
+      \name{editor}{2}{}{%
+        {{hash=8f9e62052a68751c0a0a0501e4556311}{%
+           family={Matthews},
+           familyi={M\bibinitperiod},
+           given={Jeanna\bibnamedelima Neefe},
+           giveni={J\bibinitperiod\bibinitdelim N\bibinitperiod}}}%
+        {{hash=e6ec29e41ca57cb718a923870350287f}{%
+           family={Anderson},
+           familyi={A\bibinitperiod},
+           given={Thomas\bibnamedelima E.},
+           giveni={T\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \list{publisher}{1}{%
+        {ACM}%
+      }
+      \strng{namehash}{9008fd892caaf08e0ab14b5a814419f2}
+      \strng{fullhash}{035d6f0f2b99726933b595df14a999ec}
+      \strng{bibnamehash}{f68cbba0b5e4eabec6974c6a79ddd374}
+      \strng{authorbibnamehash}{f68cbba0b5e4eabec6974c6a79ddd374}
+      \strng{authornamehash}{9008fd892caaf08e0ab14b5a814419f2}
+      \strng{authorfullhash}{035d6f0f2b99726933b595df14a999ec}
+      \strng{editorbibnamehash}{a589915f2b97b97a95040372bd3b8c06}
+      \strng{editornamehash}{ed38b9f64629ff8142c1917bbf514a76}
+      \strng{editorfullhash}{a589915f2b97b97a95040372bd3b8c06}
+      \field{sortinit}{2}
+      \field{sortinithash}{cbff857e587bcb4635511624d773949e}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the 22nd {ACM} Symposium on Operating Systems Principles 2009, {SOSP} 2009, Big Sky, Montana, USA, October 11-14, 2009}
+      \field{langid}{english}
+      \field{title}{The multikernel: a new {OS} architecture for scalable multicore systems}
+      \field{usera}{C}
+      \field{userc}{english}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{2009}
+      \field{dateera}{ce}
+      \field{pages}{29\bibrangedash 44}
+      \range{pages}{16}
+      \verb{doi}
+      \verb 10.1145/1629575.1629579
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1145/1629575.1629579
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1145/1629575.1629579
+      \endverb
+      \keyw{barrelfish}
+    \endentry
+    \entry{ab}{misc}{}
+      \list{language}{1}{%
+        {english}%
+      }
+      \field{sortinit}{3}
+      \field{sortinithash}{a4b52e5432884761f50fb9571273b93e}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Website}
+      \field{langid}{english}
+      \field{note}{\url{https://httpd.apache.org/docs/2.4/programs/ab.html}}
+      \field{title}{ab - Apache HTTP server benchmarking tool}
+      \field{usera}{Z}
+      \field{userd}{english}
+      \field{year}{2020}
+      \field{dateera}{ce}
+      \keyw{ab,\url{https://httpd.apache.org/docs/2.4/programs/ab.html}}
+    \endentry
+    \entry{gini}{misc}{}
+      \list{language}{1}{%
+        {english}%
+      }
+      \field{sortinit}{3}
+      \field{sortinithash}{a4b52e5432884761f50fb9571273b93e}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Website}
+      \field{langid}{english}
+      \field{note}{\url{https://medium.com/@analyttica/gini-coefficient-or-gini-index-in-our-data-science-analytics-platform-d0408fc83772}}
+      \field{title}{Gini Coefficient or Gini Index in our Data Science \& Analytics platform}
+      \field{usera}{Z}
+      \field{userd}{english}
+      \field{year}{2018}
+      \field{dateera}{ce}
+      \keyw{gini,\url{https://medium.com/@analyttica/gini-coefficient-or-gini-index-in-our-data-science-analytics-platform-d0408fc83772}}
+    \endentry
+    \entry{processmigration}{inproceedings}{}
+      \name{author}{2}{}{%
+        {{hash=59398542f162d5de4b8cde456740479e}{%
+           family={Powell},
+           familyi={P\bibinitperiod},
+           given={Michael\bibnamedelima L.},
+           giveni={M\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=af864918ede92b59672502b8cbc1e3ab}{%
+           family={Miller},
+           familyi={M\bibinitperiod},
+           given={Barton\bibnamedelima P.},
+           giveni={B\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+      }
+      \name{editor}{3}{}{%
+        {{hash=a719626d86148a18f531a22673403d68}{%
+           family={Saltzer},
+           familyi={S\bibinitperiod},
+           given={Jerome\bibnamedelima H.},
+           giveni={J\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=e8292b46975b5d58ee5676e84acad9e3}{%
+           family={Levin},
+           familyi={L\bibinitperiod},
+           given={Roy},
+           giveni={R\bibinitperiod}}}%
+        {{hash=0cfc5fbedb57c37b0b93e965f14f25ae}{%
+           family={Redell},
+           familyi={R\bibinitperiod},
+           given={David\bibnamedelima D.},
+           giveni={D\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \list{publisher}{1}{%
+        {ACM}%
+      }
+      \strng{namehash}{084644031da4a91686a000e4c2b25f68}
+      \strng{fullhash}{623fa6ff8db1f8551a1e6e49ca6b966b}
+      \strng{bibnamehash}{623fa6ff8db1f8551a1e6e49ca6b966b}
+      \strng{authorbibnamehash}{623fa6ff8db1f8551a1e6e49ca6b966b}
+      \strng{authornamehash}{084644031da4a91686a000e4c2b25f68}
+      \strng{authorfullhash}{623fa6ff8db1f8551a1e6e49ca6b966b}
+      \strng{editorbibnamehash}{f00acbc283e0d8dc49905d82fd9a5191}
+      \strng{editornamehash}{f2ce38c256d1d81ece556085a4d30dd1}
+      \strng{editorfullhash}{f00acbc283e0d8dc49905d82fd9a5191}
+      \field{sortinit}{3}
+      \field{sortinithash}{a4b52e5432884761f50fb9571273b93e}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the Ninth {ACM} Symposium on Operating System Principles, {SOSP} 1983, Bretton Woods, New Hampshire, USA, October 10-13, 1983}
+      \field{langid}{english}
+      \field{title}{Process Migration in {DEMOS/MP}}
+      \field{usera}{C}
+      \field{userc}{english}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{1983}
+      \field{dateera}{ce}
+      \field{pages}{110\bibrangedash 119}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1145/800217.806619
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1145/800217.806619
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1145/800217.806619
+      \endverb
+      \keyw{processmigration}
+    \endentry
+    \entry{migrationppt}{misc}{}
+      \list{language}{1}{%
+        {chinese}%
+      }
+      \field{sortinit}{3}
+      \field{sortinithash}{a4b52e5432884761f50fb9571273b93e}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Website}
+      \field{langid}{english}
+      \field{note}{\url{https://wenku.baidu.com/view/090385d376a20029bd642d86.html}}
+      \field{title}{分布式系统中的进程迁移}
+      \field{usera}{Z}
+      \field{userd}{chinese}
+      \field{year}{2011}
+      \field{dateera}{ce}
+      \keyw{migrationppt,\url{https://wenku.baidu.com/view/090385d376a20029bd642d86.html}}
+    \endentry
+    \entry{container}{misc}{}
+      \list{language}{1}{%
+        {english}%
+      }
+      \field{sortinit}{3}
+      \field{sortinithash}{a4b52e5432884761f50fb9571273b93e}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Website}
+      \field{langid}{english}
+      \field{note}{\url{https://www.docker.com/resources/what-container}}
+      \field{title}{Package Software into Standardized Units for Development, Shipment and Deployment}
+      \field{usera}{Z}
+      \field{userd}{english}
+      \field{year}{2020}
+      \field{dateera}{ce}
+      \keyw{container,\url{https://www.docker.com/resources/what-container}}
+    \endentry
+    \entry{Voyager}{inproceedings}{}
+      \name{author}{4}{}{%
+        {{hash=1f505c92ec59d90a26255e75ad7d707d}{%
+           family={Nadgowda},
+           familyi={N\bibinitperiod},
+           given={Shripad},
+           giveni={S\bibinitperiod}}}%
+        {{hash=aa2197efac8a35cc69c13e612154e4d3}{%
+           family={Suneja},
+           familyi={S\bibinitperiod},
+           given={Sahil},
+           giveni={S\bibinitperiod}}}%
+        {{hash=57d663d867981a2f3f8daa9d73a01314}{%
+           family={Bila},
+           familyi={B\bibinitperiod},
+           given={Nilton},
+           giveni={N\bibinitperiod}}}%
+        {{hash=06f7ea4a7444f355bf7bbb4257195429}{%
+           family={Isci},
+           familyi={I\bibinitperiod},
+           given={Canturk},
+           giveni={C\bibinitperiod}}}%
+      }
+      \name{editor}{2}{}{%
+        {{hash=62829048d3f9e8d49a04b55163b552f9}{%
+           family={Lee},
+           familyi={L\bibinitperiod},
+           given={Kisung},
+           giveni={K\bibinitperiod}}}%
+        {{hash=1c17a20c4acfa6f32b73321fc505433b}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Ling},
+           giveni={L\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \list{publisher}{1}{%
+        {{IEEE} Computer Society}%
+      }
+      \strng{namehash}{5142ad5a4552feb9a8f5e39cf9365dce}
+      \strng{fullhash}{f56ab63de18ca2cc12d60dba3932ebd2}
+      \strng{bibnamehash}{791ef6ce9713e9d8e79226c981d8aae0}
+      \strng{authorbibnamehash}{791ef6ce9713e9d8e79226c981d8aae0}
+      \strng{authornamehash}{5142ad5a4552feb9a8f5e39cf9365dce}
+      \strng{authorfullhash}{f56ab63de18ca2cc12d60dba3932ebd2}
+      \strng{editorbibnamehash}{927d5251c3bcb4010518437a382b6676}
+      \strng{editornamehash}{adb003e126e4b2d6070963d39023bafe}
+      \strng{editorfullhash}{927d5251c3bcb4010518437a382b6676}
+      \field{sortinit}{4}
+      \field{sortinithash}{11cdaee3b18e01d77f3f428b13c1fc76}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{37th {IEEE} International Conference on Distributed Computing Systems, {ICDCS} 2017, Atlanta, GA, USA, June 5-8, 2017}
+      \field{langid}{english}
+      \field{title}{Voyager: Complete Container State Migration}
+      \field{usera}{C}
+      \field{userc}{english}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{2017}
+      \field{dateera}{ce}
+      \field{pages}{2137\bibrangedash 2142}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1109/ICDCS.2017.91
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1109/ICDCS.2017.91
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1109/ICDCS.2017.91
+      \endverb
+      \keyw{Voyager}
     \endentry
   \enddatalist
 \endrefsection

@@ -87,6 +87,16 @@
   biburl    = {https://dblp.org/rec/journals/spe/DouglisO91.bib},
   bibsource = {dblp computer science bibliography, https://dblp.org}
 }
+@article{balancing,
+  author    = {Rik van Riel and
+               Vinod Chegu},
+  title     = {Automatic NUMA Balancing},
+  year      = {2014},
+  month ={4},
+  modifydate={2014-4-14},
+  address   = {San Francisco},
+  url       = {https://www.linux-kvm.org/images/7/75/01x07b-NumaAutobalancing.pdf}
+}
 
 @inproceedings{livemigration,
   author    = {Christopher Clark and
@@ -205,6 +215,13 @@
 	address={上海},
 }
 
+@misc{linux,
+  title = {Linux kernel source tree},
+  howpublished = {Website},
+  year = {2020},
+  note = {\url{https://github.com/torvalds/linux/}}
+}
+
 @misc{KVM,
   title = {Kernel Virtual Machine},
   howpublished = {Website},
@@ -212,11 +229,55 @@
   note = {\url{https://www.linux-kvm.org/page/Main_Page}}
 }
 
+@misc{migrationppt,
+  title = {分布式系统中的进程迁移},
+  howpublished = {Website},
+  year = {2011},
+  note = {\url{https://wenku.baidu.com/view/090385d376a20029bd642d86.html}}
+}
+
+@misc{container,
+  title = {Package Software into Standardized Units for Development, Shipment and Deployment},
+  howpublished = {Website},
+  year = {2020},
+  note = {\url{https://www.docker.com/resources/what-container}}
+}
+
+@misc{ab,
+  title = {ab - Apache HTTP server benchmarking tool},
+  howpublished = {Website},
+  year = {2020},
+  note = {\url{https://httpd.apache.org/docs/2.4/programs/ab.html}}
+}
+
+@misc{gini,
+  title = {Gini Coefficient or Gini Index in our Data Science & Analytics platform},
+  howpublished = {Website},
+  year = {2018},
+  note = {\url{https://medium.com/@analyttica/gini-coefficient-or-gini-index-in-our-data-science-analytics-platform-d0408fc83772}}
+}
+
+
+
 @misc{QEMU,
   title = {the FAST! processor emulator},
   howpublished = {Website},
   year = {2020},
   note = {\url{https://www.qemu.org/}}
+}
+
+@misc{go,
+  title = {go-性能分析},
+  howpublished = {Website},
+  year = {2020},
+  note = {\url{http://scriptllh.info}}
+}
+
+@misc{phymem,
+  title = {Linux 的 NUMA 技术},
+  howpublished = {Website},
+  year = {2004},
+  note = {\url{https://www.ibm.com/developerworks/cn/linux/l-numa/index.html}}
 }
 
 @article{tso,
@@ -308,4 +369,68 @@
   publisher = {机械工业出版社},
   title = {深入理解计算机系统},
   Year = {2016},
+}
+
+@inproceedings{barrelfish,
+  author    = {Andrew Baumann and
+               Paul Barham and
+               Pierre{-}{\'{E}}variste Dagand and
+               Tim Harris and
+               Rebecca Isaacs and
+               Simon Peter and
+               Timothy Roscoe and
+               Adrian Sch{\"{u}}pbach and
+               Akhilesh Singhania},
+  editor    = {Jeanna Neefe Matthews and
+               Thomas E. Anderson},
+  title     = {The multikernel: a new {OS} architecture for scalable multicore systems},
+  booktitle = {Proceedings of the 22nd {ACM} Symposium on Operating Systems Principles
+               2009, {SOSP} 2009, Big Sky, Montana, USA, October 11-14, 2009},
+  pages     = {29--44},
+  publisher = {{ACM}},
+  year      = {2009},
+  url       = {https://doi.org/10.1145/1629575.1629579},
+  doi       = {10.1145/1629575.1629579},
+  timestamp = {Tue, 06 Nov 2018 16:59:32 +0100},
+  biburl    = {https://dblp.org/rec/conf/sosp/BaumannBDHIPRSS09.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+
+@inproceedings{processmigration,
+  author    = {Michael L. Powell and
+               Barton P. Miller},
+  editor    = {Jerome H. Saltzer and
+               Roy Levin and
+               David D. Redell},
+  title     = {Process Migration in {DEMOS/MP}},
+  booktitle = {Proceedings of the Ninth {ACM} Symposium on Operating System Principles,
+               {SOSP} 1983, Bretton Woods, New Hampshire, USA, October 10-13, 1983},
+  pages     = {110--119},
+  publisher = {{ACM}},
+  year      = {1983},
+  url       = {https://doi.org/10.1145/800217.806619},
+  doi       = {10.1145/800217.806619},
+  timestamp = {Tue, 06 Nov 2018 16:59:32 +0100},
+  biburl    = {https://dblp.org/rec/conf/sosp/PresottoM83.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+
+@inproceedings{Voyager,
+  author    = {Shripad Nadgowda and
+               Sahil Suneja and
+               Nilton Bila and
+               Canturk Isci},
+  editor    = {Kisung Lee and
+               Ling Liu},
+  title     = {Voyager: Complete Container State Migration},
+  booktitle = {37th {IEEE} International Conference on Distributed Computing Systems,
+               {ICDCS} 2017, Atlanta, GA, USA, June 5-8, 2017},
+  pages     = {2137--2142},
+  publisher = {{IEEE} Computer Society},
+  year      = {2017},
+  url       = {https://doi.org/10.1109/ICDCS.2017.91},
+  doi       = {10.1109/ICDCS.2017.91},
+  timestamp = {Wed, 16 Oct 2019 14:14:50 +0200},
+  biburl    = {https://dblp.org/rec/conf/icdcs/NadgowdaSBI17.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
 }
