@@ -1576,6 +1576,168 @@
       \endverb
       \keyw{Voyager}
     \endentry
+    \entry{parallelm}{inproceedings}{}
+      \name{author}{5}{}{%
+        {{hash=7471051e2eae9f757440aafaf7adb3f8}{%
+           family={Song},
+           familyi={S\bibinitperiod},
+           given={Xiang},
+           giveni={X\bibinitperiod}}}%
+        {{hash=e561af69f98a22927c8ecbb83fa6ab24}{%
+           family={Shi},
+           familyi={S\bibinitperiod},
+           given={Jicheng},
+           giveni={J\bibinitperiod}}}%
+        {{hash=bc63d195cc36a017c921310c2653b76f}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Ran},
+           giveni={R\bibinitperiod}}}%
+        {{hash=5a1cb92dc789e714fb5aaf67809119a6}{%
+           family={Yang},
+           familyi={Y\bibinitperiod},
+           given={Jian},
+           giveni={J\bibinitperiod}}}%
+        {{hash=d5c36f34b65110f35dbb94158f05a30d}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Haibo},
+           giveni={H\bibinitperiod}}}%
+      }
+      \name{editor}{3}{}{%
+        {{hash=14cae78f9852837b730dc2383e17550c}{%
+           family={Muir},
+           familyi={M\bibinitperiod},
+           given={Steve},
+           giveni={S\bibinitperiod}}}%
+        {{hash=22cbcffae9ccc9f40eba5c2eda212e66}{%
+           family={Heiser},
+           familyi={H\bibinitperiod},
+           given={Gernot},
+           giveni={G\bibinitperiod}}}%
+        {{hash=6d1e34c05acd33e7edfcb05114105cee}{%
+           family={Blackburn},
+           familyi={B\bibinitperiod},
+           given={Steve},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \list{publisher}{1}{%
+        {ACM}%
+      }
+      \strng{namehash}{cf23b7afdb08b4868cd57d2165400a14}
+      \strng{fullhash}{b2cb6b55e5c69c547b8a446b84ebae82}
+      \strng{bibnamehash}{03a71c1b734ae4fa6bfc3ce2ad463400}
+      \strng{authorbibnamehash}{03a71c1b734ae4fa6bfc3ce2ad463400}
+      \strng{authornamehash}{cf23b7afdb08b4868cd57d2165400a14}
+      \strng{authorfullhash}{b2cb6b55e5c69c547b8a446b84ebae82}
+      \strng{editorbibnamehash}{7b393449e758a4f64276eab60847e235}
+      \strng{editornamehash}{be6d923fcaea1dcb2395b79996811bef}
+      \strng{editorfullhash}{7b393449e758a4f64276eab60847e235}
+      \field{sortinit}{4}
+      \field{sortinithash}{11cdaee3b18e01d77f3f428b13c1fc76}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{{ACM} {SIGPLAN/SIGOPS} International Conference on Virtual Execution Environments (co-located with {ASPLOS} 2013), {VEE} '13, Houston, TX, USA, March 16-17, 2013}
+      \field{langid}{english}
+      \field{title}{Parallelizing live migration of virtual machines}
+      \field{usera}{C}
+      \field{userc}{english}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{2013}
+      \field{dateera}{ce}
+      \field{pages}{85\bibrangedash 96}
+      \range{pages}{12}
+      \verb{doi}
+      \verb 10.1145/2451512.2451531
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1145/2451512.2451531
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1145/2451512.2451531
+      \endverb
+      \keyw{parallelm}
+    \endentry
+    \entry{compression}{inproceedings}{}
+      \name{author}{4}{}{%
+        {{hash=f4c0f64e84632897f1e13d37283be436}{%
+           family={Sv{ä}rd},
+           familyi={S\bibinitperiod},
+           given={Petter},
+           giveni={P\bibinitperiod}}}%
+        {{hash=0c99f960f8f9cd53dedb2ed59dd46347}{%
+           family={Hudzia},
+           familyi={H\bibinitperiod},
+           given={Benoit},
+           giveni={B\bibinitperiod}}}%
+        {{hash=25e055864ad0a48ec6a8a7e0c33e4dfd}{%
+           family={Tordsson},
+           familyi={T\bibinitperiod},
+           given={Johan},
+           giveni={J\bibinitperiod}}}%
+        {{hash=6f8a9f4cd117ddfcad2a7b97d25415f5}{%
+           family={Elmroth},
+           familyi={E\bibinitperiod},
+           given={Erik},
+           giveni={E\bibinitperiod}}}%
+      }
+      \name{editor}{2}{}{%
+        {{hash=468fe0329ffeea43782aa0c27eaf16fe}{%
+           family={Petrank},
+           familyi={P\bibinitperiod},
+           given={Erez},
+           giveni={E\bibinitperiod}}}%
+        {{hash=b4071ff1af912d3c66b7b4b5ffed8956}{%
+           family={Lea},
+           familyi={L\bibinitperiod},
+           given={Doug},
+           giveni={D\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \list{publisher}{1}{%
+        {ACM}%
+      }
+      \strng{namehash}{6a450dd0b8b137a474fa0bf5aa1237d2}
+      \strng{fullhash}{616beb2d61a9e81206b49dfc144244e1}
+      \strng{bibnamehash}{9037c77879352d101d953e0239ea51ef}
+      \strng{authorbibnamehash}{9037c77879352d101d953e0239ea51ef}
+      \strng{authornamehash}{6a450dd0b8b137a474fa0bf5aa1237d2}
+      \strng{authorfullhash}{616beb2d61a9e81206b49dfc144244e1}
+      \strng{editorbibnamehash}{86558e19500a5bcf1294c8d837c57c20}
+      \strng{editornamehash}{ae5a52825937c9f860731270ade546d5}
+      \strng{editorfullhash}{86558e19500a5bcf1294c8d837c57c20}
+      \field{sortinit}{4}
+      \field{sortinithash}{11cdaee3b18e01d77f3f428b13c1fc76}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the 7th International Conference on Virtual Execution Environments, {VEE} 2011, Newport Beach, CA, USA, March 9-11, 2011 (co-located with {ASPLOS} 2011)}
+      \field{langid}{english}
+      \field{title}{Evaluation of delta compression techniques for efficient live migration of large virtual machines}
+      \field{usera}{C}
+      \field{userc}{english}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{2011}
+      \field{dateera}{ce}
+      \field{pages}{111\bibrangedash 120}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1145/1952682.1952698
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1145/1952682.1952698
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1145/1952682.1952698
+      \endverb
+      \keyw{compression}
+    \endentry
   \enddatalist
 \endrefsection
 \endinput
