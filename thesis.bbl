@@ -1738,6 +1738,114 @@
       \endverb
       \keyw{compression}
     \endentry
+    \entry{borg}{inproceedings}{}
+      \name{author}{6}{}{%
+        {{hash=9a8d7be36ca3d15f0e8b850e3324ecaf}{%
+           family={Verma},
+           familyi={V\bibinitperiod},
+           given={Abhishek},
+           giveni={A\bibinitperiod}}}%
+        {{hash=98d452a8dc2ab8d2114a21657d752109}{%
+           family={Pedrosa},
+           familyi={P\bibinitperiod},
+           given={Luis},
+           giveni={L\bibinitperiod}}}%
+        {{hash=93a1f94580eca291a46e5b36755a4843}{%
+           family={Korupolu},
+           familyi={K\bibinitperiod},
+           given={Madhukar},
+           giveni={M\bibinitperiod}}}%
+        {{hash=3b7c6d08ef992f50cc6cb714826cab85}{%
+           family={Oppenheimer},
+           familyi={O\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod}}}%
+        {{hash=3463bff76f0a89a554c51188cd2eb4f1}{%
+           family={Tune},
+           familyi={T\bibinitperiod},
+           given={Eric},
+           giveni={E\bibinitperiod}}}%
+        {{hash=5f3c579f3b21ba42d76c7a3ee89b6ca2}{%
+           family={Wilkes},
+           familyi={W\bibinitperiod},
+           given={John},
+           giveni={J\bibinitperiod}}}%
+      }
+      \name{editor}{3}{}{%
+        {{hash=716af9ebbc6cc20b38b5d56760f3119d}{%
+           family={R{é}veill{è}re},
+           familyi={R\bibinitperiod},
+           given={Laurent},
+           giveni={L\bibinitperiod}}}%
+        {{hash=0074fd9f9da537e51b88596b5f635943}{%
+           family={Harris},
+           familyi={H\bibinitperiod},
+           given={Tim},
+           giveni={T\bibinitperiod}}}%
+        {{hash=dec3948f0497f5447bae5c2365b87e8f}{%
+           family={Herlihy},
+           familyi={H\bibinitperiod},
+           given={Maurice},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \list{publisher}{1}{%
+        {ACM}%
+      }
+      \strng{namehash}{8b4cb2c4c16460683fc1d01ee3b20b34}
+      \strng{fullhash}{8b26fa121e376618d653adb989ff448c}
+      \strng{bibnamehash}{74b57dc00daf5845ae1f5b31bec22f7c}
+      \strng{authorbibnamehash}{74b57dc00daf5845ae1f5b31bec22f7c}
+      \strng{authornamehash}{8b4cb2c4c16460683fc1d01ee3b20b34}
+      \strng{authorfullhash}{8b26fa121e376618d653adb989ff448c}
+      \strng{editorbibnamehash}{595b9fdfca82f97c4f8b9537aae6746d}
+      \strng{editornamehash}{c17465a840afe22449d1bf5d48cccb1f}
+      \strng{editorfullhash}{595b9fdfca82f97c4f8b9537aae6746d}
+      \field{sortinit}{4}
+      \field{sortinithash}{11cdaee3b18e01d77f3f428b13c1fc76}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the Tenth European Conference on Computer Systems, EuroSys 2015, Bordeaux, France, April 21-24, 2015}
+      \field{langid}{english}
+      \field{title}{Large-scale cluster management at Google with Borg}
+      \field{usera}{C}
+      \field{userc}{english}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{2015}
+      \field{dateera}{ce}
+      \field{pages}{18:1\bibrangedash 18:17}
+      \range{pages}{-1}
+      \verb{doi}
+      \verb 10.1145/2741948.2741964
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1145/2741948.2741964
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1145/2741948.2741964
+      \endverb
+      \keyw{borg}
+    \endentry
+    \entry{perf}{misc}{}
+      \list{language}{1}{%
+        {english}%
+      }
+      \field{sortinit}{4}
+      \field{sortinithash}{11cdaee3b18e01d77f3f428b13c1fc76}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Website}
+      \field{langid}{english}
+      \field{note}{\url{https://perf.wiki.kernel.org/index.php/Main_Page}}
+      \field{title}{perf: Linux profiling with performance counters}
+      \field{usera}{Z}
+      \field{userd}{english}
+      \field{year}{2015}
+      \field{dateera}{ce}
+      \keyw{perf,\url{https://perf.wiki.kernel.org/index.php/Main_Page}}
+    \endentry
   \enddatalist
 \endrefsection
 \endinput
