@@ -666,23 +666,6 @@
       \field{dateera}{ce}
       \keyw{linux,\url{https://github.com/torvalds/linux/}}
     \endentry
-    \entry{go}{misc}{}
-      \list{language}{1}{%
-        {chinese}%
-      }
-      \field{sortinit}{1}
-      \field{sortinithash}{2174f786c6195e7fe2ee1c229b416e29}
-      \field{labeltitlesource}{title}
-      \field{howpublished}{Website}
-      \field{langid}{english}
-      \field{note}{\url{http://scriptllh.info}}
-      \field{title}{go-性能分析}
-      \field{usera}{Z}
-      \field{userd}{chinese}
-      \field{year}{2020}
-      \field{dateera}{ce}
-      \keyw{go,\url{http://scriptllh.info}}
-    \endentry
     \entry{phymem}{misc}{}
       \list{language}{1}{%
         {chinese}%
@@ -1003,8 +986,8 @@
       \list{language}{1}{%
         {english}%
       }
-      \field{sortinit}{2}
-      \field{sortinithash}{cbff857e587bcb4635511624d773949e}
+      \field{sortinit}{1}
+      \field{sortinithash}{2174f786c6195e7fe2ee1c229b416e29}
       \field{labeltitlesource}{title}
       \field{howpublished}{Website}
       \field{langid}{english}
@@ -1020,8 +1003,8 @@
       \list{language}{1}{%
         {english}%
       }
-      \field{sortinit}{2}
-      \field{sortinithash}{cbff857e587bcb4635511624d773949e}
+      \field{sortinit}{1}
+      \field{sortinithash}{2174f786c6195e7fe2ee1c229b416e29}
       \field{labeltitlesource}{title}
       \field{howpublished}{Website}
       \field{langid}{english}
@@ -1055,8 +1038,8 @@
       \strng{authorbibnamehash}{47627464faf7d9f20026ea0518ed9bea}
       \strng{authornamehash}{b3f698a3666c5669ec9d523ad2dd1389}
       \strng{authorfullhash}{47627464faf7d9f20026ea0518ed9bea}
-      \field{sortinit}{2}
-      \field{sortinithash}{cbff857e587bcb4635511624d773949e}
+      \field{sortinit}{1}
+      \field{sortinithash}{2174f786c6195e7fe2ee1c229b416e29}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{{ACM} Trans. Comput. Syst.}
@@ -1550,8 +1533,8 @@
       \strng{editorbibnamehash}{927d5251c3bcb4010518437a382b6676}
       \strng{editornamehash}{adb003e126e4b2d6070963d39023bafe}
       \strng{editorfullhash}{927d5251c3bcb4010518437a382b6676}
-      \field{sortinit}{4}
-      \field{sortinithash}{11cdaee3b18e01d77f3f428b13c1fc76}
+      \field{sortinit}{3}
+      \field{sortinithash}{a4b52e5432884761f50fb9571273b93e}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{37th {IEEE} International Conference on Distributed Computing Systems, {ICDCS} 2017, Atlanta, GA, USA, June 5-8, 2017}
@@ -1845,6 +1828,40 @@
       \field{year}{2015}
       \field{dateera}{ce}
       \keyw{perf,\url{https://perf.wiki.kernel.org/index.php/Main_Page}}
+    \endentry
+    \entry{memcached}{misc}{}
+      \list{language}{1}{%
+        {english}%
+      }
+      \field{sortinit}{4}
+      \field{sortinithash}{11cdaee3b18e01d77f3f428b13c1fc76}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Website}
+      \field{langid}{english}
+      \field{note}{\url{https://memcached.org/}}
+      \field{title}{memcached : a distributed memory object caching system}
+      \field{usera}{Z}
+      \field{userd}{english}
+      \field{year}{2020}
+      \field{dateera}{ce}
+      \keyw{memcached,\url{https://memcached.org/}}
+    \endentry
+    \entry{phoronix}{misc}{}
+      \list{language}{1}{%
+        {english}%
+      }
+      \field{sortinit}{4}
+      \field{sortinithash}{11cdaee3b18e01d77f3f428b13c1fc76}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Website}
+      \field{langid}{english}
+      \field{note}{\url{https://www.phoronix-test-suite.com/}}
+      \field{title}{Open-Source, Automated Benchmarking}
+      \field{usera}{Z}
+      \field{userd}{english}
+      \field{year}{2020}
+      \field{dateera}{ce}
+      \keyw{phoronix,\url{https://www.phoronix-test-suite.com/}}
     \endentry
   \enddatalist
 \endrefsection

@@ -23,13 +23,14 @@ Linux将每个进程的虚拟地址空间划分为许多部分，映射到不同
 \end{itemize}
 \begin{figure}[!htp]
   \centering
-  \includegraphics[width=9cm]{memory.png}
+  \includegraphics[width=12cm]{memory.png}
   \bicaption[内存映射原理]
-    {内存映射原理\cite{go}}
+    {内存映射原理}
     {Mechanism of Memory Mapping}
   \label{fig:MEM}
 \end{figure}
 由此可见，物理内存页的状态分为三种：没有被映射到任何进程的虚拟内存里（未使用的物理内存页），被映射到唯一的线程的虚拟地址空间里（例如线程的用户栈），被多个进程共享（如共享库）；而所有的虚拟页也分为三种：未被映射的虚拟内存页，映射到独占的物理内存的虚拟内存页，以及映射到共享内存的虚拟内存页。如图\ref{fig:MEM}所示，进程A、B的虚拟内存由已映射物理内存的页和未映射物理内存的页组成，其中A1、A2、A3物理页由进程A独占，B1、B2物理页由进程B独占，A4和B3物理页被同时映射到进程A和B的虚拟地址空间中。只要A进程和B进程中的一者对A4（B3）虚拟内存区域作出写操作，另外一个线程即可读到该写操作的内容。而在不共享物理页面的虚拟内存区域进行写操作，则不反映到另一个进程的虚拟地址空间里。这个同步过程是由硬件的缓存一致性机制（cache coherent mechanism）所保证的，当这两个进程中的一者写入后，另一者再次对该区域的内存进行访问，则会引起cache miss（缓存不命中），于是可以读取到内存中最新的内容。
+
 \subsection{非一致性内存访问架构}
 历史上，为了提高系统的计算能力，一开始是通过加快CPU的运行频率，直到CPU频率的提高遇到了瓶颈，硬件设计者就设计了多核CPU。越来越多的CPU核通过系统中唯一的北桥来读取内存（这种架构被称为一致性内存访问架构，UMA），当CPU核的数量多到一定程度时，各个CPU核之间对北桥的竞争越来越激烈，内存访问的延迟越来越大，使得北桥（具体来说，是北桥上的集成内存控制器，IMC，Intergrated memory controller）成为计算机性能提升的新的瓶颈。于是硬件设计师将所有的CPU分组，每个Socket上的CPU为一组，系统中有多个Socket。每个socket上的CPU是一个NUMA节点，并且给每个CPU小组分配独立的内存，称作本地内存。每组的CPU在同一个Socket上，共用同一个集成内存控制器，竞争北桥的CPU数量就得到了明显下降，CPU访问本地内存（local access）的速度得到了提高。然而，只有在CPU访问本地内存时延时较短，而访问其他NUMA节点的内存（remote access）就需要经过QPI Interconnect通道，增加了访问时延，故得名NUMA。
 \label{chap:memm}
@@ -44,7 +45,7 @@ Linux内核使用Node（节点）、Zone（区）、Page（页）三级结构描
 
 对于内存虚拟化，传统的方式是为每一个客户机进程维护一个shadow page table（SPT，称为影子页表），代替客户机自带的页表，将其覆盖（shadow），每当进程修改GPT，就需要对SPT进行维护。然而当客户机进程数量较大时，影子页表维护和保存的开销将会十分可观。同时，由于客户机修改自己的页表（GPT）时SPT也要进行相应的修改，VMM将GPT所占的内存标记为写保护（write protected），当客户机修改GPT时会引起VMexit，退出到VMM中由VMM完成对SPT的维护。这对于memory intensive（内存密集）型任务是一种灾难，会引起大量的VMexit，严重影响其性能。硬件机制EPT（Extended Page Table），使用硬件维护GPA到HPA的映射，替代了软件实现的SPT。客户机依然使用自己的CR3指针进行地址翻译，将GVA翻译为GPA，每一个guest OS都有其对应的扩展页表，EPT base pointer（扩展页表基指针）指向扩展页表（EPT），将GPA通过硬件翻译为HPA。于是在客户机修改自身的GPT（guest page table）时无需引起VMexit，从而提高了性能。硬件上也有类似于传统页表TLB（translation look aside buffer）的应用于EPT的页表，缓存了EPTE（EPT表项），加快了由GPA到HPA的翻译。使用本文所使用的巨型虚拟机即利用了这一硬件扩展，实现了内存的高效虚拟化。
 
-VMM又可分为Type-\uppercase\expandafter{\romannumeral1}型和Type-\uppercase\expandafter{\romannumeral2}型。Type-\uppercase\expandafter{\romannumeral1}型又称为Hypervisor型，直接运行在裸金属上，直接负责虚拟机的创建、调度、运行、电源管理等，是一个完备的操作系统，所以需要编写大量驱动，工程量较大，但也具有更好的性能。而Type-\uppercase\expandafter{\romannumeral2}型VMM事实上是host OS的一部分（内核模块），仅仅具有虚拟化的功能，而最基本的操作系统功能由host OS负责完成。还有混合型虚拟机监控器，它同样运行在裸金属上，但是将设备驱动、设备模型的控制权交由一个特权虚拟机。Xen属于混合性虚拟机，它将操作系统应当实现的功能交由domain 0这一特权操作系统完成。然而，Type-\uppercase\expandafter{\romannumeral1}型和混合型虚拟机需要修改客户机操作系统，这对闭源操作系统是不现实的，同时减小了虚拟化的灵活性，故没有得到大范围应用。而开源虚拟机监控器QEMU-KVM属于Type-\uppercase\expandafter{\romannumeral1}型，KVM\cite{KVM}是Linux内核中安装的kernel module（Linux内核模块），而QEMU\cite{QEMU}是运行于用户态的宿主机应用程序，主要负责应对客户机的I/O请求，将KVM作为其虚拟化加速器，KVM利用x86处理器的VT-x、EPT等硬件辅助虚拟化功能获得了更优的虚拟机执行效率，而无需修改客户机操作系统，故得到了广泛的应用。下一节中的巨型虚拟机即通过修改QEMU-KVM这一开源虚拟机监控器得以实现。
+VMM又可分为Type-\uppercase\expandafter{\romannumeral1}型和Type-\uppercase\expandafter{\romannumeral2}型。Type-\uppercase\expandafter{\romannumeral1}型又称为Hypervisor型，直接运行在裸金属上，直接负责虚拟机的创建、调度、运行、电源管理等，是一个完备的操作系统，所以需要编写大量驱动，工程量较大，但也具有更好的性能。而Type-\uppercase\expandafter{\romannumeral2}型VMM事实上是host OS的一部分（内核模块），仅仅具有虚拟化的功能，而最基本的操作系统功能由host OS负责完成。还有混合型虚拟机监控器，它同样运行在裸金属上，但是将设备驱动、设备模型的控制权交由一个特权虚拟机。Xen属于混合性虚拟机，它将操作系统应当实现的功能交由domain 0这一特权操作系统完成。然而，Type-\uppercase\expandafter{\romannumeral1}型和混合型虚拟机需要修改客户机操作系统，这对闭源操作系统是不现实的，同时减小了虚拟化的灵活性，故没有得到大范围应用。而开源虚拟机监控器QEMU-KVM属于Type-\uppercase\expandafter{\romannumeral2}型，KVM\cite{KVM}是Linux内核中安装的kernel module（Linux内核模块），而QEMU\cite{QEMU}是运行于用户态的宿主机应用程序，主要负责应对客户机的I/O请求，将KVM作为其虚拟化加速器，KVM利用x86处理器的VT-x、EPT等硬件辅助虚拟化功能获得了更优的虚拟机执行效率，而无需修改客户机操作系统，故得到了广泛的应用。下一节中的巨型虚拟机即通过修改QEMU-KVM这一开源虚拟机监控器得以实现。
 \subsection{巨型虚拟机架构实现}
 巨型虚拟机属于分布式虚拟机，即把一个分布式系统作为运行的物理基础，对上层提供统一的操作系统接口。其主要目的是为了资源聚合，即将分布式系统中的多个普通单机聚合起来，形成一个纵向扩展的虚拟机。例如，普通计算机的CPU核心数目一般在50以内，而更多CPU核心数目的机器则会非常昂贵\footnote{36个CPU核心是服务器较为典型的配置。详见 https://www.quora.com/What-are-the-specs-of-a-typical-modern-server}。有了巨型虚拟机，我们可以将多个普通且廉价的物理机聚合起来，启动一个拥有海量资源的虚拟机，例如将5个配备36个CPU的服务器进行资源聚集，我们可以得到一个拥有180个虚拟CPU的客户机，这是单个物理机很难达到的配置。
 
@@ -87,7 +88,7 @@ VMM又可分为Type-\uppercase\expandafter{\romannumeral1}型和Type-\uppercase\
 \subsection{增强访存局部性的方式}
 由\ref{chap:mem}节和\ref{chap:memm}节所述，造成进程之间频繁访问共享内存的原因之一是共享的内核数据和代码。由于对内核数据结构的频繁访问，硬件为了保持缓存一致性，会频繁的从内存中读写数据，造成如上节所属的分布式共享内存所遇到的两个问题。于是，来自ETH Zurich的研究者们从操作系统的内核架构开刀，将宏内核切分开来，实现了一个多内核操作系统Barrelfish\cite{barrelfish}。Barrelfish操作系统将现代的计算机系统视作一个网络，每一个CPU核以及它所附带的缓存是该网络中的一个节点。其设计理念有如下三点：
 
-\noindent\textbf{核间显式通信}\quad 在宏内核的操作系统中，CPU核与CPU核之间的通信大量依赖于共享内存。然而，如果将单个计算机的硬件视作分布式系统的话，那么将共享内存（shared memory）作为通信的渠道将获得类似于广播的效果：只要映射了这块物理内存的所有进程将会收到这条信息。所以，发送一条信息耗费的时间将会随着硬件系统中的节点数成正比地增加。这是由于CPU在等待缓存一致性机制完成数据同步，从缓存不命中中返回于是发送一条信息的时间也会随着信息量的大小而线性增长。而在信息传递（message passing）模型中，存在服务端线程（server thread）和客户端线程（client thread），服务端线程固定地运行在一个CPU核上，维持着所有客户端线程所需的信息。所有客户端线程只需发送一个远程过程调用（RPC, remote procedure call），虽然远程过程调用所传递的信息依然通过共享内存进行传递，但只是控制面的信息，而真正的数据一直保持在服务端线程的缓存中，不会出现缓存不命中的现象。核与核之间的通信在宏内核中不是显式的，而是隐式的通过共享内存来进行，这样会造成大量不必要的开销。而在Barrelfish操作系统中，核与核之间的通信仅有远程过程调用，而不存在其他类型的通信。故Barrelfish操作系统具有良好的内存访问局部性。
+\noindent\textbf{核间显式通信}\quad 在宏内核的操作系统中，CPU核与CPU核之间的通信大量依赖于共享内存。然而，如果将单个计算机的硬件视作分布式系统的话，那么将共享内存（shared memory）作为通信的渠道将获得类似于广播的效果：只要映射了这块物理内存的所有进程将会收到这条信息。所以，发送一条信息耗费的时间将会随着硬件系统中的节点数成正比地增加。这是由于CPU在等待缓存一致性机制完成数据同步，从缓存不命中中返回于是发送一条信息的时间也会随着信息量的大小而线性增长。而在消息传递（message passing）模型中，存在服务端线程（server thread）和客户端线程（client thread），服务端线程固定地运行在一个CPU核上，维持着所有客户端线程所需的信息。所有客户端线程只需发送一个远程过程调用（RPC, remote procedure call），虽然远程过程调用所传递的信息依然通过共享内存进行传递，但只是控制面的信息，而真正的数据一直保持在服务端线程的缓存中，不会出现缓存不命中的现象。核与核之间的通信在宏内核中不是显式的，而是隐式的通过共享内存来进行，这样会造成大量不必要的开销。而在Barrelfish操作系统中，核与核之间的通信仅有远程过程调用，而不存在其他类型的通信。故Barrelfish操作系统具有良好的内存访问局部性。
 
 \noindent\textbf{操作系统内核与硬件解耦}\quad 这部分设计理念将操作系统内核的通信算法（策略，policy）与硬件相关的通信机制优化（机制，mechanism）进行解耦合，降低工程量。这不在本文的讨论范围内。
 

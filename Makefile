@@ -47,3 +47,6 @@ git :
 
 zip :
 	git archive --format zip --output thesis.zip master
+
+ew :
+	cat tex/end_english_abstract.tex |grep -o -E "[A-Za-z]+" |grep -o -E "[A-Za-z]+" |wc -m

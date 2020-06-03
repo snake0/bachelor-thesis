@@ -18,10 +18,43 @@
 \usepackage{longtable}
 \usepackage{import}
 \usepackage{enumitem}
+\usepackage{etoolbox}
 %\usepackage{subcaption}
 %\usepackage{algorithmic}
 \DeclareMathOperator*{\argmax}{arg\,max}
 
+\makeatletter
+% start with some helper code
+% This is the vertical rule that is inserted
+\newcommand*{\algrule}[1][\algorithmicindent]{%
+  \makebox[#1][l]{%
+    \hspace*{.2em}% <------------- This is where the rule starts from
+    \vrule height .75\baselineskip depth .25\baselineskip
+  }
+}
+
+\newcount\ALG@printindent@tempcnta
+\def\ALG@printindent{%
+    \ifnum \theALG@nested>0% is there anything to print
+    \ifx\ALG@text\ALG@x@notext% is this an end group without any text?
+    % do nothing
+    \else
+    \unskip
+    % draw a rule for each indent level
+    \ALG@printindent@tempcnta=1
+    \loop
+    \algrule[\csname ALG@ind@\the\ALG@printindent@tempcnta\endcsname]%
+    \advance \ALG@printindent@tempcnta 1
+    \ifnum \ALG@printindent@tempcnta<\numexpr\theALG@nested+1\relax
+    \repeat
+    \fi
+    \fi
+}
+% the following line injects our new indent handling code in place of the default spacing
+\patchcmd{\ALG@doentity}{\noindent\hskip\ALG@tlm}{\ALG@printindent}{}{\errmessage{failed to patch}}
+\patchcmd{\ALG@doentity}{\item[]\nointerlineskip}{}{}{} % no spurious vertical space
+% end vertical rule patch for algorithmicx
+\makeatother
 
 % \documentclass[bachelor, openany, oneside, submit]{sjtuthesis}
 % \documentclass[master, review]{sjtuthesis}
@@ -124,20 +157,22 @@
   \include{tex/ack} 	  %% 致谢
 \fi
 
-\ifsjtu@bachelor
-  % 学士学位论文要求在最后有一个英文大摘要，单独编页码
-  \pagestyle{biglast}
+% \ifsjtu@bachelor
+%   % 学士学位论文要求在最后有一个英文大摘要，单独编页码
+  
+% \else
+%   % 盲审论文中，发表学术论文及参与科研情况等仅以第几作者注明即可，不要出现作者或他人姓名
+%   \ifsjtu@review\relax
+%     \include{tex/pubreview}
+%     \include{tex/projectsreview}  
+%   \else
+%     % \include{tex/pub}	      %% 发表论文
+%     %\include{tex/projects}  %% 参与的项目
+%   \fi
+% \fi
+
+\pagestyle{biglast}
   \include{tex/end_english_abstract}
-\else
-  % 盲审论文中，发表学术论文及参与科研情况等仅以第几作者注明即可，不要出现作者或他人姓名
-  \ifsjtu@review\relax
-    \include{tex/pubreview}
-    \include{tex/projectsreview}  
-  \else
-    % \include{tex/pub}	      %% 发表论文
-    %\include{tex/projects}  %% 参与的项目
-  \fi
-\fi
 
 % \include{tex/patents}	  %% 申请专利
 % \include{tex/resume}	  %% 个人简历

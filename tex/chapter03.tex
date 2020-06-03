@@ -42,7 +42,7 @@
 \end{figure}
 
 \begin{algorithm}[h]
-\begin{algorithmic}[1]
+\begin{algorithmic}[ruled,1]
 \Function {set\_affinity\_all}{$node\_cpu\_list$}
 \For{each $task, irq, wq\in OS$}
 \State
@@ -54,18 +54,18 @@
 \EndFor
 \EndFunction
 \State
-\Call {set\_affinity\_all}{$node0\_cpu\_list$}
-\While{true}
-\State $prev\_nodes\_stealtime \gets stealtime()$
 \State
-\Call {sleep}{2}
-\State $nodes\_stealtime \gets stealtime()$
-\State $stealtime\_diff \gets nodes\_stealtime - prev\_nodes\_stealtime$
+\Call {set\_affinity\_all}{$node0\_cpu\_list$}
+\State
+\While{true}
+\State
+\Call {sleep}{$INTERVAL$}
 \State $min\_stealtime,\,min\_stealtime\_node \gets find\_min\_stealtime\_node()$
-\If {$this\_node \eq min\_stealtime\_node \lor stealtime\_diff[this\_node] < threshold$}
+\If {$this\_node &= &= min\_stealtime\_node \lor this\_node\_stealtime < threshold$}
 \State $continue$
 \EndIf
 \State $cpu\_list \gets get\_cpu\_list(min\_stealtime\_node)$
+\State
 \State
 \Call {set\_affinity\_all} {$cpu\_list$}
 \EndWhile
