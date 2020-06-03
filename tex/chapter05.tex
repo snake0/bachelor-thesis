@@ -97,7 +97,7 @@
 调度算法的网络开销也是我们关注的重点。对于网络带宽占用，我们统计了每个迁移循环的网络开销，并将数据做累积，计算从开始集群仿真到每个迁移循环为止的网络用量。如图\ref{fig:minetwork}，仿真集群开始运行时，网络开销较小，这是由于集群的任务数量尚未填满，无需进行调度。其后进程数量逐渐增多，调度的网络开销也增加，直到最后进程逐渐完成，集群负载再次下降，调度的网络开销也逐渐变小。对不同的调度算法进行对比，粗粒度的调度算法网络开销最大，由于每个循环中迁移的进程数目较多；不做迁移则网络开销为0，按照缓存不命中排序的算法网络开销最小，由于MPI真实地反映了进程频繁访问页面的多少。按照CPU指标排序的算法的网络开销普遍大于按照Memory指标排序的算法，这也是我们预期之内的。
 \begin{figure}[!htp]
   \centering
-  \includegraphics[width=10.5cm]{network.png}
+  \includegraphics[width=10cm]{network.png}
   \bicaption[调度算法网络开销对比]
     {调度算法网络开销对比}
     {Comparison of Scheduling Algorithms' Network Overhead}
@@ -107,13 +107,13 @@
 \begin{figure}[!htp]
   \centering
   \includegraphics[width=16cm]{compare.png}
-  \bicaption[调度算法网络开销对比]
-    {调度算法网络开销对比}
-    {Comparison of Scheduling Algorithms' Network Overhead}
+  \bicaption[变更参数对调度算法的影响]
+    {变更参数对调度算法的影响}
+    {Influences of Parameter Changing to Scheduling Algorithms}
   \label{fig:comparing}
 \end{figure}
 
-我们还测试了不同的集群大（$N\_MACHINES$）和资源超量提供率（$Over\_commitment\_ratio$）对调度算法各项指标的影响。如图\ref{fig:comparing}，第一行改变集群机器的数量（从700到900），第二行改变资源超量提供率（从0.5到1.4），来测试对CPU使用率、基尼系数、资源超量使用量、延迟的影响。可以看出，无论是改变机器数量还是改变资源超量提供率，不使用平衡算法的随机调度各项指标均是最差的，而粗粒度的调度算法和细粒度算法（我们使用对内存用量进行排序的细粒度算法做对比）性能较为接近。在变化机器数量的测试中，细粒度的算法要优于粗粒度的算法。而变化资源超量提供率的测试中，粗粒度算法要优于细粒度算法，这个现象的原因尚未查明。
+我们还测试了不同的集群大小（$N\_MACHINES$）和资源超量提供率（$Over\_commitment\_ratio$）对调度算法各项指标的影响。如图\ref{fig:comparing}，第一行改变集群机器的数量（从700到900），第二行改变资源超量提供率（从0.5到1.4），来测试对CPU使用率、基尼系数、资源超量使用量、延迟的影响。可以看出，无论是改变机器数量还是改变资源超量提供率，不使用平衡算法的随机调度各项指标均是最差的，而粗粒度的调度算法和细粒度算法（我们使用对内存用量进行排序的细粒度算法做对比）性能较为接近。在变化机器数量的测试中，细粒度的算法要优于粗粒度的算法。而变化资源超量提供率的测试中，粗粒度算法要优于细粒度算法，这个现象的原因尚未查明。
 
 \begin{figure}[!htp]
   \centering
