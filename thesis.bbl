@@ -47,6 +47,9 @@
       \list{language}{1}{%
         {english}%
       }
+      \list{location}{1}{%
+        {San Francisco, California, USA}%
+      }
       \list{publisher}{1}{%
         {{USENIX} Association}%
       }
@@ -139,6 +142,9 @@
       }
       \list{language}{1}{%
         {english}%
+      }
+      \list{location}{1}{%
+        {Lausanne, Switzerland}%
       }
       \list{publisher}{1}{%
         {ACM}%
@@ -285,6 +291,9 @@
       \list{language}{1}{%
         {english}%
       }
+      \list{location}{1}{%
+        {Boston, Massachusetts, USA}%
+      }
       \list{publisher}{1}{%
         {USENIX}%
       }
@@ -376,6 +385,9 @@
       \list{language}{1}{%
         {english}%
       }
+      \list{location}{1}{%
+        {Boston, MA, USA}%
+      }
       \list{publisher}{1}{%
         {{USENIX} Association}%
       }
@@ -457,6 +469,9 @@
       \list{language}{1}{%
         {english}%
       }
+      \list{location}{1}{%
+        {Prague, Czech Republic}%
+      }
       \list{publisher}{1}{%
         {ACM}%
       }
@@ -532,6 +547,9 @@
       }
       \list{language}{1}{%
         {english}%
+      }
+      \list{location}{1}{%
+        {Farmington, PA, USA}%
       }
       \list{publisher}{1}{%
         {ACM}%
@@ -613,6 +631,9 @@
       }
       \list{language}{1}{%
         {english}%
+      }
+      \list{location}{1}{%
+        {Savannah, GA, USA}%
       }
       \list{publisher}{1}{%
         {{USENIX} Association}%
@@ -768,7 +789,7 @@
       \keyw{sysv}
     \endentry
     \entry{artofxen}{inproceedings}{}
-      \name{author}{5}{}{%
+      \name{author}{9}{}{%
         {{hash=08cf514c08137f94d73b590060797f5b}{%
            family={Barham},
            familyi={B\bibinitperiod},
@@ -789,41 +810,85 @@
            familyi={H\bibinitperiod},
            given={Steven},
            giveni={S\bibinitperiod}}}%
-        {{hash=38026ba4ee6b102b47bf3ffb41325c8f}{%
-           family={al},
-           familyi={a\bibinitperiod},
-           prefix={et},
-           prefixi={e\bibinitperiod}}}%
+        {{hash=0074fd9f9da537e51b88596b5f635943}{%
+           family={Harris},
+           familyi={H\bibinitperiod},
+           given={Tim},
+           giveni={T\bibinitperiod}}}%
+        {{hash=ec18333a2459427fda4d6c2f66be22e4}{%
+           family={Ho},
+           familyi={H\bibinitperiod},
+           given={Alex},
+           giveni={A\bibinitperiod}}}%
+        {{hash=fa3ae5e343a7c6399697a3aaffd5d05a}{%
+           family={Neugebauer},
+           familyi={N\bibinitperiod},
+           given={Rolf},
+           giveni={R\bibinitperiod}}}%
+        {{hash=54b3452c2c006403f10e98ce4fb7a0fc}{%
+           family={Pratt},
+           familyi={P\bibinitperiod},
+           given={Ian},
+           giveni={I\bibinitperiod}}}%
+        {{hash=1741586c200c40cae80d9e75886f8e56}{%
+           family={Warfield},
+           familyi={W\bibinitperiod},
+           given={Andrew},
+           giveni={A\bibinitperiod}}}%
+      }
+      \name{editor}{2}{}{%
+        {{hash=e15993060a5335650b18aea778baab54}{%
+           family={Scott},
+           familyi={S\bibinitperiod},
+           given={Michael\bibnamedelima L.},
+           giveni={M\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=81db4747e24dc12e1ad797ddcba83045}{%
+           family={Peterson},
+           familyi={P\bibinitperiod},
+           given={Larry\bibnamedelima L.},
+           giveni={L\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
       }
       \list{language}{1}{%
-        {en}%
+        {english}%
       }
       \list{location}{1}{%
         {Bolton Landing, NY, USA}%
       }
+      \list{publisher}{1}{%
+        {ACM}%
+      }
       \strng{namehash}{e4194f7530e001a55fb104495f1875c1}
-      \strng{fullhash}{812cedb8dd0d8aeb575e4dc6b8314df3}
+      \strng{fullhash}{591f31ea4953b8cff6b7cbb7869e6e4e}
       \strng{bibnamehash}{02ca208278fe4aa97ea3fbefbf41da39}
       \strng{authorbibnamehash}{02ca208278fe4aa97ea3fbefbf41da39}
       \strng{authornamehash}{e4194f7530e001a55fb104495f1875c1}
-      \strng{authorfullhash}{812cedb8dd0d8aeb575e4dc6b8314df3}
+      \strng{authorfullhash}{591f31ea4953b8cff6b7cbb7869e6e4e}
+      \strng{editorbibnamehash}{3f2b6f205f0125444b841d64a4abc1d6}
+      \strng{editornamehash}{ed418a5e2ab6670274f756562e76ffaa}
+      \strng{editorfullhash}{3f2b6f205f0125444b841d64a4abc1d6}
       \field{sortinit}{1}
       \field{sortinithash}{2174f786c6195e7fe2ee1c229b416e29}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{journaltitle}{Proceedings of the Nineteenth ACM Symposium on Operating Systems Principles}
-      \field{month}{10}
+      \field{booktitle}{Proceedings of the 19th {ACM} Symposium on Operating Systems Principles 2003, {SOSP} 2003, Bolton Landing, NY, USA, October 19-22, 2003}
+      \field{langid}{english}
       \field{title}{Xen and the art of virtualization}
       \field{usera}{C}
+      \field{userc}{english}
       \field{userd}{english}
       \field{userf}{english}
       \field{year}{2003}
       \field{dateera}{ce}
+      \field{pages}{164\bibrangedash 177}
+      \range{pages}{14}
+      \verb{doi}
+      \verb 10.1145/945445.945462
+      \endverb
       \verb{urlraw}
-      \verb http://doi.acm.org/10.1145/945445.945462
+      \verb https://doi.org/10.1145/945445.945462
       \endverb
       \verb{url}
-      \verb http://doi.acm.org/10.1145/945445.945462
+      \verb https://doi.org/10.1145/945445.945462
       \endverb
       \keyw{artofxen}
     \endentry
@@ -1306,6 +1371,9 @@
       \list{language}{1}{%
         {english}%
       }
+      \list{location}{1}{%
+        {Big Sky, Montana, USA}%
+      }
       \list{publisher}{1}{%
         {ACM}%
       }
@@ -1410,6 +1478,9 @@
       }
       \list{language}{1}{%
         {english}%
+      }
+      \list{location}{1}{%
+        {Bretton Woods, New Hampshire, USA}%
       }
       \list{publisher}{1}{%
         {ACM}%
@@ -1521,6 +1592,9 @@
       \list{language}{1}{%
         {english}%
       }
+      \list{location}{1}{%
+        {Atlanta, GA, USA}%
+      }
       \list{publisher}{1}{%
         {{IEEE} Computer Society}%
       }
@@ -1607,6 +1681,9 @@
       \list{language}{1}{%
         {english}%
       }
+      \list{location}{1}{%
+        {Houston, TX, USA}%
+      }
       \list{publisher}{1}{%
         {ACM}%
       }
@@ -1682,6 +1759,9 @@
       }
       \list{language}{1}{%
         {english}%
+      }
+      \list{location}{1}{%
+        {Newport Beach, CA, USA}%
       }
       \list{publisher}{1}{%
         {ACM}%
@@ -1774,6 +1854,9 @@
       \list{language}{1}{%
         {english}%
       }
+      \list{location}{1}{%
+        {Bordeaux, France}%
+      }
       \list{publisher}{1}{%
         {ACM}%
       }
@@ -1850,8 +1933,8 @@
       \list{language}{1}{%
         {english}%
       }
-      \field{sortinit}{4}
-      \field{sortinithash}{11cdaee3b18e01d77f3f428b13c1fc76}
+      \field{sortinit}{5}
+      \field{sortinithash}{3c19c3776b658b3558e9e2e4840c01e2}
       \field{labeltitlesource}{title}
       \field{howpublished}{Website}
       \field{langid}{english}

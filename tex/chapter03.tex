@@ -21,12 +21,13 @@
 \subsection{迁移机制概述}
 \begin{figure}[!htp]
   \centering
-  \includegraphics[width=10cm]{schedule.png}
+  \includegraphics[width=8cm]{schedule.png}
   \bicaption[基于GiantVM的任务迁移机制]
     {基于GiantVM的任务迁移机制}
     {Task Migration Mechanism Based on GiantVM}
   \label{fig:schedule}
 \end{figure}
+
 我们将巨型虚拟机的客户机操作系统作为集群节点之间交换任务负载的桥梁：我们把任务分为可迁移任务（migratable tasks）和不可迁移任务（fixed tasks）。在图\ref{fig:schedule}中，颜色较深的圆圈代表不可迁移任务，系统通常为其分配较充足的资源，故用大圆表示，而颜色较浅的小圆代表可迁移任务。巨型虚拟机横跨多个节点，通过分布式虚拟机运输可迁移任务。在每个迁移周期中，我们扫描整个系统内所有的进程，选择一部分可迁移进程加入巨型虚拟机的客户机中。巨型虚拟机对客户机提供一个模拟的NUMA硬件环境，每一个NUMA节点代表分布式集群中的一个节点，从而使得客户机得知底层的硬件环境的拓扑结构。我们在客户机中设计一个专用的调度器，它可以动态感知每个NUMA节点下的真实物理节点的负载。当迁移条件满足时（如宿主集群某个节点CPU占用率超过阈值），调度器读取每个节点的负载，选取负载最低的节点，将可迁移任务调度到该NUMA节点上。被迁移的任务虽然不会有下线时间，但是由于分布式共享内存组件的存在，需要对一部分内存页进行迁移，也会造成一定的性能影响。借助于巨型虚拟机，任务的迁移过程有所变化：客户机中的进程向运行在其他NUMA节点的vCPU上迁移等同于进程在集群节点间迁移。如图\ref{fig:schedule}所示，Node0中不可迁移型任务对系统资源占用过高，于是触发了可迁移型任务在巨型虚拟机中的迁移。
 
 对于如何将任务分类为可迁移任务和不可迁移任务，目前的实现是把延迟敏感型任务（LC tasks）作为不可迁移任务，它们不能承受性能的损失（例如一些业务进程，如果延迟提高则会使得收益受到影响），而将尽力而为型任务（BE tasks）作为可迁移任务，其延迟增长对用户的影响不大（例如一些用于开发实验的进程，为了测试未投入使用的代码，或一些数据分析程序）。在图\ref{fig:schedule}中LC型任务即不可迁移任务，BE型任务即可迁移任务。在这样的分类之下，延迟敏感型任务的服务质量将不会受到影响，而尽力而为型任务正好将延迟敏感型任务未使用的资源利用起来：由于延迟敏感型任务无法承受性能损失，系统为其分配了足够多的CPU资源，来应对其可能出现的CPU利用率突增，而事实上大部分时间内这些CPU资源都无法完全利用，于是当延迟敏感型任务占用较低时，巨型虚拟机将尽力而为型任务调度到对应的节点上，填补CPU使用率的空缺，从而提高了集群总体的CPU资源占用率。
@@ -35,9 +36,9 @@
 \begin{figure}[!htp]
   \centering
   \includegraphics[width=6cm]{coarse.png}
-  \bicaption[粗粒度的调度过程]
-    {粗粒度的调度过程}
-    {Coarse Grained Scheduling}}
+  \bicaption[基于巨型虚拟机的粗粒度的调度]
+    {基于巨型虚拟机的粗粒度的调度过程}
+    {Coarse Grained Scheduling Based on GiantVM}}
   \label{fig:coarse}
 \end{figure}
 
@@ -65,7 +66,6 @@
 \State $continue$
 \EndIf
 \State $cpu\_list \gets get\_cpu\_list(min\_stealtime\_node)$
-\State
 \State
 \Call {set\_affinity\_all} {$cpu\_list$}
 \EndWhile

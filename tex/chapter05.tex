@@ -34,34 +34,34 @@
   \end{threeparttable}
 \end{table}
 
-为了测试巨型虚拟机的集群负载平衡能力，我们在Host\,0-3上分别启动了32个Memcached\cite{memcached}服务线程（Memcached Server），分别处理来自于Client\,0-3的Memcached写请求。Client端调用$libmemcached$库，每隔$gauss()$时间发出一批请求。在真实的工作负载中，客户端发送请求的间隔时间呈现高斯分布\footnote{高斯分布是常见的分布，详见https://en.wikipedia.org/wiki/Normal\_distribution}，故我们的客户端也是经过每隔$gauss()$时间发送请求。如图\ref{fig:load}，我们测量了Memcached服务器的工作负载在60秒内的变化情况，颜色越深表示工作负载越高。可以看出，Host\,3工作负载较其他三个Host更低，有大片的白色区域。这些白色区域是巨型虚拟机可以动态填补的区域，将白色区域分配给巨型虚拟机的工作负载将提高整个集群的CPU使用率。
+为了测试巨型虚拟机的集群负载平衡能力，我们在Host\,0-3上分别启动了32个Memcached\cite{memcached}服务线程（Memcached Server），分别处理来自于Client\,0-3的Memcached写请求。Client端调用$libmemcached$库，每隔$gauss()$时间发出一批请求。在真实的工作负载中，客户端发送请求的间隔时间呈现高斯分布\footnote{高斯分布是常见的分布，详见https://en.wikipedia.org/wiki/Normal\_distribution}，故我们的客户端也是经过每隔$gauss()$时间发送请求。如图\ref{fig:load}，我们测量了Memcached服务器的CPU工作负载在60秒内的变化情况，颜色越深表示工作负载越高。可以看出，Host\,3工作负载较其他三个Host更低，有大片的白色区域。这些白色区域是巨型虚拟机可以动态填补的区域，将白色区域分配给巨型虚拟机的工作负载将提高整个集群的CPU使用率。
 
 \begin{figure}[!htp]
   \centering
-  \includegraphics[width=14cm]{load.png}
-  \bicaption[Memcached服务器负载波动]
-    {Memcached服务器负载波动}
-    {Fluctuation of Memcached Server Load}
+  \includegraphics[width=14cm]{load.pdf}
+  \bicaption[Memcached服务器CPU负载波动]
+    {Memcached服务器CPU负载波动}
+    {Fluctuation of Memcached Server CPU Load}
   \label{fig:load}
 \end{figure}
 
-我们在巨型虚拟机中运行phoronix-test-suite\cite{phoronix}的pts/openssl benchmark作为尽力而为型任务，用于动态填补CPU使用率的空缺。Memcached属于延迟敏感型任务，我们测量Memcached的延迟来测量巨型虚拟机对延迟敏感型任务的影响程度。如图\ref{fig:latency}，我们测量了每个Memcached写请求的Latency，并计算了整个过程中产生的所有Latency数据的平均数、95分位数、99分位数，用来全面的观察每个请求的延迟，以及尾延迟，还统计了整个测试过程中的请求处理速度QPS。与巨型虚拟机对比的对象是固定运行在Host\,0上的未修改的QEMU-KVM虚拟机（LC + Vanilla VM），具有8个vCPU，12G内存，以及没有虚拟机只有Memcached服务线程运行的情况（LC only）。可以看出，Vanilla VM对Memcached性能影响十分显著，而从延迟平均值看，巨型虚拟机对Memcached的影响微乎其微，只有在99分位数上有较大的影响。巨型虚拟机也未明显影响Memcached的QPS，每秒仅减少了10个左右的请求。
+我们在巨型虚拟机中运行phoronix-test-suite\cite{phoronix}的pts/openssl benchmark作为尽力而为型任务，用于动态填补CPU使用率的空缺。Memcached属于延迟敏感型任务，我们测量Memcached请求的延迟来测量巨型虚拟机对延迟敏感型任务的影响程度。如图\ref{fig:latency}，我们测量了每个Memcached写请求的Latency，并计算了所有写请求Latency数据的平均数、95分位数、99分位数，用来全面的观察每个请求的延迟，以及尾延迟，还统计了整个测试过程中的请求处理速度QPS。与巨型虚拟机对比的对象是固定运行在Host\,0上的未修改的QEMU-KVM虚拟机（LC + Vanilla VM），具有8个vCPU，12G内存，以及没有虚拟机只有Memcached服务线程运行的情况（LC only）。可以看出，Vanilla VM对Memcached性能影响十分显著，而从延迟平均值看，巨型虚拟机对Memcached的影响微乎其微，只有在99分位数上有较大的影响。巨型虚拟机也未明显影响Memcached的QPS，每秒仅减少了10个左右的请求。
 
 \begin{figure}[!htp]
   \centering
-  \includegraphics[width=15cm]{latency.png}
-  \bicaption[Memcached请求性能比较]
-    {Memcached请求性能比较}
-    {Comparison of Memcached Requests Performance}
+  \includegraphics[width=15cm]{latency.pdf}
+  \bicaption[三种混部条件下Memcached请求性能比较]
+    {三种混部条件下Memcached请求性能比较}
+    {Comparison of Memcached Requests Performance in Three Kinds of Co-location}
   \label{fig:latency}
 \end{figure}
 集群中CPU的负载均衡也是我们的设计目标。为此，我们记录了测试期间Host\,0-3上的CPU占用率变化情况，统计了平均值和基尼系数。如图\ref{fig:cpuload}，相比于只运行Memcached服务线程的情况，Vanilla VM对集群总体的CPU利用率（即CPU的平均占用率）提升小于巨型虚拟机，CPU利用率的基尼系数相较于巨型虚拟机也更高。这是由于巨型虚拟机总是动态地迁移到CPU利用率低的节点，而普通虚拟机无法感知Host上的工作负载。pts/openssl测试结果也符合我们的设想，巨型虚拟机内每秒可完成714个签名（Signs），而普通虚拟机中只能完成708个，这说明，有迁移能力的虚拟机不但维持了宿主机上LC型任务的性能，还保持了客户机内BE型任务的性能。综上，真实环境下的巨型虚拟机调度器达到了设计目标。
 \begin{figure}[!htp]
   \centering
-  \includegraphics[width=16cm]{cpu.png}
-  \bicaption[四个节点的CPU负载情况]
-    {四个节点的CPU负载情况}
-    {CPU Load of the Four Nodes}
+  \includegraphics[width=16cm]{cpu.pdf}
+  \bicaption[三种混部条件下集群CPU负载情况]
+    {三种混部条件下集群CPU负载情况}
+    {CPU Load of the Cluster in Three Kinds of Co-location}
   \label{fig:cpuload}
 \end{figure}
 
@@ -71,10 +71,10 @@
 
 \begin{figure}[!htp]
   \centering
-  \includegraphics[width=14cm]{cpu_gini.png}
-  \bicaption[调度算法CPU平衡效果对比]
-    {调度算法CPU平衡效果对比}
-    {Comparison of Scheduling Algorithms CPU Balancing Performance}
+  \includegraphics[width=14cm]{cpu_gini.pdf}
+  \bicaption[八种调度算法CPU平衡性能对比]
+    {八种调度算法CPU平衡性能对比}
+    {Comparison of Eight Scheduling Algorithms' CPU Balancing Performance}
   \label{fig:cpu_gini}
 \end{figure}
 本文运行仿真脚本的Python版本是Python3.5.2，使用了Google clusterdata-2011-2其中的$task\_events$中part-00000-of-00500.csv到part-00009-of-00500.csv共10个csv数据表，以及$task\_usage$中的part-00000-of-00500.csv共1个csv数据表。我们没有使用更多的数据表，是因为数据加载时间过长，且这一部分数据量已经足够大，具有很好的代表性。
@@ -85,10 +85,10 @@
 
 \begin{figure}[!htp]
   \centering
-  \includegraphics[width=14cm]{dur_over.png}
-  \bicaption[调度算法任务性能对比]
-    {调度算法任务性能对比}
-    {Comparison of Task Performance in Scheduling Algorithms}
+  \includegraphics[width=14cm]{dur_over.pdf}
+  \bicaption[八种调度算法对任务性能影响对比]
+    {八种调度算法对任务性能影响对比}
+    {Comparison of the Impact of Eight Scheduling Algorithms on Task Performance}
   \label{fig:dur_over}
 \end{figure}
 
@@ -97,19 +97,19 @@
 调度算法的网络开销也是我们关注的重点。对于网络带宽占用，我们统计了每个迁移循环的网络开销，并将数据做累积，计算从开始集群仿真到每个迁移循环为止的网络用量。如图\ref{fig:minetwork}，仿真集群开始运行时，网络开销较小，这是由于集群的任务数量尚未填满，无需进行调度。其后进程数量逐渐增多，调度的网络开销也增加，直到最后进程逐渐完成，集群负载再次下降，调度的网络开销也逐渐变小。对不同的调度算法进行对比，粗粒度的调度算法网络开销最大，由于每个循环中迁移的进程数目较多；不做迁移则网络开销为0，按照缓存不命中排序的算法网络开销最小，由于MPI真实地反映了进程频繁访问页面的多少。按照CPU指标排序的算法的网络开销普遍大于按照Memory指标排序的算法，这也是我们预期之内的。
 \begin{figure}[!htp]
   \centering
-  \includegraphics[width=10cm]{network.png}
-  \bicaption[调度算法网络开销对比]
-    {调度算法网络开销对比}
-    {Comparison of Scheduling Algorithms' Network Overhead}
+  \includegraphics[width=12cm]{network.pdf}
+  \bicaption[八种调度算法网络开销对比]
+    {八种调度算法网络开销对比}
+    {Comparison of Eight Scheduling Algorithms' Network Overhead}
   \label{fig:minetwork}
 \end{figure}
 
 \begin{figure}[!htp]
   \centering
-  \includegraphics[width=16cm]{compare.png}
-  \bicaption[变更参数对调度算法的影响]
-    {变更参数对调度算法的影响}
-    {Influences of Parameter Changing to Scheduling Algorithms}
+  \includegraphics[width=16cm]{compare.pdf}
+  \bicaption[变更参数对调度算法性能的影响]
+    {变更参数对调度算法性能的影响}
+    {Influences of Parameter Changing to Scheduling Algorithm Performance}
   \label{fig:comparing}
 \end{figure}
 
@@ -117,12 +117,13 @@
 
 \begin{figure}[!htp]
   \centering
-  \includegraphics[width=16cm]{tasks.png}
-  \bicaption[细粒度调度算法迁移进程分布]
-    {细粒度调度算法迁移进程分布}
+  \includegraphics[width=16cm]{tasks.pdf}
+  \bicaption[细粒度调度算法被迁移进程分布]
+    {细粒度调度算法被迁移进程分布}
     {Distribution of Migrated Task in Fine-Grained Scheduling Algorithm}
   \label{fig:distr}
 \end{figure}
+
 
 最后，我们测试细粒度算法是否需要进行更细粒度的优化。我们选取根据$mem\_usage$排序的细粒度调度算法进行测试，由于其CPU负载平衡性能最佳。如图\ref{fig:distr}，$total\_tasks$表示一个$G\_cell$中所有待迁移的进程，而$move\_to\_first$代表被调度到负载最低的节点上的进程数量，$move\_to\_second$代表被调度到负载第二低的节点上的进程数量，故在每个迁移循环中，有$total\_tasks\,=\,move\_to\_first\,+\,move\_to\_second$。可以看出，对于大小为4的$G\_cell$，$move\_to\_first$已经占据了绝大部分的可迁移进程，而$move\_to\_second$使用了剩余的可迁移进程，故CPU平衡性能较粗粒度的调度算法更好，但不需要考虑负载第三低节点，由于给负载第二低的节点剩余的进程已经很少，可以推知负载第三低节点已经没有可使用的进程。而对于其他大小的$G\_cell$，存在一个最佳的调度粒度，本文尚未进行研究。
 

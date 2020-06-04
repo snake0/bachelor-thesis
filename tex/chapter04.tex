@@ -62,7 +62,7 @@ class Scheduler:
 \end{minipage}
 \end{figure}
 
-\noindent\textbf{进程类（Task）}\quad \label{chap:task}进程类表示一个可以被集群调度的实体，占用集群资源。进程类中的字段有：每个进程的进程号，优先级，CPU使用率上限，和一些时间戳，包括被调度的时刻$schedule$），开始运行的时刻$running\_start$，以及在资源没有被挤兑或抢占时应该获得的运行时间$duration$，还有每个追踪时间段的资源用量列表（包括平均CPU使用率，最大CPU使用率，以及分配给整个容器进程的）。在读取$task\_event$数据时，将$SUBMIT$事件的时间戳填入到Task类的$schedule$字段中，表示进程被调度到某个机器上（不一定开始运行）；将$SCHEDULE$到$FINISH$的时间差填入$duration$字段，表示进程以最充足资源完成所消耗的时间；将CPU使用率上限填入$request$字段。在读取$task\_usage$数据时，将$usage$字段用每个追踪时间段的资源用量列表填满。由于我们没有考虑$EVICT$事件，所以当Machine类中被调度运行的任务的负载总和超过了其真实负载时，我们将该Machine类中所有的Task的$duration$字段在每个时钟周期中加上一个值（见后文介绍）。于是，我们可以通过Task的$duration$字段与等待被调度运行的时间之和（$duration + schedule - running\_start$）判断QoS violation的程度（称作$duration$），即服务质量的影响程度。$duration$表征了一个任务从被调度到运行完成所用的时间，若任务不合理分布则$duration$值较大。
+\noindent\textbf{进程类（Task）}\quad \label{chap:task}进程类表示一个可以被集群调度的实体，占用集群资源。进程类中的字段有：每个进程的进程号，优先级，CPU使用率上限，和一些时间戳，包括被调度的时刻$schedule$），开始运行的时刻$running\_start$，以及在资源没有被挤兑或抢占时应该获得的运行时间$duration$，还有每个追踪时间段的资源用量列表（包括平均CPU使用率，最大CPU使用率，以及分配给整个容器进程的）。在读取$task\_event$数据时，将$SUBMIT$事件的时间戳填入到Task类的$schedule$字段中，表示进程被调度到某个机器上（不一定开始运行）；将$SCHEDULE$到$FINISH$的时间差填入$duration$字段，表示进程以最充足资源完成所消耗的时间；将CPU使用率上限填入$request$字段。在读取$task\_usage$数据时，将$usage$字段用每个追踪时间段的资源用量列表填满。于是，我们可以通过Task的$duration$字段与等待被调度运行的时间之和（$duration + schedule - running\_start$）判断QoS violation的程度（称作$duration$），即服务质量的影响程度。$duration$表征了一个任务从被调度到运行完成所用的时间，若任务不合理分布则$duration$值较大。
 
 \noindent\textbf{机器类（Machine）}\quad \label{chap:machine}机器类表示集群中的一个节点，可以和其他任何节点进行网络通信，具有固定的处理能力和负载能力。机器类中的字段有：机器编号$machine\_id$，被调度到该机器上的的所有进程的集合（分为正在运行）$tasks$、等待被调度运行的进程集合$pending$，以及每台机器的容载能力$cap$和当前的负载$request$。每个机器的容载能力设置为$0.5$。当任务被提交到某个机器上时，如果该机器还可以容纳这个任务的负载，则该任务被加入到$tasks$集合，并且将该进程的负载累加到$request$字段，并将该任务的$running\_start$字段置为当前时间戳；如果机器无法容纳该任务的负载，则将该进程加入到$pending$集合，等待其他任务的完成再开始运行。我们通过Machine类提供的$get\_usage(timestamp)$接口来统计某个时刻机器上所有进程的CPU使用量，即当前机器的负载。我们将本机器的负载与实际容载能力相减（$get\_usage(timestamp) - cap$）来判断机器$overcommit$（超量提供）的程度，从而得知任务负载是否合理分布。$overcommit$表征了机器上任务负载超过其容载能力的情况，若任务不合理分布则$overcommit$值较大。
 
@@ -73,7 +73,7 @@ class Scheduler:
 \subsection{粗粒度调度器的仿真}
 \begin{figure}[!htp]
   \centering
-  \includegraphics[width=8cm]{coarseschedule.png}
+  \includegraphics[width=8cm]{coarseschedule.pdf}
   \bicaption[粗粒度调度器的仿真]
     {粗粒度调度器的仿真}
     {Simulation of Coarse-Grained Scheduler}
@@ -118,14 +118,16 @@ class Scheduler:
 \Function {migrate}{$timestamp$}
 \For{each $G\_cell \in Cluster$}
 \State $lowest\_loaded\_node,\,second\_lowest\_loaded\_node \gets find\_lowests(G\_cell,\, timestamp)$
+\State
 \For{each $node \in (G\_cell - lowest\_loaded\_node - second\_lowest\_loaded\_node)$}
 \State $removed \gets get\_migratable\_tasks(node)$
-\While{$first\_lowest\_can\_hold()\,and\,!remove.empty()$}
+\While{$first\_lowest\_can\_hold()\,and\,!removed.empty()$}
 \State $move\_to\_first.add(removed.pop())$
 \EndWhile
-\While{$second\_lowest\_can\_hold()\,and\,!remove.empty()$}
+\While{$second\_lowest\_can\_hold()\,and\,!removed.empty()$}
 \State $move\_to\_second.add(removed.pop())$
 \EndWhile
+\State
 \If{$is\_useful\_migrate(util(move\_to\_first))$}
 \State $bandwidth\_usage \gets bandwidth\_usage + migrate\_to\_first(move\_to\_first)$
 \EndIf
@@ -164,10 +166,10 @@ class Scheduler:
 \Function {migrate}{$timestamp$}
 \State $...... /* Same \,as\, algorithm\,$\ref{algo:simufine}$\,*/$
 \State $removed \gets get\_sorted\_migratable\_tasks(node,\,sort\_option)$
-\While{$first\_lowest\_can\_hold()\,and\,!remove.empty()$}
+\While{$first\_lowest\_can\_hold()\,and\,!removed.empty()$}
 \State $move\_to\_first.add(removed.pop(0))$
 \EndWhile
-\While{$second\_lowest\_can\_hold()\,and\,!remove.empty()$}
+\While{$second\_lowest\_can\_hold()\,and\,!removed.empty()$}
 \State $move\_to\_second.add(removed.pop(0))$
 \EndWhile
 \State $...... /* Same \,as\, algorithm\,$\ref{algo:simufine}$\,*/$
