@@ -10,7 +10,7 @@
 \section{集群追踪数据简述}
 本文使用的集群追踪数据（trace data）来自于谷歌的Borg集群（称为cell），包含了一个含有12.5k台机器的集群在29天的追踪周期里的运行情况。具体来说，我们用于集群仿真的数据是ClusterData-2011-2，从北美东部夏令时2011年五月一日的19点整开始进行追踪，持续了29天。较长的追踪时间和较大的机器数量保证了追踪数据的代表性和说服力，能够真实地反应分布式集群的任务负载及其调度情况。Borg\cite{borg}是谷歌在2015年提出的分布式集群调度框架，对于一个Borg集群（称为cell），有一个对应的Borg Master，而每个节点上运行一个Borglet，与Borg Master通信，作出资源分配决策。Borglet计算任务负载并将计算结果放在缓存中，并与Borg Master沟通需要进行的操作，但不与Borg Master频繁沟通，为了防止Borg Master负载过重而宕机。Borg使用容器做到了资源的细粒度分配与限制，资源用量数据通过容器来测量。追踪数据分为对以下几个方面的数据的记录：机器事件（机器加入或离开集群，以及配置更新）、机器属性（包含对机器内核版本、硬件配置、网络配置等多个属性），以及作业（Job）和任务（Task）事件表，记录了作业和任务的生命周期，以及任务在各个采样时间段的资源用量情况。在任何一组数据中，都含有一个或几个时间戳。追踪数据中的时间戳是一个64位的无符号整数，从追踪时间段的前600秒算起，这是为了支持两个特殊时间戳：0代表发生在追踪时间段之前的事件，而$2^{64}-1$（最大的64位无符号数）表示发生在追踪时间段之后的事件。丰富的数据类型对集群的工作状态进行了详细的描述，利用这些数据可以完整地复现一个真实大小的集群，相比于在真实集群上进行测试，可以相当快速地完成模拟。
 
-本文主要使用追踪数据中的两组数据来模拟不同的调度策略：$task\_usage$，每个采样时刻的任务资源用量数据和$task\_event$，任务调度状态变更事件数据。在每一条$task\_usage$数据是各个采样间隔的任务资源用量数据，需要关注的字段有：（1）采样时间段的起始时间和终止时间，（2）任务号，进程号，用于标识一个唯一的进程。（3）平均CPU使用率，最大CPU使用率，（4）用户可访问的内存页数目、最大用户可访问内存页数目、分配给整个容器进程的内存页数目（包括部分用户不可访问的内核页面）。这些数据都是通过测量容器的内存占用量获得的。（5）performance counter相关数据，CPI是平均每条指令花费的CPU周期数，MPI是平均每条指令访问内存的次数。注意，所有资源用量数据均是对最大值标准化过的，例如，所有进程的CPU使用量是1，2，3，4，则在数据中是1/4，2/4，3/4，4/4。在每一条$task\_event$数据是任务事件（包括$SUBMIT$、$SCHEDULE$、$EVICT$、$FAIL$、$FINISH$等）的列表，需要关注的字段有：（1）任务事件发生的时间戳，记录了该任务事件发生的时间点。（2）任务号，进程号，用于标识一个唯一的进程。（3）任务优先级。在追踪数据中，任务的优先级最高为11，最低为0，优先级高的进程可以抢占优先级低的进程的资源。其中几个特殊的优先级有：空闲优先级（0-1），这是最低的优先级，基本不要求资源；产品优先级（9-11），是集群中最高的优先级，调度器避免这个优先级的进程资源被挤占；监控优先级（12），用于监控其他任务的健康状况。（4）CPU、内存资源请求量：进程使用资源的上限，超过这个限制的进程会被限制或杀死。（5）事件类型：标识了进程生命周期中的事件类型。主要的进程事件有：（1）$SUBMIT$：进入$PENDING$状态，进程有资格被调度运行；（2）$SCHEDULE$：进程被调度运行进入$RUNNING$状态，开始真正的占用系统资源（3）$FINISH$：进程正常退出，由$RUNNING$状态变为$DEAD$状态。
+本文主要使用追踪数据中的两组数据来模拟不同的调度策略：$task\_usage$，每个采样时刻的任务资源用量数据和$task\_events$，任务调度状态变更事件数据。在每一条$task\_usage$数据是各个采样间隔的任务资源用量数据，需要关注的字段有：（1）采样时间段的起始时间和终止时间，（2）任务号，进程号，用于标识一个唯一的进程。（3）平均CPU使用率，最大CPU使用率，（4）用户可访问的内存页数目、最大用户可访问内存页数目、分配给整个容器进程的内存页数目（包括部分用户不可访问的内核页面）。这些数据都是通过测量容器的内存占用量获得的。（5）performance counter相关数据，CPI是平均每条指令花费的CPU周期数，MPI是平均每条指令访问内存的次数。注意，所有资源用量数据均是对最大值标准化过的，例如，所有进程的CPU使用量是1，2，3，4，则在数据中是1/4，2/4，3/4，4/4。在每一条$task\_events$数据是任务事件（包括$SUBMIT$、$SCHEDULE$、$EVICT$、$FAIL$、$FINISH$等）的列表，需要关注的字段有：（1）任务事件发生的时间戳，记录了该任务事件发生的时间点。（2）任务号，进程号，用于标识一个唯一的进程。（3）任务优先级。在追踪数据中，任务的优先级最高为11，最低为0，优先级高的进程可以抢占优先级低的进程的资源。其中几个特殊的优先级有：空闲优先级（0-1），这是最低的优先级，基本不要求资源；产品优先级（9-11），是集群中最高的优先级，调度器避免这个优先级的进程资源被挤占；监控优先级（12），用于监控其他任务的健康状况。（4）CPU、内存资源请求量：进程使用资源的上限，超过这个限制的进程会被限制或杀死。（5）事件类型：标识了进程生命周期中的事件类型。主要的进程事件有：（1）$SUBMIT$：进入$PENDING$状态，进程有资格被调度运行；（2）$SCHEDULE$：进程被调度运行进入$RUNNING$状态，开始真正的占用系统资源（3）$FINISH$：进程正常退出，由$RUNNING$状态变为$DEAD$状态。
 
 \section{粗粒度调度器的仿真}
 做集群模拟之前，需要做一些简化假设：
@@ -26,12 +26,26 @@
 在上述假设成立的条件下，我们用Python脚本（simulator.py）模块化地设计如下仿真系统：
 \begin{figure}
 \centering
-\begin{minipage}[c]{0.62\textwidth}
+\begin{minipage}[c]{0.55\textwidth}
+\begin{lstlisting}[language=python]
+class Scheduler:
+    def __init__(self):
+        self.machines = []
+        self.average = []
+        self.gini = []
+        self.exceeded_load = []
+        self.machines=[Machine(i) 
+          for i in range(n_machines)]
+        self.migration_mem = 0.0
+\end{lstlisting}
+\end{minipage}
+\begin{minipage}[c]{0.55\textwidth}
 \begin{lstlisting}[language=python]
 class Task:
     def __init__(self, task_id, duration,
         priority, request, usage):
-        self.running_start, self.schedule = 0, 0
+        self.running_start = 0
+        self.schedule = 0
         self.duration = duration
         self.priority = priority
         self.request = request
@@ -49,26 +63,15 @@ class Machine:
         self.request = 0.0
 \end{lstlisting}
 \end{minipage}
-\begin{minipage}[c]{0.8\textwidth}
-
-\begin{lstlisting}[language=python]
-class Scheduler:
-    def __init__(self):
-        self.machines,self.average = [],[]
-        self.gini, self.exceeded_load = [], []
-        self.machines=[Machine(i) for i in range(n_machines)]
-        self.migration_mem = 0.0
-\end{lstlisting}
-\end{minipage}
 \end{figure}
 
-\noindent\textbf{进程类（Task）}\quad \label{chap:task}进程类表示一个可以被集群调度的实体，占用集群资源。进程类中的字段有：每个进程的进程号，优先级，CPU使用率上限，和一些时间戳，包括被调度的时刻$schedule$），开始运行的时刻$running\_start$，以及在资源没有被挤兑或抢占时应该获得的运行时间$duration$，还有每个追踪时间段的资源用量列表（包括平均CPU使用率，最大CPU使用率，以及分配给整个容器进程的）。在读取$task\_event$数据时，将$SUBMIT$事件的时间戳填入到Task类的$schedule$字段中，表示进程被调度到某个机器上（不一定开始运行）；将$SCHEDULE$到$FINISH$的时间差填入$duration$字段，表示进程以最充足资源完成所消耗的时间；将CPU使用率上限填入$request$字段。在读取$task\_usage$数据时，将$usage$字段用每个追踪时间段的资源用量列表填满。于是，我们可以通过Task的$duration$字段与等待被调度运行的时间之和（$duration + schedule - running\_start$）判断QoS violation的程度（称作$duration$），即服务质量的影响程度。$duration$表征了一个任务从被调度到运行完成所用的时间，若任务不合理分布则$duration$值较大。
+\noindent\textbf{进程类（Task）}\quad \label{chap:task}进程类表示一个可以被集群调度的实体，占用集群资源。进程类中的字段有：每个进程的进程号，优先级，CPU使用率上限，和一些时间戳，包括被调度的时刻$schedule$），开始运行的时刻$running\_start$，以及在资源没有被挤兑或抢占时应该获得的运行时间$duration$，还有每个追踪时间段的资源用量列表（包括平均CPU使用率，最大CPU使用率，以及分配给整个容器进程的）。在读取$task\_events$数据时，将$SUBMIT$事件的时间戳填入到Task类的$schedule$字段中，表示进程被调度到某个机器上（不一定开始运行）；将$SCHEDULE$到$FINISH$的时间差填入$duration$字段，表示进程以最充足资源完成所消耗的时间；将CPU使用率上限填入$request$字段。在读取$task\_usage$数据时，将$usage$字段用每个追踪时间段的资源用量列表填满。于是，我们可以通过Task的$duration$字段与等待被调度运行的时间之和（$duration + schedule - running\_start$）判断QoS violation的程度（称作$duration$），即服务质量的影响程度。$duration$表征了一个任务从被调度到运行完成所用的时间，若任务不合理分布则$duration$值较大。
 
 \noindent\textbf{机器类（Machine）}\quad \label{chap:machine}机器类表示集群中的一个节点，可以和其他任何节点进行网络通信，具有固定的处理能力和负载能力。机器类中的字段有：机器编号$machine\_id$，被调度到该机器上的的所有进程的集合（分为正在运行）$tasks$、等待被调度运行的进程集合$pending$，以及每台机器的容载能力$cap$和当前的负载$request$。每个机器的容载能力设置为$0.5$。当任务被提交到某个机器上时，如果该机器还可以容纳这个任务的负载，则该任务被加入到$tasks$集合，并且将该进程的负载累加到$request$字段，并将该任务的$running\_start$字段置为当前时间戳；如果机器无法容纳该任务的负载，则将该进程加入到$pending$集合，等待其他任务的完成再开始运行。我们通过Machine类提供的$get\_usage(timestamp)$接口来统计某个时刻机器上所有进程的CPU使用量，即当前机器的负载。我们将本机器的负载与实际容载能力相减（$get\_usage(timestamp) - cap$）来判断机器$overcommit$（超量提供）的程度，从而得知任务负载是否合理分布。$overcommit$表征了机器上任务负载超过其容载能力的情况，若任务不合理分布则$overcommit$值较大。
 
 \noindent\textbf{调度器类（Scheduler）}\quad \label{chap:scheduler}这是模拟系统中的核心类，是整个集群的任务调度器。在任务调度器类被创建时，它初始化其所拥有的所有机器类。它包含一个$schedule()$接口，用于随机地向机器提交可供运行的任务，任务被随机且均匀地提交到所有的机器上。它还包含一个$migrate()$接口，用于在每个迁移周期中进行任务的重新均衡，即模拟了巨型虚拟机的任务迁移功能。本章通过$migrate()$接口实现并测试了不同的调度算法。调度器类输出整个调度过程的结果，包括前文所述的$duration$和$overcommit$，还包括整个集群的平均CPU使用率，集群每个机器的平均CPU使用率的数组的基尼系数（基尼系数越低则集群任务负载的分布越均衡），以及整个迁移过程的网络开销$migration\_mem$（单位：kb/s）。我们的目标是，相较于随机调度的集群，有巨型虚拟机负载均衡功能的集群具有更高的平均CPU使用率，具有更低的基尼系数，更低的$duration$和$overcommit$。而对于不同的巨型虚拟机调度策略，更好的调度策略除了达成以上三个目的之外，还要具有更低的网络开销。
 
-除此之外，还有不属于任何类的$parse\_input()$函数和$simulate()$函数。$parse\_input()$函数负责读取$task\_event$数据和$task\_usage$数据，填充所有Task类，并初始化所有相关数据结构；$simulate()$函数负责遍历整个追踪过程中所有的时间戳，将每一个时间戳上$SUBMIT$的任务调度到任意的节点上，每隔一个$INTERVAL$执行平衡函数$migrate()$（与不执行该调度函数相对比）。在每个时间戳上，还要调用Scheduler类提供的$record\_and\_update\_duration()$和$process()$接口，更新机器上任务的状态（如某个任务$FINISH$，从机器的tasks中退出），并且更新各个统计数据。
+除此之外，还有不属于任何类的$parse\_input()$函数和$simulate()$函数。$parse\_input()$函数负责读取$task\_events$数据和$task\_usage$数据，填充所有Task类，并初始化所有相关数据结构；$simulate()$函数负责遍历整个追踪过程中所有的时间戳，将每一个时间戳上$SUBMIT$的任务调度到任意的节点上，每隔一个$INTERVAL$执行平衡函数$migrate()$（与不执行该调度函数相对比）。在每个时间戳上，还要调用Scheduler类提供的$record\_and\_update\_duration()$和$process()$接口，更新机器上任务的状态（如某个任务$FINISH$，从机器的tasks中退出），并且更新各个统计数据。
 
 \subsection{粗粒度调度器的仿真}
 \begin{figure}[!htp]
@@ -85,10 +88,12 @@ class Scheduler:
 \begin{algorithmic}[1]
 \Function {migrate}{$timestamp$}
 \For{each $G\_cell \in Cluster$}
-\State $lowest\_loaded\_node \gets find\_lowest\_loaded\_node(G\_cell,\, timestamp)$
+\State $lowest\_loaded\_node \gets find\_lowest\_loaded\_node(G\_cell,\  timestamp)$
 \For{each $node \in (G\_cell - lowest\_loaded\_node)$}
-\State $util\_diff,\, removed \gets get\_migratable\_tasks(node)$
-\If{$is\_useful\_migrate(util\_diff,\, removed)$}
+\State $/*\ Get\ migratable\ tasks\ */$
+\State $util\_diff,\  removed \gets get\_migratable\_tasks(node)$
+\State $/*\ No\ migrate\ if\ cannot\ migrate\ or\ profit\ is\ little\ */$
+\If{$is\_useful\_migrate(util\_diff,\  removed)$}
 \State $bandwidth\_usage \gets bandwidth\_usage + migrate\_to\_node(removed)$
 \EndIf
 \EndFor
@@ -117,17 +122,19 @@ class Scheduler:
 \begin{algorithmic}[1]
 \Function {migrate}{$timestamp$}
 \For{each $G\_cell \in Cluster$}
-\State $lowest\_loaded\_node,\,second\_lowest\_loaded\_node \gets find\_lowests(G\_cell,\, timestamp)$
+\State $lowest\_loaded\_node,\ second\_lowest\_loaded\_node \gets find\_lowests(G\_cell,\  timestamp)$
 \State
 \For{each $node \in (G\_cell - lowest\_loaded\_node - second\_lowest\_loaded\_node)$}
+\State $/*\ Get\ migratable\ tasks\ while\ target\ nodes\ can\ hold\ */$
 \State $removed \gets get\_migratable\_tasks(node)$
-\While{$first\_lowest\_can\_hold()\,and\,!removed.empty()$}
+\While{$first\_lowest\_can\_hold()\ and\ !removed.empty()$}
 \State $move\_to\_first.add(removed.pop())$
 \EndWhile
-\While{$second\_lowest\_can\_hold()\,and\,!removed.empty()$}
+\While{$second\_lowest\_can\_hold()\ and\ !removed.empty()$}
 \State $move\_to\_second.add(removed.pop())$
 \EndWhile
 \State
+\State $/*\ No\ migrate\ if\ profit\ is\ little\ */$
 \If{$is\_useful\_migrate(util(move\_to\_first))$}
 \State $bandwidth\_usage \gets bandwidth\_usage + migrate\_to\_first(move\_to\_first)$
 \EndIf
@@ -146,7 +153,7 @@ class Scheduler:
 \subsection{排序的细粒度调度算法}
 在众多的调度器中，排序是提高调度器效率的重要方法，例如Linux\cite{linux}的完全公平调度器使用红黑树将进程按照$vruntime$排序，使得进程公平地拥有运行时间。在巨型虚拟机的调度算法中，依然可以应用排序。根据谷歌提供的集群追踪数据，我们有两种排序的方案：
 
-\noindent\textbf{根据CPU数据排序}\quad 谷歌的集群追踪数据中可用于CPU使用情况排序的数据有：$task\_usage$表中的进程每个时刻的CPU使用率$Task.usage[cpu]$，以及$task\_event$表中进程CPU使用率上限$Task.request$。我们认为，将CPU使用率较低的进程优先调度有助于提高集群的CPU使用率。举例而言，假设最低的节点剩余的CPU负载能力为1，而可供迁移的进程的CPU使用量是0.6，0.45，0.43。如果按照CPU使用率高的进程优先调度，则被迁移到负载最低节点上的进程为0.6，还剩余0.4未占用的CPU负载能力；如果按照CPU使用率低的进程优先调度，则进程0.45，0.43被调度，占用了0.87的空闲CPU，高于按照CPU使用率高的优先调度的情况。这是因为CPU使用率高的进程会在空余的CPU负载能力中造成较大的碎片，例如在这个例子中，0.6的进程造成了0.4的碎片，是空闲CPU使用量的40\%。事实上，向空余CPU中填充进程的问题是一个背包问题，即：背包可以容纳重量为1的物品，每件物品的价值和重量相等，分别为0.6，0.45，0.43。背包问题一个NP完全问题，本文优先调度CPU占用较低的进程，用贪心法求得近似解。对于表征CPU使用量的数据选取，我们认为$Task.usage[cpu]$比$Task.request$更具有代表性，因为$Task.usage$是实时获取的数据，更有利于动态计算集群中的任务负载情况。
+\noindent\textbf{根据CPU数据排序}\quad 谷歌的集群追踪数据中可用于CPU使用情况排序的数据有：$task\_usage$表中的进程每个时刻的CPU使用率$Task.usage[cpu]$，以及$task\_events$表中进程CPU使用率上限$Task.request$。我们认为，将CPU使用率较低的进程优先调度有助于提高集群的CPU使用率。举例而言，假设最低的节点剩余的CPU负载能力为1，而可供迁移的进程的CPU使用量是0.6，0.45，0.43。如果CPU使用率高的进程优先调度，则被迁移到负载最低节点上的进程为0.6，还剩余0.4未占用的CPU负载能力；如果CPU使用率低的进程优先调度，则进程0.45，0.43被调度，占用了0.87的空闲CPU，高于按照CPU使用率高的优先调度的情况。这是因为CPU使用率高的进程会在空余的CPU负载能力中造成较大的碎片，例如在这个例子中，0.6的进程造成了0.4的碎片，是空闲CPU使用量的40\%。假如可迁移进程的CPU使用量分别是1.1，0.9，0.1，那么如果CPU使用率高的进程优先调度，则不会有进程被调度；而CPU使用率低的进程优先调度则可以占满所有空闲的CPU。事实上，向空余CPU中填充进程的问题是一个背包问题，即：背包可以容纳重量为1的物品，每件物品的价值和重量相等，分别为0.6，0.45，0.43。背包问题一个NP完全问题，本文优先调度CPU占用较低的进程，用贪心法求得近似解。对于表征CPU使用量的数据的选取，我们认为$Task.usage[cpu]$比$Task.request$更具有代表性，因为$Task.usage$是实时获取的数据，更有利于动态计算集群中的任务负载情况。
 
 \noindent\textbf{根据内存数据排序}\quad 对内存使用情况进行排序的主要目的是降低网络的开销。我们使用的谷歌的集群追踪数据主要提供了进程的两个内存使用情况的数据：$Task.usage[memory]$每个时刻下进程容器所使用的总的内存页数量，称作assigned memory，包含该任务的用户态和内核态页面，也是谷歌Borg集群中容器迁移所要迁移的真正的页面数量（见\ref{chap:containermigration}节的背景介绍）；$Task.usage[MPI]$，平均每条指令的访存次数（memory accesses per instruction），通过performance counter获得\footnote{performance counter\cite{perf}是CPU硬件上的一组寄存器，记录了各类硬件事件，包括分支预测错误、缓存不命中次数、指令执行次数等。}。一个进程所拥有的内存页的数量与缓存不命中的频率有一些关联度（正相关），但关联度不是很高：CPU密集型任务拥有的内存页较少，MPI也较低；内存密集型任务的MPI较高，但其经常访问的内存页的数目不一定大，也存在拥有大量内存页的进程的MPI较低的情况，故MPI反映了进程频繁访问内存页面的数量。如果优先调度内存占用$Task.usage[memory]$或$Task.usage[MPI]$高的进程，将会有效地减小迁移的网络开销。由于细粒度的调度器将可调度进程分为两组（在真实情况下，巨型虚拟机的任务将在两个NUMA节点上运行），这两组进程可能会产生大量的共享内存访问（见\ref{chap:memm}节）。但是由于谷歌的追踪数据未提供进程访问内存的具体位置，所以我们无法对此情况进行仿真。
 
@@ -164,15 +171,15 @@ class Scheduler:
 \begin{algorithm}[h]
 \begin{algorithmic}[1]
 \Function {migrate}{$timestamp$}
-\State $...... /* Same \,as\, algorithm\,$\ref{algo:simufine}$\,*/$
-\State $removed \gets get\_sorted\_migratable\_tasks(node,\,sort\_option)$
-\While{$first\_lowest\_can\_hold()\,and\,!removed.empty()$}
+\State $...... /* Same \ as\  algorithm\ $\ref{algo:simufine}$\ */$
+\State $removed \gets get\_sorted\_migratable\_tasks(node,\ sort\_option)$
+\While{$first\_lowest\_can\_hold()\ and\ !removed.empty()$}
 \State $move\_to\_first.add(removed.pop(0))$
 \EndWhile
-\While{$second\_lowest\_can\_hold()\,and\,!removed.empty()$}
+\While{$second\_lowest\_can\_hold()\ and\ !removed.empty()$}
 \State $move\_to\_second.add(removed.pop(0))$
 \EndWhile
-\State $...... /* Same \,as\, algorithm\,$\ref{algo:simufine}$\,*/$
+\State $...... /* Same \ as\  algorithm\ $\ref{algo:simufine}$\ */$
 \end{algorithmic}
 \caption{排序的细粒度调度器}
 \label{algo:sorted}

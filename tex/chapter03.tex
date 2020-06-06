@@ -44,7 +44,11 @@
 
 \begin{algorithm}[h]
 \begin{algorithmic}[ruled,1]
-\Function {set\_affinity\_all}{$node\_cpu\_list$}
+\Function {set\_affinity\_all}{$node$}
+\If{$current\_node &= &= node$}
+\State $return$
+\EndIf
+\State $node\_cpu\_list \gets get\_node\_cpu\_list(node)$
 \For{each $task, irq, wq\in OS$}
 \State
 \Call{set\_affinity}{$task, node\_cpu\_list$}
@@ -53,21 +57,23 @@
 \State
 \Call{set\_affinity}{$wq, node\_cpu\_list$}
 \EndFor
+\State $current\_node \gets node$
 \EndFunction
 \State
+\State $/*\ At\ system\ start,\ pin\ all\ tasks\ to\ node0\ to\ boot\ faster\ */$
 \State
-\Call {set\_affinity\_all}{$node0\_cpu\_list$}
+\Call {set\_affinity\_all}{$node0$}
 \State
 \While{true}
 \State
 \Call {sleep}{$INTERVAL$}
-\State $min\_stealtime,\,min\_stealtime\_node \gets find\_min\_stealtime\_node()$
-\If {$this\_node &= &= min\_stealtime\_node \lor this\_node\_stealtime < threshold$}
+\If {$current\_node.stealtime < 50$}
 \State $continue$
 \EndIf
-\State $cpu\_list \gets get\_cpu\_list(min\_stealtime\_node)$
+\State $/* Migration\ is\ triggered */$
+\State $min\_stealtime\_node \gets find\_min\_stealtime\_node()$
 \State
-\Call {set\_affinity\_all} {$cpu\_list$}
+\Call {set\_affinity\_all} {$min\_stealtime\_node$}
 \EndWhile
 \end{algorithmic}
 \caption{粗粒度进程调度算法}
@@ -75,12 +81,22 @@
 \end{algorithm}
 事实上，上节所述的调度机制应当使用C代码来实现，即在Linux内核中添加一个新的调度器类（Linux内核中有多种调度算法，每种调度算法自成一个调度器类，由核心调度器调用。现有的调度类有完全公平调度类、实时调度类、空闲调度类）。然而操作系统已经给用户层提供了足够多的接口来实现我们所说的调度策略，而增添一个新的调度器类工作量较大，调试各类参数比较困难，故我们选择使用shell脚本实现调度算法。目前在Linux上使用shell脚本实现了一个粗粒度的调度算法，而细粒度调度算法将作为未来的工作。
 
-对于粗粒度的调度算法，如图\ref{fig:coarse}，我们通常将巨型虚拟机部署在四个节点上，只需要找到四个NUMA节点中宿主机占用最低的节点，将客户机中所有的任务迁移到该NUMA节点上即可（颜色深的节点代表其负载较高）。客户机中调度脚本的实现如算法\ref{algo:coarse}所示，对应的bash脚本是rebalance.sh。我们设置rebalance.sh作为系统启动项，系统启动时，调用$set\_affinity\_all()$使得OS中所有的进程都运行在Node0上，Node之间无需做网络通信，缩短了启动时间。此后，每个调度周期中，读取两次累计的steal time做差得到该时段内的steal time，如果当前所有进程运行的节点的steal time超过了一个阈值（50个节拍），即触发迁移，调用$set\_affinity\_all()$将所有进程固定在steal time最低的节点上。虽然这样减少了客户机中进程可以使用的虚拟CPU个数，但是最大程度的减少了网络的开销，由于任何两个NUMA节点之间无需共享内存数据，而只有一个NUMA节点上有任务在运行。
+对于粗粒度的调度算法，如图\ref{fig:coarse}，我们通常将巨型虚拟机部署在四个节点上，只需要找到四个NUMA节点中宿主机占用最低的节点，将客户机中所有的任务迁移到该NUMA节点上即可（颜色深的节点代表其负载较高）。客户机中调度脚本的实现如算法\ref{algo:coarse}所示，对应的bash脚本是rebalance.sh。我们设置rebalance.sh作为系统启动项，系统启动时，调用$set\_affinity\_all()$使得OS中所有的活动都运行在Node0上，Node之间无需做网络通信，缩短了启动时间。此后，每个调度周期中，读取两次累计的steal time做差得到该时段内的steal time，如果当前所有进程运行的节点的steal time超过了一个阈值（50个节拍），即触发迁移，调用$set\_affinity\_all()$将所有OS活动固定在steal time最低的节点上。虽然这样减少了客户机中进程可以使用的虚拟CPU个数，但是最大程度的减少了网络的开销，由于任何两个NUMA节点之间无需共享内存数据，而只有一个NUMA节点上有任务在运行。
 
-/proc文件夹是Linux内核为用户态程序提供内核信息的文件夹，用户态程序也可通过写入/proc文件夹中的某个文件更改内核的配置。在本文中，我们读取/proc/stat文件的内容完成两个功能：一是获取宿主机节点上的CPU使用率，二是在客户机操作系统中获取steal time。/proc/stat文件包含了自系统启动以来累计的CPU节拍数，CPU空闲的节拍数，以及因为虚拟化所产生的累计的steal time。steal time指虚拟CPU等待物理CPU执行其他宿主机指令或者其他虚拟CPU的时间，直接向客户机反映了宿主机的工作负载状态。这样客户机的运行将被该脚本所控制。进程调度通过taskset指令实现，其本质是修改了task\_struct中的cpumask，即修改了进程可以运行的CPU列表。同时为了最小化NUMA节点之间的内存共享，我们将中断全部发送给该选中的NUMA节点的CPU上（通过写入/proc/irq文件），也将所有workqueue固定在这些CPU上。
+$/proc$文件夹是Linux内核为用户态程序提供内核信息的文件夹，用户态程序也可通过写入$/proc$文件夹中的某个文件更改内核的配置。在本文中，我们读取$/proc/stat$文件的内容完成两个功能：一是获取宿主机节点上的CPU使用率，二是在客户机操作系统中获取$steal time$。$/proc/stat$文件包含了自系统启动以来累计的CPU节拍数，CPU空闲的节拍数，以及因为虚拟化所产生的累计的$steal time$。$steal time$指虚拟CPU等待物理CPU执行其他宿主机指令或者其他虚拟CPU的时间，直接向客户机反映了宿主机的工作负载状态。在得知了$steal time$最低的节点之后，我们应当尽可能地让所有的Guest OS活动都运行在$steal time$最低的节点上。在Linux中，可以设定CPU affinity（CPU亲和性）的OS活动有\footnote{见内核文档https://www.kernel.org/doc/Documentation/kernel-per-CPU-kthreads.txt的介绍}：
+
+（1）$task\_struct$进程线程：可以通过$taskset$命令或者$sched\_setaffinity()$系统调用使得所有的进程线程都运行在指定的CPU列表上，其实现是通过修改$task\_struct$中的$cpu\_mask$这个位图来限制进程线程运行的CPU列表。这类方法无法设定一些内核线程的CPU亲和性，例如$ksoftirqd$， $kworker$等；
+
+（2）$irq$中断处理函数：中断处理函数不对应于任何一个$task\_struct$，故$taskset$无法设定其CPU亲和性。可以在停止$irqbalance$服务（该服务会在所有CPU核上对中断做负载均衡）后，写入/proc/irq/[0-9]+/smp\_affinity文件来限制中断处理函数可以运行的CPU；
+
+（3）$workqueue$工作队列：有一些$workqueue$在$alloc\_workqueue()$时使用了参数$WQ\_SYSFS$，使得我们可以通过$sysfs$文件系统得知其状态。我们通过修改/sys/devices/virtual/workqueue/*/cpumask来设置$workqueue$的CPU亲和性；
+
+（4）时钟中断：当时钟中断发生时，客户机的vCPU访问了很多内存页，导致这部分内存页在节点之间来回传输。虽然tickless kernel不向空闲的CPU发送时钟中断，但是系统中必须有一个非tickless的CPU，来完成系统中的计时工作。根据内核文档的描述，设置内核编译选项CONFIG\_HOTPLUG\_CPU=y后，将空闲node上的vCPU全部下线$offline$，而系统不会向下线的vCPU发送中断。但是我们无法得知下线vCPU的$steal time$，故本文未采用这一方案。
 
 \subsection{性能优势}
 巨型虚拟机的进程调度等价于虚拟机热迁移，且迁移开销较低，没有下线时间，比较适合资源重分配的集群负载平衡方式（见第\ref{chap:reallocation}节，资源重分配同步于系统中频繁变化的负载，迁移的频率较高）。当巨型虚拟机中的进程被taskset到某一节点上时，由于分布式共享内存模块的内存同步协议，会产生大量的EPT缺页异常，会使得被迁移任务的服务质量严重下降。发生EPT缺页异常后，分布式共享内存模块开始传输该进程的页，直到该进程频繁访问的页被完全传输到目标节点。虽然巨型虚拟机的进程调度会经历如此的性能下降，但是其开销还是远小于虚拟机热迁移的开销，因为分布式共享内存只会在各个节点之间传输被频繁修改的页。根据第\ref{chap:mem}节对于进程虚拟内存空间分布的分析，我们以客户机的物理页为中心讨论巨型虚拟机相比于虚拟机热迁移无需传输哪些页（EPT将客户机物理页映射到宿主机物理页，故讨论客户机物理页即是讨论宿主机物理）：（1）所有被客户机内进程映射为只读的客户机物理页，包括内核态和用户态的.text 段和.rodata段。（2）未被映射进入任何客户机进程的虚拟地址空间以及内核虚拟地址空间的物理页。（3）Linux进程有一个当前进程频繁访问的物理页面的集合。由于数据访问的局部性（data/space locality），进程通常有一个固定大小频繁访问的内存区域，故客户机有部分物理内存虽然被映射进入某个虚拟地址空间，但进程很少访问它们。以上三类页面是虚拟机热迁移过程中无法区分的，在迁移一个完整的虚拟机时，必须将其所有使用的宿主机物理页面全部进行迁移。
+
+综上，相比于虚拟机热迁移，巨型虚拟机的进程调度开销较小，且只需在客户机中添加一个调度脚本，原有软件可以无需修改地运行在客户机上，且通过读取$steal time$动态感知工作负载，将所有客户机进程迁移到负载最低的节点上，所以达成了设计目标。
 
 \section{本章小结}
 本章提出了三个集群调度器的设计理念，并且描述了如何使用巨型虚拟机完成集群调度功能，以及其shell脚本实现的粗粒度进程调度算法，动态感知负载情况。本章设计的shell脚本的实现可以在任何Linux操作系统中部署，无需修改现有软件，并且相比于虚拟机热迁移大大缩减了被迁移的页面数量，有较高的迁移性能，且无下线时间，达到了本章开始设定的设计目标。
