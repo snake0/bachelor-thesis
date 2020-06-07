@@ -163,7 +163,7 @@
 }
 % Title Settings at the subection Level
 \ctexset{subsection={
-	format={\large\songti},
+	format={\large\heiti},
 	indent={0\ccwd},
 	afterskip={1.0ex \@plus .2ex},
 	}
