@@ -46,7 +46,7 @@
   \label{fig:load}
 \end{figure}
 
-我们在巨型虚拟机中运行phoronix-test-suite\cite{phoronix}的pts/openssl benchmark作为尽力而为型任务，用于动态填补CPU使用率的空缺。Memcached属于延迟敏感型任务，我们测量Memcached请求的延迟来测量巨型虚拟机对延迟敏感型任务的影响程度。如图\ref{fig:latency}，我们测量了每个Memcached写请求的Latency，并计算了所有写请求的Latency的平均数、95分位数、99分位数，用来全面的观察每个请求的延迟，以及尾延迟，还统计了整个测试过程中的请求处理速度QPS（每秒请求数）。与巨型虚拟机对比的对象是固定运行在Host\,0上的未修改的QEMU-KVM虚拟机（LC + Vanilla VM，这个虚拟机具有8个vCPU，12G内存），以及没有虚拟机只有Memcached服务线程运行的情况（LC only）。可以看出，Vanilla VM对Memcached性能影响十分显著，而从延迟平均值看，巨型虚拟机对Memcached的影响较小，只有在99分位数上有较大的影响。巨型虚拟机也未明显影响Memcached的QPS，平均每秒仅减少了10个左右的请求。
+我们在巨型虚拟机中运行phoronix-test-suite\cite{phoronix}的pts/openssl benchmark作为尽力而为型任务，用于动态填补CPU使用率的空缺。Memcached属于延迟敏感型任务，我们测量Memcached请求的延迟来测量巨型虚拟机对延迟敏感型任务的影响程度。如图\ref{fig:latency}，我们测量了每个Memcached写请求的Latency，并计算了所有写请求的Latency的平均数、95分位数、99分位数，用来全面的观察每个请求的延迟，以及尾延迟，还统计了整个测试过程中的请求处理速度QPS（每秒请求数）。与巨型虚拟机对比的对象是固定运行在Host\,0上的未修改的QEMU-KVM虚拟机（LC + Vanilla VM，这个虚拟机具有8个vCPU，12G内存），以及没有虚拟机只有Memcached服务线程运行的情况（LC only）。可以看出，Vanilla VM对Memcached的性能影响十分显著，而从延迟平均值看，巨型虚拟机对Memcached的影响较小，只有在99分位数上有较大的影响。巨型虚拟机也未明显影响Memcached的QPS，平均每秒仅减少了10个左右的请求。
 
 \begin{figure}[!htp]
   \centering
@@ -73,21 +73,19 @@
 
 \begin{figure}[!htp]
   \centering
-  \includegraphics[width=14cm]{cpu_gini.pdf}
+  \includegraphics[width=13cm]{cpu_gini.pdf}
   \bicaption[八种调度算法CPU平衡性能对比]
     {八种调度算法CPU平衡性能对比}
     {Comparison of Eight Scheduling Algorithms' CPU Balancing Performance}
   \label{fig:cpu_gini}
 \end{figure}
-本文运行仿真脚本的Python版本是Python3.5.2，使用了Google clusterdata-2011-2其中的$task\_events$中part-00000-of-00500.csv到part-00009-of-00500.csv共10个csv数据表，以及$task\_usage$中的part-00000-of-00500.csv共1个csv数据表。我们没有使用更多的数据表，是因为数据加载时间过长，且这一部分数据量已经足够大，具有很好的代表性。
+本文运行仿真脚本的Python版本是Python3.5.2，使用了Google clusterdata-2011-2其中的$task\_events$中part-00000-of-00500.csv到part-00009-of-00500.csv共10个csv数据表，以及$task\_usage$中的part-00000-of-00500.csv共1个csv数据表。我们没有使用更多的数据表，是因为数据加载时间过长，且这一部分数据量已经足够大，具有很好的代表性。测试的可变参数有：（1）平衡策略，有：不平衡（$no\_migration$）、粗粒度平衡（$coarse\_grained$）、未排序的细粒度平衡（$fine\_grained$）、根据CPU请求量排序的细粒度平衡（$cpu\_request$）、根据CPU当前使用量排序的细粒度平衡（$cpu\_usage$）、根据内存当前使用量排序的细粒度平衡（$mem\_usage$）、根据CPU当前使用量逆排序（从大到小）的细粒度平衡（$1/cpu\_usage$）、根据当前缓存不命中频率排序的细粒度平衡（$cache\_misses$）（2）集群机器数量：任务数量不可变，但可以更改集群机器数量，从而更改集群的资源总量，测试调度脚本在不同资源竞争强度下的平衡性能；（3）资源超量供应系数（$overcommitment\,ratio$）：此系数指调度器真实分配给进程的资源与进程资源请求量的比例。此比例越高，则表明调度器给每个进程分配的超额资源越多，系统资源竞争越小，反之资源竞争越激烈。
 
-测试的可变参数有：（1）平衡策略，有：不平衡（$no\_migration$）、粗粒度平衡（$coarse\_grained$）、未排序的细粒度平衡（$fine\_grained$）、根据CPU请求量排序的细粒度平衡（$cpu\_request$）、根据CPU当前使用量排序的细粒度平衡（$cpu\_usage$）、根据内存当前使用量排序的细粒度平衡（$mem\_usage$）、根据CPU当前使用量逆排序（从大到小）的细粒度平衡（$1/cpu\_usage$）、根据当前缓存不命中频率排序的细粒度平衡（$cache\_misses$）（2）集群机器数量：任务数量不可变，但可以更改集群机器数量，从而更改集群的资源总量，测试调度脚本在不同资源竞争强度下的平衡性能；（3）资源超量供应系数（$overcommitment\,ratio$）：此系数指调度器真实分配给进程的资源与进程资源请求量的比例。此比例越高，则表明调度器给每个进程分配的超额资源越多，系统资源竞争越小，反之资源竞争越激烈。
-
-如图\ref{fig:cpu_gini}所示，我们首先固定机器个数$N\_MACHINES$为800，$overcommitment\,ratio$为1.0，对比所有调度算法的性能。此时任务的数量不变，集群机器数量也不变。可见，不平衡的调度算法性能最差，其次是粗粒度的调度算法。在细粒度的调度算法中，未排序的算法性能没有明显下降，这是由于测试的随机性；而优先调度$CPU\,usage$较高进程的算法在细粒度算法中效果最差，符合我们的预期；而按照内存指标排序的算法的性能普遍高于按照CPU指标排序，这是因为在集群中迁移内存占用较大的进程会造成更大的性能损失与网络开销。而基尼系数的变化趋势则与CPU的变化趋势相反，这是由于集群机器数量和任务数量不变，越平衡的调度算法CPU使用率越高，基尼系数越小。
+如图\ref{fig:cpu_gini}所示，我们首先固定机器个数$N\_MACHINES$为800，$overcommitment\,ratio$为1.0，对比所有调度算法的性能。此时任务的数量不变，集群机器数量也不变。由此可见，不平衡的调度算法性能最差，其次是粗粒度的调度算法。在细粒度的调度算法中，未排序的算法性能没有明显下降，这是由于测试的随机性；而优先调度$CPU\,usage$较高进程的算法在细粒度算法中效果最差，符合我们的预期；而按照内存指标排序的算法的性能普遍高于按照CPU指标排序，这是因为在集群中迁移内存占用较大的进程会造成更大的性能损失与网络开销。而基尼系数的变化趋势则与CPU的变化趋势相反，这是由于集群机器数量和任务数量不变，越平衡的调度算法CPU使用率越高，基尼系数越小。
 
 \begin{figure}[!htp]
   \centering
-  \includegraphics[width=14cm]{dur_over.pdf}
+  \includegraphics[width=13cm]{dur_over.pdf}
   \bicaption[八种调度算法对任务性能影响对比]
     {八种调度算法对任务性能影响对比}
     {Comparison of the Impact of Eight Scheduling Algorithms on Task Performance}
@@ -96,10 +94,10 @@
 
 本文除了CPU和基尼系数两个测试指标之外，还有两个测试指标：所有任务的平均超量使用资源（$Overcommit$），以及所有任务的平均延迟（$Duration$）。这两项指标均是越低越好：任务的超量使用资源越少，则表明在真实的集群中该任务的QoS影响越小，调度算法平衡性能更强；任务的延迟越小，则表明任务等待调度的时间越短，即获得了更多的运行时间。如图\ref{fig:dur_over}所示，横轴调度算法的顺序与图\ref{fig:cpu_gini}相同，两项指标虽然有起伏，但总体在升高，和我们测得的CPU与基尼系数两项数据大致吻合。
 
-调度算法的网络开销也是我们关注的重点。对于网络带宽占用，我们统计了每个迁移循环的网络开销，并将数据做累积，计算从开始集群仿真到每个迁移循环为止的网络用量。如图\ref{fig:minetwork}，仿真集群开始运行时，网络开销较小，这是由于集群的任务数量尚未填满，无需进行调度。其后进程数量逐渐增多，调度的网络开销也增加，直到最后进程逐渐完成，集群负载再次下降，调度的网络开销也逐渐变小。对不同的调度算法进行对比，粗粒度的调度算法网络开销最大，由于每个循环中迁移的进程数目较多；不做迁移则网络开销为0，按照缓存不命中排序的算法网络开销最小，由于MPI真实地反映了进程频繁访问页面的多少。按照CPU指标排序的算法的网络开销普遍大于按照Memory指标排序的算法，这也是我们预期之内的。
+调度算法的网络开销也是我们关注的重点。对于网络带宽占用，我们统计了每个迁移循环的网络开销$net\_overhead(i)$，并将数据进行累积，计算从开始集群仿真到每个迁移循环为止的网络用量（$acc_net_overhead(i+1)=acc\_net\_overhead(i+1)+net\_overhead(i)$）。如图\ref{fig:minetwork}，仿真集群开始运行时，网络开销较小，这是由于集群的任务数量尚未填满，无需进行调度。其后进程数量逐渐增多，调度的网络开销也逐渐增加，直到最后进程逐渐完成，集群负载再次下降，调度的网络开销也逐渐变小。对不同的调度算法进行对比，粗粒度的调度算法网络开销最大，由于每个循环中迁移的进程数目较多；不做迁移则网络开销为0，按照缓存不命中排序的算法网络开销最小，由于MPI真实地反映了进程频繁访问页面的多少。按照CPU指标排序造成的网络开销普遍大于按照Memory指标排序，这在我们的预期之内。
 \begin{figure}[!htp]
   \centering
-  \includegraphics[width=12cm]{network.pdf}
+  \includegraphics[width=16cm]{network.pdf}
   \bicaption[八种调度算法网络开销对比]
     {八种调度算法网络开销对比}
     {Comparison of Eight Scheduling Algorithms' Network Overhead}
@@ -111,24 +109,24 @@
   \includegraphics[width=16cm]{compare.pdf}
   \bicaption[变更参数对调度算法性能的影响]
     {变更参数对调度算法性能的影响}
-    {Influences of Parameter Changing to Scheduling Algorithm Performance}
+    {Influences of Parameter Changing to Scheduling Algorithms' Performance}
   \label{fig:comparing}
 \end{figure}
 
-我们还测试了不同的集群大小（$N\_MACHINES$）和资源超量提供率（$Over\_commitment\_ratio$）对调度算法各项指标的影响。如图\ref{fig:comparing}，第一行改变集群机器的数量（从700到900），第二行改变资源超量提供率（从0.5到1.4），来测试对CPU使用率、基尼系数、资源超量使用量、延迟的影响。可以看出，无论是改变机器数量还是改变资源超量提供率，不使用平衡算法的随机调度各项指标均是最差的，而粗粒度的调度算法和细粒度算法（我们使用对内存用量进行排序的细粒度算法做对比）性能较为接近。在变化机器数量的测试中，细粒度的算法要优于粗粒度的算法。而变化资源超量提供率的测试中，粗粒度算法要优于细粒度算法，这个现象的原因尚未查明。
+我们还测试了不同的集群大小（$N\_MACHINES$）和资源超量提供率（$Over\_commitment\_ratio$）对调度算法各项指标的影响。如图\ref{fig:comparing}，第一行改变集群机器的数量（从700到900），第二行改变资源超量提供率（从0.5到1.4），来测试对CPU使用率、基尼系数、资源超量使用量、延迟的影响。可以看出，无论是改变机器数量还是改变资源超量提供率，不使用平衡算法的随机调度各项指标均是最差的，而粗粒度的调度算法和细粒度算法（我们使用对内存用量进行排序的细粒度算法做对比）性能较为接近。在变化机器数量的测试中，细粒度的算法要优于粗粒度的算法。而在变化资源超量提供率的测试中，粗粒度算法要优于细粒度算法，这个现象的原因尚未查明。
 
 \begin{figure}[!htp]
   \centering
   \includegraphics[width=14cm]{netcom.pdf}
-  \bicaption[不同排序方式的调度算法网络开销对比]
-    {不同排序方式的调度算法网络开销对比}
-    {Comparison of Network Overhead of Scheduling Algorithms with Different Sort Options}
+  \bicaption[变更参数对调度算法网络开销的影响]
+    {变更参数对调度算法网络开销的影响}
+    {Influences of Parameter Changing to Scheduling Algorithms' Network Overhead}
   \label{fig:netcom}
 \end{figure}
 
-随着集群机器数量$N\_MACHINES$的上升，所有算法的CPU使用率均下降，基尼系数均上升，这是因为集群中任务数量是固定的，越多的机器数量则CPU负载越低，空闲机器越多，从而每个任务的资源超量使用量$Overcommit$也下降，延迟$Duration$也下降。随着资源超量提供率$Over\_commitment\_ratio$的上升，任务之间的资源竞争越来越少，系统中空闲的资源越来越多，故集群CPU使用率下降，基尼系数上升，每个任务的资源超量使用量$Overcommit$下降，延迟$Duration$上升。这是由于，当每个进程的$Over\_commitment\_ratio$上升，系统为其分配的资源就变得更多，于是系统中可以容纳的进程数就更少，新到来的进程需要等待更长的时间才可以被调度运行，于是造成了$Duration$的上升。
+随着集群机器数量$N\_MACHINES$的上升，所有算法的CPU使用率均下降，基尼系数均上升，这是因为集群中任务数量是固定的，越多的机器数量则CPU负载越低，空闲机器越多，从而每个任务的资源超量使用量$Overcommit$也下降，延迟$Duration$也下降。随着资源超量提供率$Over\_commitment\_ratio$的上升，任务之间的资源竞争越来越少，系统中空闲的资源越来越多，故集群CPU使用率下降，基尼系数上升，每个任务的资源超量使用量$Overcommit$下降，延迟$Duration$上升，这是由于随着每个进程的$Over\_commitment\_ratio$不断上升，系统为其分配的资源就变得更充足，于是系统中可以容纳的进程数就更少，新到来的进程需要等待更长的时间才可以被调度运行，于是造成了$Duration$的上升。
 
-我们还统计了$N\_MACHINES$和$Over\_commitment\_ratio$对不同的调度算法的网络开销的影响。如图\ref{fig:netcom}，粗粒度的调度算法总是具有最高的网络开销，这是因为它迁移了3个$removed$集合中的进程；在细粒度算法中，按照内存指标排序的算法一般具有更低的网络开销，按照CPU指标排序的算法具有更高的网络开销，而不排序的算法网络开销在CPU指标和内存指标之间，这符合之前的测试与推断。随着集群机器数量的上升，平衡算法的网络开销均减小，这是由于很少有机器的负载超过了警戒线，不会触发迁移机制。而随着$Over\_commitment\_ratio$的提高，系统中同时容纳的进程数量也下降，使得集群中更少机器的负载超过了警戒线，更少地触发了迁移。
+我们还统计了$N\_MACHINES$和$Over\_commitment\_ratio$对不同的调度算法网络开销的影响。如图\ref{fig:netcom}，粗粒度的调度算法总是具有最高的网络开销，这是因为它迁移了3个$removed$集合中的进程；在细粒度算法中，按照内存指标排序的算法一般具有更低的网络开销，按照CPU指标排序的算法则具有更高的网络开销，而不排序的算法网络开销在CPU指标和内存指标之间，这符合之前的推断与测试数据。随着集群机器数量的上升，平衡算法的网络开销均减小，这是由于很少有机器的负载超过了警戒线，不会触发迁移机制。而随着$Over\_commitment\_ratio$的提高，系统中同时容纳的进程数量也在下降，使得集群中更少机器的负载超过了警戒线，于是更少地触发了迁移。
 
 \begin{figure}[!htp]
   \centering
@@ -141,7 +139,7 @@
 
 
 
-最后，我们测试细粒度算法是否需要进行更细粒度的优化。我们选取根据$mem\_usage$排序的细粒度调度算法进行测试，由于其CPU负载平衡性能最佳。如图\ref{fig:distr}，$total\_tasks$表示一个$G\_cell$中所有待迁移的进程，而$move\_to\_first$代表被调度到负载最低的节点上的进程数量，$move\_to\_second$代表被调度到负载第二低的节点上的进程数量，故在每个迁移循环中，有$total\_tasks\,=\,move\_to\_first\,+\,move\_to\_second$。可以看出，对于大小为4的$G\_cell$，$move\_to\_first$已经占据了绝大部分的可迁移进程，而$move\_to\_second$使用了剩余的可迁移进程，故CPU平衡性能较粗粒度的调度算法更好，但不需要考虑负载第三低节点，由于给负载第二低的节点剩余的进程已经很少，可以推知负载第三低节点已经没有可使用的进程。而对于其他大小的$G\_cell$，存在一个最佳的调度粒度，本文尚未进行研究。
+最后，我们测试细粒度算法是否需要进行更细粒度的优化。我们选取根据$mem\_usage$排序的细粒度调度算法进行测试，由于其CPU负载平衡性能最佳。如图\ref{fig:distr}，$total\_tasks$表示一个$G\_cell$中所有待迁移的进程，而$move\_to\_first$代表被调度到负载最低的节点上的进程数量，$move\_to\_second$代表被调度到负载第二低的节点上的进程数量，故在每个迁移循环中，有$total\_tasks\,=\,move\_to\_first\,+\,move\_to\_second$。可以看出，对于大小为4的$G\_cell$，$move\_to\_first$已经占据了绝大部分的可迁移进程，而$move\_to\_second$使用了剩余的可迁移进程，一般只有1个进程被迁移到负载第二低的节点。故CPU平衡性能较粗粒度的调度算法更好，但不需要考虑负载第三低节点，由于给负载第二低的节点剩余的进程已经很少，可以推知负载第三低节点已经没有可使用的进程。而对于其他大小的$G\_cell$，存在一个最佳的调度粒度，本文尚未进行研究。
 
 \section{本章小结}
 本章首先对真实环境下的粗粒度调度脚本进行了测试，分别在巨型虚拟机和物理节点上运行尽力而为型和延迟敏感型任务，得知粗粒度的调度算法可以动态感知工作负载的变化，提高集群CPU使用率，对任务服务质量的影响较低，以一种高效的方式完成了资源重分配，达到了我们的设计目标。同时，我们对仿真集群中的各类调度算法进行了测试，得知细粒度的调度算法比粗粒度的算法更优，而对进程排序更有效地优化了细粒度调度算法的性能。我们还探讨了是否需要更细粒度的优化，经过对可迁移进程的分布进行统计，我们发现无需进行更细粒度的优化。
