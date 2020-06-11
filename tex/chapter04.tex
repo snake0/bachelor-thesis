@@ -92,6 +92,7 @@ class Machine:
 \begin{algorithmic}[1]
 \Function {migrate}{$timestamp$}
 \For{each $G\_cell \in Cluster$}
+\State $/*\ Find\ the\ lowest\ loaded\ node\ in\ G\_cell\ */$
 \State $lowest\_loaded\_node \gets find\_lowest\_loaded\_node(G\_cell,\  timestamp)$
 \State
 \For{each $node \in (G\_cell - lowest\_loaded\_node)$}
@@ -128,6 +129,7 @@ class Machine:
 \begin{algorithmic}[1]
 \Function {migrate}{$timestamp$}
 \For{each $G\_cell \in Cluster$}
+\State $/*\ Find\ the\ first\ two\ lowest\ loaded\ nodes\ in\ G\_cell\ */$
 \State $lowest\_loaded\_node,\ second\_lowest\_loaded\_node \gets find\_lowests(G\_cell,\  timestamp)$
 \State
 \For{each $node \in (G\_cell - lowest\_loaded\_node - second\_lowest\_loaded\_node)$}
@@ -163,8 +165,6 @@ class Machine:
 
 \noindent\textbf{根据内存数据排序}\quad 对内存使用情况进行排序的主要目的是降低网络的开销。我们使用的谷歌集群追踪数据主要提供了进程的两个内存使用情况的数据：$Task.usage[memory]$，每个时刻下进程容器所使用的总的内存页数量，称作assigned memory，包含该任务的用户态和内核态页面，也是谷歌Borg集群中容器迁移所要迁移的真正的页面数量（见\ref{chap:containermigration}节的背景介绍）；$Task.usage[MPI]$，平均每条指令的访存次数（memory accesses per instruction），通过performance counter获得\footnote{performance counter\cite{perf}是CPU硬件上的一组寄存器，记录了各类硬件事件，包括分支预测错误、缓存不命中次数、指令执行次数等。}。一个进程所拥有的内存页的数量与缓存不命中的频率有一些关联度（正相关），但关联度不是很高：CPU密集型任务拥有的内存页较少，MPI也较低；内存密集型任务的MPI较高，但其经常访问的内存页的数目不一定大，也存在拥有大量内存页的进程MPI较低的情况，故MPI反映了进程频繁访问内存页面的数量。如果优先调度$Task.usage[memory]$或$Task.usage[MPI]$更高的进程，将会有效地减小迁移的网络开销。由于细粒度的调度器将可调度进程分为两组（在真实情况下，巨型虚拟机的任务将在两个NUMA节点上运行），这两组进程可能会产生大量的共享内存访问（见\ref{chap:memm}节）。但是由于谷歌的追踪数据未提供进程访问内存的具体位置，所以我们无法对此情况进行仿真。
 
-排序的细粒度调度算法由算法\ref{algo:sorted}表述。在每个迁移循环中，将$removed$队列按照$sort\_option$排序，将$removed$队列首部的第一个进程$pop()$出来，依次添加到$move\_to\_first$集合和$move\_to\_second$集合中等待迁移，除此之外和未排序的细粒度仿真算法相同。我们提供了6个$sort\_option$，作为测试比较的对象，分别为：（1）不排序（$fine\_grained$）（2）根据CPU资源请求量排序（$cpu\_request$）（3）根据CPU真实用量排序（$cpu\_usage$）（4）根据内存真实用量排序（$mem\_usage$）（5）根据CPU真实用量从大到小排序（$1/cpu\_usage$）（6）根据缓存不命中频率排序（$cache\_misses$）
-
 \begin{algorithm}[h]
 \begin{algorithmic}[1]
 \Function {migrate}{$timestamp$}
@@ -181,6 +181,21 @@ class Machine:
 \caption{排序的细粒度调度器}
 \label{algo:sorted}
 \end{algorithm}
+
+排序的细粒度调度算法由算法\ref{algo:sorted}表述。在每个迁移循环中，将$removed$队列按照$sort\_option$排序，将$removed$队列首部的第一个进程$pop()$出来，依次添加到$move\_to\_first$集合和$move\_to\_second$集合中等待迁移，除此之外和未排序的细粒度仿真算法相同。我们提供了6个$sort\_option$，作为测试比较的对象，分别为：
+
+（1）不排序（$fine\_grained$），任务随机出队列；
+
+（2）根据CPU资源请求量排序（$cpu\_request$），不一定能够真实反映当前的任务CPU负载；
+
+（3）根据CPU真实用量排序（$cpu\_usage$），未考虑该时段内任务CPU负载的波动，认为该时段内任务CPU负载恒定为平均值；
+
+（4）根据内存真实用量排序（$mem\_usage$），同样未考虑该时段内任务内存负载的波动，认为该时段内任务内存负载恒定为平均值；
+
+（5）根据CPU真实用量从大到小排序（$1/cpu\_usage$），（3）的逆排序，使得被迁移的进程很少，网络开销低，平衡效果差；
+
+（6）根据缓存不命中频率排序（$cache\_misses$），更加真实地反应了进程当前使用的内存页数量，虽然我们使用（4）衡量进程迁移的网络开销，但我们也认为这种排序方式可以大幅度减小网络开销。
+
 
 \section{本章小结}
 本章通过仿真一个具有800个相同机器的集群，使用Python脚本搭建了便利、快捷且有效的仿真环境，模拟了第三章真实环境下的巨型虚拟机平衡调度器；分析了粗粒度调度器存在的性能问题，如网络开销太大、集群资源利用率仍不平衡，并设计了细粒度的进程调度器；分析了进程调度顺序对平衡效果以及网络开销的影响，设计了排序的细粒度调度器，并且提供了6种不同的排序选项。我们将在下一章对这6个排序选项进行性能测试和分析。

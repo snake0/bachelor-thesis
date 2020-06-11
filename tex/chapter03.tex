@@ -44,7 +44,8 @@
 \end{figure}
 
 \begin{algorithm}[h]
-\begin{algorithmic}[ruled,1]
+\begin{algorithmic}[1]
+\State $/*\ Pin\ all\ OS\ activities\ to\ node */$
 \Function {set\_affinity\_all}{$node$}
 \If{$current\_node &= &= node$}
 \State $return$
@@ -61,10 +62,11 @@
 \State $current\_node \gets node$
 \EndFunction
 \State
-\State $/*\ At\ system\ start,\ pin\ all\ tasks\ to\ node0\ to\ boot\ faster\ */$
+\State $/*\ At\ system\ start,\ pin\ all\ OS\ activities\ to\ node0\ to\ boot\ faster\ */$
 \State
 \Call {set\_affinity\_all}{$node0$}
 \State
+\State $/*\ Balancing\ loop */$
 \While{true}
 \State
 \Call {sleep}{$INTERVAL$}
@@ -80,9 +82,10 @@
 \caption{粗粒度进程调度算法}
 \label{algo:coarse}
 \end{algorithm}
+
 事实上，上节所述的调度机制应当使用C代码来实现，即在Linux内核中添加一个新的调度器类\footnote{Linux内核中有多种调度算法，每种调度算法自成一个调度器类，由核心调度器调用。现有的调度类有完全公平调度类、实时调度类、空闲调度类}。然而操作系统已经给用户层提供了足够多的接口来实现我们所说的调度策略，而增添一个新的调度器类工作量较大，调试各类参数比较困难，故我们选择使用shell语言实现调度算法。目前在Linux上使用shell脚本实现了一个粗粒度的调度算法，而细粒度调度算法的shell实现作为未来的工作。
 
-对于粗粒度的调度算法，如图\ref{fig:coarsed}，我们通常将巨型虚拟机部署在四个节点上，只需要找到四个NUMA节点中宿主机CPU占用最低的节点，将客户机中所有的任务迁移到该NUMA节点上即可（颜色深的节点代表其负载较高）。客户机中调度脚本的实现如算法\ref{algo:coarse}所示，我们设置该脚本作为系统启动项。系统启动时，首先调用SET\_AFFINITY\_ALL()使得OS中所有的活动都运行在Node0上，Node之间无需做网络通信，缩短了启动时间。此后，每个调度周期中，读取两次累计的steal time做差得到该时段内的steal time，如果当前所有进程运行的节点的steal time超过了一个阈值（50个节拍），即触发迁移，调用SET\_AFFINITY\_ALL()将所有OS活动固定在steal time最低的节点上。虽然这样减少了客户机中进程可以使用的虚拟CPU个数，但是最大程度的减少了网络的开销：由于任何两个NUMA节点之间无需共享内存数据，只有一个NUMA节点上有任务在运行。
+对于粗粒度的调度算法，如图\ref{fig:coarsed}，我们通常将巨型虚拟机部署在四个节点上，只需要找到四个NUMA节点中宿主机CPU占用最低的节点，将客户机中所有的任务迁移到该NUMA节点上即可（颜色深的节点代表其负载较高）。客户机中调度脚本的实现如算法\ref{algo:coarse}所示，我们设置该脚本作为系统启动项。系统启动时，首先调用SET\_AFFINITY\_ALL()使得OS中所有的活动都运行在Node0上，Node之间无需做网络通信，缩短了启动时间。此后，每个调度周期中，读取两次累计的$steal time$做差得到该时段内的$steal time$，如果当前所有进程运行的节点的$steal time$超过了一个阈值（50个节拍），即触发迁移，调用SET\_AFFINITY\_ALL()将所有OS活动固定在$steal time$最低的节点上。虽然这样减少了客户机中进程可以使用的虚拟CPU个数，但是最大程度的减少了网络的开销：由于任何两个NUMA节点之间无需共享内存数据，只有一个NUMA节点上有任务在运行。
 
 $/proc$文件夹是Linux内核为用户态程序提供内核信息的文件夹，用户态程序也可通过写入$/proc$文件夹中的某个文件更改内核的配置。在本文中，我们读取$/proc/stat$文件的内容完成两个功能：一是获取宿主机节点上的CPU使用率，二是在客户机操作系统中获取$steal time$。$/proc/stat$文件包含了自系统启动以来累计的CPU节拍数，CPU空闲的节拍数，以及因为虚拟化所产生的累计的$steal time$。$steal time$指虚拟CPU等待物理CPU执行其他宿主机指令或者其他虚拟CPU的时间，直接向客户机反映了宿主机的工作负载状态。在得知了$steal time$最低的节点之后，我们应当尽可能地让所有的Guest OS活动都运行在$steal time$最低的节点上。在Linux中，可以设定CPU affinity（CPU亲和性）的OS活动有\footnote{见内核文档https://www.kernel.org/doc/Documentation/kernel-per-CPU-kthreads.txt的介绍}：
 

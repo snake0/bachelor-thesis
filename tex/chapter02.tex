@@ -49,7 +49,15 @@ Linux内核使用Node（节点）、Zone（区）、Page（页）三级结构描
 
 历史上，纯软件虚拟化技术的出现早于硬件辅助的虚拟化技术。早期的二进制翻译技术（即将每条客户机指令在执行时进行翻译，类似于解释型编程语言），是完全基于软件的虚拟化。由于软件模拟硬件行为的复杂性，纯软件的虚拟机监控器工程量巨大，代码复杂，同时模拟出的虚拟硬件性能相比于真实硬件有明显下降。之后出现了半虚拟化（Para-Virtualization）技术来弥补纯软件虚拟化方式的不足。其想法是为虚拟机管理器定制客户机OS，使得客户机明确地知晓自己处在虚拟化环境中，与虚拟机管理器相互配合，解决了体系结构造成的虚拟化漏洞。最具有代表性的基于半虚拟化的虚拟机监控器就是Xen\cite{artofxen}，Xen运行的定制的guest OS调用Xen的接口配合Xen完成虚拟化功能。但是，由于Windows等闭源操作系统的存在，半虚拟化的可应用范围依然受限。现如今，硬件辅助的虚拟化是应用最为广泛的虚拟化方式。Intel推出的VT-x（Virtualization Technology for x86 processors）技术\cite{intelv}和AMD推出的SVM（Secure Virtual Machine Architecture）技术\cite{amdv}在现有的CPU指令集架构上增加了专用于系统虚拟化的指令，例如Intel的VMX指令（有VMPTRLD、VMREAD、VMWTRITE等）\cite{intelSDM}。x86架构的处理器有根与非根两种运行模式，客户机运行在非根模式，当客户机的特权指令执行时，将触发VMexit，于是CPU运行模式自动转换，使得VMM可以通过trap-and-emulate（陷入并模拟）方式模拟客户机的特权指令。硬件辅助的优点是免去了客户机的修改；又由于客户机指令无需翻译，便可以直接运行在真实的硬件CPU上，使得CPU虚拟化的代价也大大减小。
 
-对于内存虚拟化，传统的方式是为每一个客户机进程维护一个shadow page table（SPT，称为影子页表），代替客户机自带的页表，将其覆盖（shadow），每当进程修改GPT，就需要对SPT进行维护。然而当客户机进程数量较大时，影子页表维护和保存的开销将会十分巨大。同时，由于客户机修改自己的页表（GPT）时SPT也要进行相应的修改，VMM将GPT所占的内存标记为写保护（write protected），当客户机修改GPT时会引起VMexit，退出到VMM中由VMM完成对SPT的维护。这对于memory intensive（内存密集）型任务是一种灾难，因为会引起大量的VMexit，严重影响其性能。硬件机制EPT（Extended Page Table）使用硬件维护的GPA到HPA的映射，替代了软件实现的SPT。客户机依然使用自己的CR3指针进行地址翻译，将GVA翻译为GPA，而每一个guest OS都有其对应的扩展页表，EPT base pointer（扩展页表基指针）指向扩展页表（EPT），将GPA通过硬件翻译为HPA。于是，客户机修改自身的GPT（guest page table）时无需引起VMexit，从而使得内存虚拟化的性能相比于影子页表的方式有了很大改进。硬件上也有类似于传统页表TLB（translation look aside buffer）的应用于EPT的页表，缓存了EPTE（EPT表项），加快了由GPA到HPA的翻译。使用本文所使用的巨型虚拟机即利用了这一硬件扩展，实现了内存的高效虚拟化。
+\begin{figure}[!htp]
+  \centering
+  \includegraphics[width=10cm]{ept.pdf}
+  \bicaption[扩展页表的地址翻译]
+    {扩展页表的地址翻译}
+    {Address Translation of Extended Page Table}
+  \label{fig:EPT}
+\end{figure}
+对于内存虚拟化，传统的方式是为每一个客户机进程维护一个shadow page table（SPT，称为影子页表），代替客户机自带的页表，将其覆盖（shadow），每当进程修改GPT，就需要对SPT进行维护。然而当客户机进程数量较大时，影子页表维护和保存的开销将会十分巨大。同时，由于客户机修改自己的页表（GPT）时SPT也要进行相应的修改，VMM将GPT所占的内存标记为写保护（write protected），当客户机修改GPT时会引起VMexit，退出到VMM中由VMM完成对SPT的维护。这对于memory intensive（内存密集）型任务是一种灾难，因为会引起大量的VMexit，严重影响其性能。硬件机制EPT（Extended Page Table）使用硬件维护的GPA到HPA的映射，替代了软件实现的SPT。如图\ref{fig:EPT}所示，客户机依然使用自己的CR3指针进行地址翻译，将GVA翻译为GPA，而每一个guest OS都有其对应的扩展页表，EPT base pointer（扩展页表基指针）指向扩展页表（EPT），将GPA通过硬件翻译为HPA。于是，客户机修改自身的GPT（guest page table）时无需引起VMexit，从而使得内存虚拟化的性能相比于影子页表的方式有了很大改进。硬件上也有类似于传统页表TLB（translation look aside buffer）的应用于EPT的页表，缓存了EPTE（EPT表项），加快了由GPA到HPA的翻译。使用本文所使用的巨型虚拟机即利用了这一硬件扩展，实现了内存的高效虚拟化。
 
 VMM又可分为Type-\uppercase\expandafter{\romannumeral1}型和Type-\uppercase\expandafter{\romannumeral2}型。Type-\uppercase\expandafter{\romannumeral1}型又称为Hypervisor型，这个类型的虚拟机监控器直接运行在裸金属上，全权负责虚拟机的创建、调度、运行、电源管理等，是一个完备的操作系统，所以需要编写大量驱动以及操作系统功能，工程量较大，但也具有更好的性能。而Type-\uppercase\expandafter{\romannumeral2}型VMM事实上是host OS的一部分（内核模块），仅仅具有虚拟化的功能，而最基本的操作系统功能由host OS负责完成。还有混合型虚拟机监控器，它同样运行在裸金属上，但是将设备驱动、设备模型的控制权交由一个特权虚拟机。Xen属于混合性虚拟机，它将操作系统应当实现的功能交由domain 0这一特权操作系统完成。然而，Type-\uppercase\expandafter{\romannumeral1}型和混合型虚拟机都要求客户机操作系统进行特定的修改，这对闭源操作系统是不现实的，而且这种修改减小了虚拟化的灵活性，使得操作系统不容易部署在这类虚拟机监控器上，故这两类虚拟机监控器没有得到大范围应用。而开源虚拟机监控器QEMU-KVM属于Type-\uppercase\expandafter{\romannumeral2}型，KVM\cite{KVM}是Linux内核中安装的kernel module（Linux内核模块），而QEMU\cite{QEMU}是运行于用户态的宿主机应用程序，主要负责应对客户机的I/O请求，将KVM作为其虚拟化加速器，KVM利用x86处理器的VT-x、EPT等硬件辅助虚拟化功能获得了更优的虚拟机执行效率，而无需修改客户机操作系统，因此得到了广泛的应用。下一节我们讲述如何对QEMU-KVM进行修改来实现巨型虚拟机。
 
@@ -99,7 +107,7 @@ VMM又可分为Type-\uppercase\expandafter{\romannumeral1}型和Type-\uppercase\
 
 \begin{figure}[!htp]
   \centering
-  \includegraphics[width=12cm]{barrelfish_sosp09.pdf}
+  \includegraphics[width=9cm]{barrelfish_sosp09.pdf}
   \bicaption[Barrelfish OS多内核架构]
     {Barrelfish OS多内核架构\cite{barrelfish}}
     {Architecture of Barrelfish OS Multikernel}
@@ -127,6 +135,7 @@ Barrelfish OS较少的核间通信使得其成为了巨型虚拟机理想的客�
 （2）工作负载即时采样：通过硬件或者软件的手段对任务的资源占用情况进行即时的采样，根据任务在过去一段时间里的工作负载情况预测未来一段时间内的工作负载情况。例如，最常用的Linux内核所实现的完全公平调度器（CFS，Completely Fair Scheduler）即是采用了这一种策略：在内核表示任务的结构体$struct\ task\_struct$中内嵌（由于$struct\ sched\_entity$内嵌在$struct\ task\_struct$中）一个$vruntime$变量，记录其已经运行的时间，在每一个调度周期中更新这个变量。每个CPU上的就绪队列维护了一个红黑树，当一个进程变成可运行状态时，将进程按照$vruntime$添加进入红黑树中，而Linux内核通过$vruntime$判断在未来一段时间内该进程的运行时间。然而，这样的预测不一定完全准确，甚至有的时候出现完全的预测错误。同时，取样的数据也不一定具有代表性。
 
 \label{chap:reallocation}
+
 （3）资源重分配：为了解决集群中工作负载分布不均的问题，一种更加灵活的方式是将任务在不同的节点上迁移，将资源在任务之间重新分配。迁移的具体方式有进程级别的迁移（Process Migration）、容器的在线迁移（Container Live Migration），和虚拟机的在线迁移（VM Live Migration）。迁移是一种发生在集群节点之间的任务调度，用于平衡集群中节点的负载，进而提高集群的资源使用率。在下面的三节中，我们将对这三类迁移机制进行详细的描述，并且讨论其优劣。
 
 \subsection{进程迁移}
