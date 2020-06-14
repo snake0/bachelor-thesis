@@ -1103,8 +1103,8 @@
       \strng{authorbibnamehash}{47627464faf7d9f20026ea0518ed9bea}
       \strng{authornamehash}{b3f698a3666c5669ec9d523ad2dd1389}
       \strng{authorfullhash}{47627464faf7d9f20026ea0518ed9bea}
-      \field{sortinit}{1}
-      \field{sortinithash}{2174f786c6195e7fe2ee1c229b416e29}
+      \field{sortinit}{2}
+      \field{sortinithash}{cbff857e587bcb4635511624d773949e}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{{ACM} Trans. Comput. Syst.}

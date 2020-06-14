@@ -20,6 +20,7 @@
 我们受到Barrelfish操作系统设计理念的启发：Barrelfish将操作系统内核状态分割成多个副本，每个副本固定在一个独占的CPU核上，从而避免了基于缓存一致性这一硬件机制的大量核间数据的传输，提高了操作系统的可扩展性。我们将此概念进一步延伸，从而达到我们的目的：虚拟机热迁移所带来的网络开销中含有不必要的操作系统内存的部分，可以将客户机的大部分状态固定在不同的节点上，从而在迁移客户机内部工作负载时，无需传输和工作负载无关的状态，其中包括客户机操作系统的大量数据和代码，以及客户机中其他任务的状态，只传输工作负载所拥有的状态即可（如其频繁访问的内存页）。为达成这个目的，我们需要一个运行在一个分布式集群上的分布式的虚拟机。这样一来，客户机的大部分内存页均匀地分布在集群的每个节点上，就免去了大量内存页的迁移需求。巨型虚拟机基于现有的单机虚拟机管理器QEMU-KVM，开发年限较长，与现有系统的兼容性良好，且运行稳定，可以运行主流的操作系统，所以我们选择巨型虚拟机实现上述目标。
 
 \subsection{迁移机制概述}
+
 \begin{figure}[!htp]
   \centering
   \includegraphics[width=8cm]{schedule.png}
@@ -34,24 +35,25 @@
 至于如何将任务分类为可迁移任务和不可迁移任务，目前的实现是把延迟敏感型任务（LC tasks）作为不可迁移任务，它们不能承受性能的损失（例如一些业务进程，如果延迟提高则会使得收益受到影响），而将尽力而为型任务（BE tasks）作为可迁移任务，其延迟增长对用户的影响不大（例如一些用于开发实验的进程，为了测试未投入使用的代码，或一些数据分析程序）。在图\ref{fig:schedule}中，LC型任务即不可迁移任务，BE型任务即可迁移任务。在这样的分类之下，延迟敏感型任务的服务质量将不会受到影响，而尽力而为型任务将延迟敏感型任务未使用的资源利用起来：由于延迟敏感型任务无法承受性能损失，系统为其分配了足够多的CPU资源，来应对其可能出现的CPU利用率突增，然而大部分时间内这些CPU资源大部分都无法完全利用，于是当延迟敏感型任务占用较低时，巨型虚拟机将尽力而为型任务调度到对应的节点上，填补CPU使用率的空缺，从而提高了集群总体的CPU资源占用率；在延迟敏感型任务占用较高时，巨型虚拟机及时将尽力而为型任务迁移到占用较低的节点上，不与延迟敏感型任务抢占资源，从而保证延迟敏感型任务的服务质量。
 
 \subsection{调度脚本实现}
+
 \begin{figure}[!htp]
   \centering
   \includegraphics[width=6cm]{coarse.png}
   \bicaption[基于巨型虚拟机的粗粒度调度过程]
     {基于巨型虚拟机的粗粒度调度过程}
-    {Coarse Grained Scheduling Based on GiantVM}}
+    {Coarse Grained Scheduling Based on GiantVM}
   \label{fig:coarsed}
 \end{figure}
 
 \begin{algorithm}[h]
 \begin{algorithmic}[1]
-\State $/*\ Pin\ all\ OS\ activities\ to\ node */$
+\State $/*\ $Pin all OS activities to $node */$
 \Function {set\_affinity\_all}{$node$}
-\If{$current\_node &= &= node$}
-\State $return$
+\If{$current\_node == node$}
+\State \textbf{return}
 \EndIf
 \State $node\_cpu\_list \gets get\_node\_cpu\_list(node)$
-\For{each $task, irq, wq\in OS$}
+\For{\textbf{each} $task, irq, wq\in OS$}
 \State
 \Call{set\_affinity}{$task, node\_cpu\_list$}
 \State
@@ -62,18 +64,18 @@
 \State $current\_node \gets node$
 \EndFunction
 \State
-\State $/*\ At\ system\ start,\ pin\ all\ OS\ activities\ to\ node0\ to\ boot\ faster\ */$
+\State $/*\ $At system start, pin all OS activities to $node0$ to boot faster $*/$
 \State
 \Call {set\_affinity\_all}{$node0$}
 \State
-\State $/*\ Balancing\ loop */$
+\State $/*\ $Balancing loop $*/$
 \While{true}
 \State
 \Call {sleep}{$INTERVAL$}
 \If {$current\_node.stealtime < 50$}
 \State $continue$
 \EndIf
-\State $/* Migration\ is\ triggered */$
+\State $/*\ $Migration is triggered $*/$
 \State $min\_stealtime\_node \gets find\_min\_stealtime\_node()$
 \State
 \Call {set\_affinity\_all} {$min\_stealtime\_node$}

@@ -86,24 +86,40 @@ class Machine:
     {Simulation of Coarse-Grained Scheduler}
   \label{fig:simucoarse}
 \end{figure}
-我们通过设计调度算法来模拟真实环境下巨型虚拟机中shell脚本的功效。如图\ref{fig:simucoarse}所示，集群中每四个节点部署一个巨型虚拟机，这四个节点组成一个$G\_cell$（GiantVM Cell），每次选取负载最低的一个节点作为进程迁移的目的节点。在我们的实现中，$G\_cell$由四个节点组成，每10个时间戳为一个平衡周期，$migrate()$函数在平衡周期的第一个时间戳被调用。其主要算法类似于算法\ref{algo:coarse}但又有所不同：算法\ref{algo:simucoarse}实现了模拟的粗粒度调度器，$migrate()$函数遍历集群中所有的$G\_cell$，在每个$G\_cell$中，找出负载最低的节点，并且$get\_migratable\_tasks()$函数将$G\_cell$中其余三个节点的可迁移进程保存在$removed$集合中。$get\_migratable\_tasks()$函数判断task是否是可迁移进程的标准是其priority小于2且CPU的最大使用率为0.025以下。接下来，统计该节点所有可迁移进程的资源占用量$util\_diff$。将$util\_diff$加到占用最低的节点上，$is\_useful\_migrate()$函数规定出现以下情况时不可迁移：（1）迁移后负载最低节点的占用率比当前节点高；（2）$util\_diff$大于当前节点负载的80\%；（3）迁移后负载最低节点的占用率超过了节点负载量警戒线（目前设置为节点的最大负载能力，$warning\_threshold$）。如果不符合迁移的条件，则该节点上的可迁移进程不被迁移，并在当前$G\_cell$中继续遍历下一个节点。如果符合迁移条件，$removed$集合中的所有进程将被迁移到$G\_cell$内部负载最低的节点上，同时将这次迁移的网络开销加到$bandwidth\_usage$变量上。对于不开启GiantVM平衡功能的集群，$bandwidth\_usage$将为0，远低于开启GiantVM迁移功能的集群，故GiantVM的迁移也可视作牺牲网络带宽来换取CPU使用率的一种方法。
+我们通过设计调度算法来模拟真实环境下巨型虚拟机中shell脚本的功效。如图\ref{fig:simucoarse}所示，集群中每四个节点部署一个巨型虚拟机，这四个节点组成一个$G\_cell$（GiantVM Cell），每次选取负载最低的一个节点作为进程迁移的目的节点。在我们的实现中，$G\_cell$由四个节点组成，$migrate()$函数在每个平衡周期的第一个时间戳被调用。当有任务被提交到集群中的机器上时，平衡周期为1，否则平衡周期为10，这是为了减小不必要的网络开销。粗粒度的仿真算法类似于算法\ref{algo:coarse}，但又有所不同：算法\ref{algo:simucoarse}实现了模拟的粗粒度调度器，$migrate()$函数遍历集群中所有的$G\_cell$，在每个$G\_cell$中，找出负载最低的节点，并且$get\_migratable\_tasks()$函数将$G\_cell$中其余三个节点的可迁移进程保存在$removed$集合中。$get\_migratable\_tasks()$函数判断task是否是可迁移进程的标准是其priority小于2且CPU的最大使用率为0.025以下。接下来，统计该节点所有可迁移进程的资源占用量$util\_diff$。将$util\_diff$加到占用最低的节点上，$is\_useful\_migrate()$函数规定出现以下情况时不可迁移：（1）迁移后负载最低节点的占用率比当前节点高；（2）$util\_diff$大于当前节点负载的80\%；（3）迁移后负载最低节点的占用率超过了节点负载量警戒线（目前设置为节点的最大负载能力，$warning\_threshold$）。如果不符合迁移的条件，则该节点上的可迁移进程不被迁移，并在当前$G\_cell$中继续遍历下一个节点。如果符合迁移条件，$removed$集合中的所有进程将被迁移到$G\_cell$内部负载最低的节点上，同时将这次迁移的网络开销加到$bandwidth\_usage$变量上。对于不开启GiantVM平衡功能的集群，$bandwidth\_usage$将为0，远低于开启GiantVM迁移功能的集群，故GiantVM的迁移也可视作牺牲网络带宽来换取CPU使用率的一种方法。                                             
 
 \begin{algorithm}[h]
 \begin{algorithmic}[1]
 \Function {migrate}{$timestamp$}
-\For{each $G\_cell \in Cluster$}
-\State $/*\ Find\ the\ lowest\ loaded\ node\ in\ G\_cell\ */$
+\For{\textbf{each} $G\_cell \in Cluster$}
+\State $/*\ $Find the lowest loaded node in $G\_cell\ */$
 \State $lowest\_loaded\_node \gets find\_lowest\_loaded\_node(G\_cell,\  timestamp)$
-\State
-\For{each $node \in (G\_cell - lowest\_loaded\_node)$}
-\State $/*\ Get\ migratable\ tasks\ */$
+\For{\textbf{each} $node \in (G\_cell - lowest\_loaded\_node)$}
+\State $/*\ $Get migratable tasks $*/$
 \State $util\_diff,\  removed \gets get\_migratable\_tasks(node)$
-\State
-\State $/*\ No\ migrate\ if\ cannot\ migrate\ or\ profit\ is\ little\ */$
+\State $/*\ $No migrate if cannot migrate or profit is little $*/$
 \If{$is\_useful\_migrate(util\_diff,\  removed)$}
 \State $bandwidth\_usage \gets bandwidth\_usage + migrate\_to\_node(removed)$
 \EndIf
 \EndFor
+\EndFor
+\EndFunction
+\State
+\State $/*\ $Traverse all timestamps $*/$
+\For{$timestamp = 0$ \textbf{to} $max\_ts$}
+\If{$no\ tasks\ in\ timestamp$}
+\State $migration\_interval \gets 10$
+\Else
+\State $migration\_interval \gets 1$
+\EndIf
+\State $random\_schedule\_tasks(timestamp)$
+\If {$enable\_migration$}
+\If {$timestamp\ \%\ migration\_interval == 0$}
+\State
+\Call {migrate}{$timestamp$}
+\EndIf
+\EndIf
+\State $process\_and\_record\_stat(timestamp)$
 \EndFor
 \end{algorithmic}
 \caption{粗粒度调度器的仿真算法}
@@ -128,21 +144,21 @@ class Machine:
 \begin{algorithm}[h]
 \begin{algorithmic}[1]
 \Function {migrate}{$timestamp$}
-\For{each $G\_cell \in Cluster$}
-\State $/*\ Find\ the\ first\ two\ lowest\ loaded\ nodes\ in\ G\_cell\ */$
+\For{\textbf{each} $G\_cell \in Cluster$}
+\State $/*\ $Find the first two lowest loaded nodes in G\_cell $*/$
 \State $lowest\_loaded\_node,\ second\_lowest\_loaded\_node \gets find\_lowests(G\_cell,\  timestamp)$
 \State
-\For{each $node \in (G\_cell - lowest\_loaded\_node - second\_lowest\_loaded\_node)$}
-\State $/*\ Get\ migratable\ tasks\ while\ target\ nodes\ can\ hold\ */$
+\For{\textbf{each} $node \in (G\_cell - lowest\_loaded\_node - second\_lowest\_loaded\_node)$}
+\State $/*\ $Get migratable tasks while target nodes can hold $*/$
 \State $removed \gets get\_migratable\_tasks(node)$
-\While{$first\_lowest\_can\_hold()\ and\ !removed.empty()$}
+\While{$first\_lowest\_can\_hold()$ \textbf{and}$\ !removed.empty()$}
 \State $move\_to\_first.add(removed.pop())$
 \EndWhile
-\While{$second\_lowest\_can\_hold()\ and\ !removed.empty()$}
+\While{$second\_lowest\_can\_hold()$ \textbf{and}$\ !removed.empty()$}
 \State $move\_to\_second.add(removed.pop())$
 \EndWhile
 \State
-\State $/*\ No\ migrate\ if\ profit\ is\ little\ */$
+\State $/*\ $No migrate if profit is little $*/$
 \If{$is\_useful\_migrate(util(move\_to\_first))$}
 \State $bandwidth\_usage \gets bandwidth\_usage + migrate\_to\_first(move\_to\_first)$
 \EndIf
@@ -151,6 +167,7 @@ class Machine:
 \EndIf
 \EndFor
 \EndFor
+\EndFunction
 \end{algorithmic}
 \caption{细粒度调度器的仿真算法}
 \label{algo:simufine}
@@ -170,13 +187,14 @@ class Machine:
 \Function {migrate}{$timestamp$}
 \State $...... /* Same \ as\  algorithm\ $\ref{algo:simufine}$\ */$
 \State $removed \gets get\_sorted\_migratable\_tasks(node,\ sort\_option)$
-\While{$first\_lowest\_can\_hold()\ and\ !removed.empty()$}
+\While{$first\_lowest\_can\_hold()$ \textbf{and}$\ !removed.empty()$}
 \State $move\_to\_first.add(removed.pop(0))$
 \EndWhile
-\While{$second\_lowest\_can\_hold()\ and\ !removed.empty()$}
+\While{$second\_lowest\_can\_hold()$ \textbf{and}$\ !removed.empty()$}
 \State $move\_to\_second.add(removed.pop(0))$
 \EndWhile
 \State $...... /* Same \ as\  algorithm\ $\ref{algo:simufine}$\ */$
+\EndFunction
 \end{algorithmic}
 \caption{排序的细粒度调度器}
 \label{algo:sorted}

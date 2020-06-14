@@ -13,16 +13,32 @@
 
 \label{chap:mem}
 Linux将每个进程的虚拟地址空间划分为许多部分，映射到不同的物理内存（或不映射到物理内存），它们具有不同的访问权限，存放着不同的数据，发挥着不同的功能。一个典型的用户态进程的虚拟地址空间按照从低地址到高地址的顺序，主要有以下几个部分，各部分之间不一定完全紧临：
-\begin{itemize}
-  \item 0 ～ 1G：保留段。
-  \item 1G ～ ？ ：由execve()函数映射到虚拟地址空间的二进制文件。包含代码段（只有读权限），已初始化数据段（具有读写权限），未初始化数据段（有读写权限）。
-  \item 运行时堆（heap），有读写权限，栈顶由brk指针指向，向上增长，同一进程中的线程共享，malloc()函数为线程分配这一区域的内存。
-  \item 共享库的内存映射区，具有读权限，所有进程的虚拟地址空间映射着同一份共享库的代码和数据。
-  \item 其他共享内存区，例如进程通过调用shmget获得的和其他进程共享的内存块。
-  \item 用户栈区。具有读写权限。同一进程中的线程不共享。栈顶由当前线程的\%rsp寄存器指向，向下增长。由编译器决定是否将变量分配在栈中。
-  \item 3G ～ ？ ：每个进程都有的相同的内核虚拟内存区域。包含所有进程共享的代码和数据，以及一块由所有进程共享的物理页面。其中最典型的例子是$struct\ file$，即文件描述符表（file descriptor table）。对于所有的文件，所有的进程共享其对应的$struct\ file$，这也意味着所有进程共享着文件读写位置。
-  \item ？～ 4G：每个进程都不同的内核虚拟内存区域。包含所有进程独享的内核数据结构、内核栈。
-\end{itemize}
+
+\noindent\textbf{0 $\rightarrow$ 1G}\quad 保留段；
+
+\noindent\textbf{1G $\rightarrow$ ?}\quad 由execve()函数映射到虚拟地址空间的二进制文件。包含代码段（只有读权限），已初始化数据段（具有读写权限），未初始化数据段（有读写权限）；
+
+\noindent\textbf{运行时堆}\quad 有读写权限，栈顶由brk指针指向，向上增长，同一进程中的线程共享，malloc()函数为线程分配这一区域的内存；
+
+\noindent\textbf{共享内存}\quad 此区域映射着所有进程的虚拟地址空间都相同的共享库的代码和数据，称为共享库，或者映射着进程通过调用shmget获得的和其他进程共享的内存块；
+
+\noindent\textbf{用户栈区}\quad 具有读写权限。同一进程中的线程不共享。栈顶由当前线程的\%rsp寄存器指向，向下增长。由编译器决定是否将变量分配在栈中；
+
+\noindent\textbf{3G $\rightarrow$ ?}\quad 每个进程都有的相同的内核虚拟内存区域。包含所有进程共享的代码和数据，以及一块由所有进程共享的物理页面。其中最典型的例子是$struct\ file$，即文件描述符表（file descriptor table）。对于所有的文件，所有的进程共享其对应的$struct\ file$，这也意味着所有进程共享着文件读写位置；
+
+\noindent\textbf{? $ \rightarrow$ 4G}\quad 每个进程都不同的内核虚拟内存区域。包含所有进程独享的内核数据结构、内核栈。
+
+
+% \begin{itemize}
+%   \item 0 \rightarrow 1G ：保留段。
+%   \item 1G \rightarrow ？ ：由execve()函数映射到虚拟地址空间的二进制文件。包含代码段（只有读权限），已初始化数据段（具有读写权限），未初始化数据段（有读写权限）。
+%   \item 运行时堆（heap），有读写权限，栈顶由brk指针指向，向上增长，同一进程中的线程共享，malloc()函数为线程分配这一区域的内存。
+%   \item 共享库的内存映射区，具有读权限，所有进程的虚拟地址空间映射着同一份共享库的代码和数据。
+%   \item 其他共享内存区，例如进程通过调用shmget获得的和其他进程共享的内存块。
+%   \item 用户栈区。具有读写权限。同一进程中的线程不共享。栈顶由当前线程的\%rsp寄存器指向，向下增长。由编译器决定是否将变量分配在栈中。
+%   \item 3G \rightarrow	？ ：每个进程都有的相同的内核虚拟内存区域。包含所有进程共享的代码和数据，以及一块由所有进程共享的物理页面。其中最典型的例子是$struct\ file$，即文件描述符表（file descriptor table）。对于所有的文件，所有的进程共享其对应的$struct\ file$，这也意味着所有进程共享着文件读写位置。
+%   \item ？\rightarrow	4G：每个进程都不同的内核虚拟内存区域。包含所有进程独享的内核数据结构、内核栈。
+% \end{itemize}
 
 \begin{figure}[!htp]
   \centering
@@ -47,11 +63,11 @@ Linux内核使用Node（节点）、Zone（区）、Page（页）三级结构描
 \subsection{系统虚拟化简介}
 在计算机科学中，增添抽象层次是一个很重要的研究方法。在不同的场景下添加不同的抽象层，得到的结果大不相同。如果将抽象层置于CPU上，则会产生进程的概念，为系统中所有的任务\footnote{Linux将线程和进程都称为任务，task\_struct，不做特殊区分}抽象出可以独占的CPU，从而让CPU被分时复用，从而使得其性能得到最大化的利用。如果将该抽象层置于物理内存之上，则产生虚拟内存的概念，使得进程获得了一个连续的广阔的虚拟地址空间。如果抽象出一个ISA（Instruction set architecture，指令集架构），即一个计算机运行的硬件环境，则是虚拟化（system virtualization）这一重要概念。VMM（虚拟机管理器）可将客户机运行在虚拟的硬件之上，系统虚拟化将操作系统与底层硬件解耦，具有诸多的优势，例如良好的封装性和硬件无关性\cite{sysv}，这使得虚拟机可以在任何时候停止执行，通过快照在任何时间任何环境恢复先前的执行，方便了虚拟机的迁移与容错，也促进了数据中心的负载均衡。本文正是利用了虚拟化这个抽象层的这一优点。
 
-历史上，纯软件虚拟化技术的出现早于硬件辅助的虚拟化技术。早期的二进制翻译技术（即将每条客户机指令在执行时进行翻译，类似于解释型编程语言），是完全基于软件的虚拟化。由于软件模拟硬件行为的复杂性，纯软件的虚拟机监控器工程量巨大，代码复杂，同时模拟出的虚拟硬件性能相比于真实硬件有明显下降。之后出现了半虚拟化（Para-Virtualization）技术来弥补纯软件虚拟化方式的不足。其想法是为虚拟机管理器定制客户机OS，使得客户机明确地知晓自己处在虚拟化环境中，与虚拟机管理器相互配合，解决了体系结构造成的虚拟化漏洞。最具有代表性的基于半虚拟化的虚拟机监控器就是Xen\cite{artofxen}，Xen运行的定制的guest OS调用Xen的接口配合Xen完成虚拟化功能。但是，由于Windows等闭源操作系统的存在，半虚拟化的可应用范围依然受限。现如今，硬件辅助的虚拟化是应用最为广泛的虚拟化方式。Intel推出的VT-x（Virtualization Technology for x86 processors）技术\cite{intelv}和AMD推出的SVM（Secure Virtual Machine Architecture）技术\cite{amdv}在现有的CPU指令集架构上增加了专用于系统虚拟化的指令，例如Intel的VMX指令（有VMPTRLD、VMREAD、VMWTRITE等）\cite{intelSDM}。x86架构的处理器有根与非根两种运行模式，客户机运行在非根模式，当客户机的特权指令执行时，将触发VMexit，于是CPU运行模式自动转换，使得VMM可以通过trap-and-emulate（陷入并模拟）方式模拟客户机的特权指令。硬件辅助的优点是免去了客户机的修改；又由于客户机指令无需翻译，便可以直接运行在真实的硬件CPU上，使得CPU虚拟化的代价也大大减小。
+历史上，纯软件虚拟化技术的出现早于硬件辅助的虚拟化技术。早期的二进制翻译技术（即将每条客户机指令在执行时进行翻译，类似于解释型编程语言），是完全基于软件的虚拟化。由于软件模拟硬件行为的复杂性，纯软件的虚拟机监控器工程量巨大，代码复杂，同时模拟出的虚拟硬件性能相比于真实硬件有明显下降。之后出现了半虚拟化（Para-Virtualization）技术来弥补纯软件虚拟化方式的不足。其想法是为虚拟机管理器定制客户机OS，使得客户机明确地知晓自己处在虚拟化环境中，与虚拟机管理器相互配合，解决了体系结构造成的虚拟化漏洞。最具有代表性的基于半虚拟化的虚拟机监控器就是Xen\cite{artofxen}，Xen运行的定制的guest OS调用Xen的接口配合Xen完成虚拟化功能。但是，由于Windows等闭源操作系统的存在，半虚拟化的可应用范围依然受限。现如今，硬件辅助的虚拟化是应用最为广泛的虚拟化方式。Intel推出的VT-x（Virtualization Technology for x86 processors）技术\cite{intelv}和AMD推出的SVM（Secure Virtual Machine Architecture）技术\cite{amdv}在现有的CPU指令集架构上增加了专用于系统虚拟化的指令，例如Intel的VMX指令（有VMPTRLD、VMREAD、VMWTRITE等）\cite{intelSDM}。x86架构的处理器有根（root）与非根（non-root）两种运行模式，客户机运行在非根模式，当客户机的特权指令执行时，将触发VMexit，于是CPU运行模式自动转换到根模式，使得VMM可以通过trap-and-emulate（陷入并模拟）方式模拟客户机的特权指令。硬件辅助的优点是免去了客户机的修改；又由于客户机指令无需翻译，便可以直接运行在真实的硬件CPU上，使得CPU虚拟化的代价也大大减小。
 
 \begin{figure}[!htp]
   \centering
-  \includegraphics[width=10cm]{ept.pdf}
+  \includegraphics[width=8cm]{ept.pdf}
   \bicaption[扩展页表的地址翻译]
     {扩展页表的地址翻译}
     {Address Translation of Extended Page Table}
@@ -71,8 +87,6 @@ VMM又可分为Type-\uppercase\expandafter{\romannumeral1}型和Type-\uppercase\
 
 \noindent\textbf{分布式共享内存}\quad 内存虚拟化模块是巨型虚拟机最关键的部件，为所有的QEMU实例提供了和普通内存完全相同的接口，使得所有虚拟机共享完全相同的虚拟地址空间。普通QEMU为虚拟机分配内存的原理是，通过执行一次mmap()函数，在宿主机虚拟地址空间中分配guest OS物理内存。在分布式共享内存开发的初期，为了尽早测试分布式共享内存的代码，巨型虚拟机在单机上进行测试，将所有QEMU实例的虚拟机内存映射到同一块内存，即对相同的文件调用mmap()函数，从而使得所有QEMU实例拥有共享的内存空间。在开发的后期，在KVM中实现了DSM模块，并与QEMU对接，才转向真正分布式的DSM实现，即通过RDMA或TCP协议进行所有QEMU实例之间内存的同步。
 
-如图\ref{fig:DSM}所示，分布式共享内存（DSM）主要通过维护EPT中页表项的状态，即维护虚拟机所拥有物理内存页的状态，修改EPT的映射，将客户机的物理内存映射到集群中的各个节点。DSM的设计基于Ivy\cite{ivy}，Ivy实现了MSI protocol，满足了SC（sequential consistency，顺序一致性）。每个客户机物理页的状态分为Modified：本地vCPU对页作出修改，远程vCPU尚未获得该页的修改，Shared：本地vCPU和远程多个vCPU共享该页，Invalid：需要向其他节点获取该页的最新拷贝，否则本地vCPU无权对该页进行读写。所以，在某个dQEMU实例触发Page fault时，需要使用RDMA协议或TCP协议向远程节点请求最新的数据页。由于巨型虚拟机中的分布式共享内存需要至少实现x86-TSO（Total Store Order）\cite{tso}弱的内存模型，故节点间内存同步的次数和较弱的内存一致性模型相比更多。如果巨型虚拟机的两个节点上的进程相互共享过多的内存，势必会增加内存同步的开销。
-
 \label{chap:DSM}
 \begin{figure}[!htp]
   \centering
@@ -83,22 +97,45 @@ VMM又可分为Type-\uppercase\expandafter{\romannumeral1}型和Type-\uppercase\
   \label{fig:DSM}
 \end{figure}
 
-\noindent\textbf{I / O虚拟化}\quad 实现分布式虚拟I/O需要解决以下问题：虚拟机vCPU如何对远程节点上的的模拟设备进行I/O访问，以及如何使得远程的虚拟设备产生的中断准确的路由到对应的vCPU。对于第二个问题，分布式vCPU的虚拟化中对于IPI的处理已经给出了答案，即在QEMU 0上放置master IOAPIC，而在QEMU 1-3上放置dummy IOAPIC。在设备中断到达之后写入dummy IOAPIC时，将信息同步至master IOAPIC，由master IOAPIC将中断通过dummy APIC转发给目的vCPU。对于第一个问题，CPU对设备进行I/O访问有两种方式：PIO（Programmed I/O，针对于x86架构）和MMIO（Memory Mapped I/O）。客户机执行I/O指令后退出到VMM，VMM检查I/O指令的目的设备。如果I/O访问的目的设备是远程机器上的设备，则需要将该请求转发给远程设备，在处理完成后将处理结果发送回来。
+如图\ref{fig:DSM}所示，分布式共享内存（DSM）主要通过维护EPT中页表项的状态，即维护虚拟机所拥有物理内存页的状态，修改EPT的映射，将客户机的物理内存映射到集群中的各个节点。DSM的设计基于Ivy\cite{ivy}，Ivy实现了MSI protocol，满足了SC（sequential consistency，顺序一致性）。每个客户机物理页的状态分为Modified：本地vCPU对页作出修改，远程vCPU尚未获得该页的修改，Shared：本地vCPU和远程多个vCPU共享该页，Invalid：需要向其他节点获取该页的最新拷贝，否则本地vCPU无权对该页进行读写。所以，在某个dQEMU实例触发Page fault时，需要使用RDMA协议或TCP协议向远程节点请求最新的数据页。由于巨型虚拟机中的分布式共享内存需要至少实现x86-TSO（Total Store Order）\cite{tso}弱的内存模型，故节点间内存同步的次数和较弱的内存一致性模型相比更多。如果巨型虚拟机的两个节点上的进程相互共享过多的内存，势必会增加内存同步的开销。
+
+\noindent\textbf{分布式虚拟I / O}\quad 实现分布式虚拟I/O需要解决以下问题：虚拟机vCPU如何对远程节点上的的模拟设备进行I/O访问，以及如何使得远程的虚拟设备产生的中断准确的路由到对应的vCPU。对于第二个问题，分布式vCPU的虚拟化中对于IPI的处理已经给出了答案，即在QEMU 0上放置master IOAPIC，而在QEMU 1-3上放置dummy IOAPIC。在设备中断到达之后写入dummy IOAPIC时，将信息同步至master IOAPIC，由master IOAPIC将中断通过dummy APIC转发给目的vCPU。对于第一个问题，CPU对设备进行I/O访问有两种方式：PIO（Programmed I/O，针对于x86架构）和MMIO（Memory Mapped I/O）。客户机执行I/O指令后退出到VMM，VMM检查I/O指令的目的设备。如果I/O访问的目的设备是远程机器上的设备，则需要将该请求转发给远程设备，在处理完成后将处理结果发送回来。
 
 \section{分布式共享内存性能分析}
 \subsection{性能瓶颈}
 \label{chap:bottle}
-如\ref{chap:DSM}节所述，巨型虚拟机相比于普通虚拟机的实现增加的部分有：（1）分布式共享内存，这一部分需要通过RDMA、TCP等网络协议在集群之间同步物理页的状态；（2）转发机制，将对于远程资源的访问请求转发到对应的节点上去，由真实的资源拥有者处理访问请求。这两部分均会产生网络开销，而网络开销最大的则是分布式共享内存这一组件。顺序一致性是较强的一致性模型，会产生false sharing（伪共享）现象和page thrashing（页面颠簸）现象\cite{sharing}。伪共享现象是指两个运行在不同CPU核心上的线程不断地写入同一个cache line（缓存行）中的变量，当其中一个线程对变量写入后，另一个核上的缓存行即会失效，于是另一个线程需要从内存中读取最新的数据，而写入变量的线程也需要将缓存行写回主存。如此循环往复即出现了伪共享现象。而页面颠簸现象是由于内存页的换入换出。当一个进程频繁访问的页面数量多于总的物理页面数量，或者操作系统为进程选取的驻留集大小（RSS，可以通过ps aux等命令行工具观察进程的驻留集大小）小于其频繁访问的虚拟空间大小，则会有虚拟页面不断换出到磁盘上，即产生了页面抖动现象。
+如\ref{chap:DSM}节所述，巨型虚拟机相比于普通虚拟机的实现增加的部分有：（1）分布式共享内存，这一部分需要通过RDMA、TCP等网络协议在集群之间同步物理页的状态；（2）转发机制，将对于远程资源的访问请求转发到对应的节点上去，由真实的资源拥有者处理访问请求。这两部分均会产生网络开销，而网络开销最大的则是分布式共享内存这一组件。顺序一致性是较强的一致性模型，会产生false sharing（伪共享）现象和page thrashing（页面颠簸）现象\cite{sharing}。伪共享现象是指两个运行在不同CPU核心上的线程不断地写入同一个cache line（缓存行）中的变量，当其中一个线程对变量写入后，另一个核上的缓存行即会失效，于是另一个线程需要从内存中读取最新的数据，而写入变量的线程也需要将缓存行写回主存。如此循环往复即出现了伪共享现象。而页面颠簸现象是由于内存页的换入换出。当一个进程频繁访问的页面数量多于总的物理页面数量，或者操作系统为进程选取的驻留集大小（RSS，可以通过ps aux等命令行工具观察进程的驻留集大小）小于其频繁访问的虚拟空间大小，则会有虚拟页面不断换出到磁盘上，即产生了页面抖动现象。\label{chap:STOR}伪共享现象和页面抖动现象都是因为不同层次的存储器访问延迟大不相同造成的。如表\ref{tab:level}所示\tablefootnote{数据来源：https://stackoverflow.com/questions/4087280/approximate-cost-to-access-various-caches-and-main-memory}，现代计算机有如下几个存储器层次\cite{csapp}：
 
-\label{chap:STOR}
-伪共享现象和页面抖动现象都是因为不同层次的存储器访问延迟大不相同造成的。现代计算机有如下几个存储器层次\cite{csapp}：
-\begin{itemize}
-  \item L0 寄存器：在CPU内部用来存储指令和数据。访问时间不超过一个CPU cycle（CPU时钟周期），用于缓存来自高速缓存（L1-L3）的数据
-  \item L1-L3 高速缓存（SRAM）：静态RAM，L1访问需要几个时钟周期（约为4个时钟周期），L2访问需要几十个时钟周期（约为10个时钟周期），L3访问需要近百个时钟周期（约为40个）\footnote{数据来源：https://v2ex.com/t/523069}。L1分为数据缓存（dcache）和指令缓存（icache），L1、L2由单个CPU核独享，L3由处理器中所有的核共享，保存来自于L4的数据。
-  \item L4 主存（DRAM）：动态RAM，访问需要几百个时钟周期（100ns），用来缓存来自磁盘的数据。
-  \item L5 本地的二级存储，即磁盘（Disk）：磁盘分为SSD（固态硬盘）和HDD（机械硬盘），SSD一次读取时间为16,000纳秒，HDD一次读取时间为2,000,000纳秒。
-  \item L6 远程二级存储（Web服务器等）：经过网络协议与网络进行数据交换，访问时间约为150,000,000纳秒\footnote{数据来源：https://stackoverflow.com/questions/4087280/approximate-cost-to-access-various-caches-and-main-memory}。
-\end{itemize}
+\begin{table}[!htpb]
+  \bicaption[存储器层次与访问延时]{存储器层次与访问延时}{Memory Hierarchy and Access Latencies}
+  \label{tab:level}
+  \centering
+  \begin{threeparttable}[b]
+     \begin{tabular}{c|c|c}
+      \toprule
+      存储器层次 & 别名（组成材质） & 访问延时 \\
+      \midrule[1pt]
+      L0 & 寄存器（Register）& < 1 cycle \\
+      \hline
+      L1/L2/L3 & 高速缓存（静态RAM，SRAM）& 大约 4/10/40 cycles \\
+      \hline
+      L4 & 主存（动态RAM，DRAM） & 几百个cycle，100ns \\
+      \hline
+      L5 & 本地二级存储，磁盘（SSD/HDD）& SSD：16us，HDD：2ms \\
+      \hline
+      L6 & 远程二级存储（Web服务器、NAS） & > 100ms \\
+      \bottomrule
+    \end{tabular}
+  \end{threeparttable}
+\end{table}
+
+% \begin{itemize}
+%   \item L0 寄存器：在CPU内部用来存储指令和数据。访问时间不超过一个CPU cycle（CPU时钟周期），用于缓存来自高速缓存（L1-L3）的数据
+%   \item L1-L3 高速缓存（SRAM）：静态RAM，L1访问需要几个时钟周期（约为4个时钟周期），L2访问需要几十个时钟周期（约为10个时钟周期），L3访问需要近百个时钟周期（约为40个）\footnote{数据来源：https://v2ex.com/t/523069}。L1分为数据缓存（dcache）和指令缓存（icache），L1、L2由单个CPU核独享，L3由处理器中所有的核共享，保存来自于L4的数据。
+%   \item L4 主存（DRAM）：动态RAM，访问需要几百个时钟周期（100ns），用来缓存来自磁盘的数据。
+%   \item L5 本地的二级存储，即磁盘（Disk）：磁盘分为SSD（固态硬盘）和HDD（机械硬盘），SSD一次读取时间为16,000纳秒，HDD一次读取时间为2,000,000纳秒。
+%   \item L6 远程二级存储（Web服务器等）：经过网络协议与网络进行数据交换，访问时间约为150,000,000纳秒。
+% \end{itemize}
 
 为了获得更大的内存容量，不可避免的会遭受更高的访存延迟，这对于NUMA架构系统和分布式共享内存是一样的。分布式共享内存增加了物理内存的容量，需要通过网络访问远程节点的内存，相比于本地内存访问增加了网络开销，造成了性能瓶颈。如果在不同节点上的应用程序频繁访问共享的地址空间（如内存密集型任务、I/O密集型任务），则需要分布式共享内存模块进行大量的内存同步工作，不仅造成客户机内存访问的延迟明显提高，使得巨型虚拟机可扩展性降低，还会占用集群中宝贵的网络带宽。虽然分布式共享内存模块已经利用RDMA、压缩优化等技术大大减小了其占用的网络带宽，但仍需要解决根本问题。我们通过设计一个巨型虚拟机客户机的DSM专用调度器，使得节点间访问共享内存的机会更少，增强客户机内存访问的局部性，从客户机的角度解决了根本问题。
 
@@ -107,7 +144,7 @@ VMM又可分为Type-\uppercase\expandafter{\romannumeral1}型和Type-\uppercase\
 
 \begin{figure}[!htp]
   \centering
-  \includegraphics[width=9cm]{barrelfish_sosp09.pdf}
+  \includegraphics[width=11cm]{barrelfish_sosp09.pdf}
   \bicaption[Barrelfish OS多内核架构]
     {Barrelfish OS多内核架构\cite{barrelfish}}
     {Architecture of Barrelfish OS Multikernel}
@@ -161,6 +198,7 @@ Barrelfish OS较少的核间通信使得其成为了巨型虚拟机理想的客�
 
 虚拟机的热迁移\cite{livemigration}分为本地资源的迁移和内存迁移。本地资源在源节点上，虽然像内存和处理器状态等数据可以通过网络发送到目的节点上，而本地的设备例如磁盘、网络接口则无法发送到目的节点，所以对这类资源需要特殊处理。在虚拟机热迁移的过程中，客户机的IP依然保存在TCP PCB（protocol control block，协议控制块）中，不会因为迁移而发生变化，只有其网卡的MAC地址（Media Access Control Address，媒体访问控制地址）发生了变化。源节点和目的节点经常处于同一个由单个交换机连接的局域网中，所以只要让目的节点在此局域网中广播一条包含最新的IP地址的ARP请求（Address Resolution Protocol，地址解析协议，通过IP地址获知网卡的物理地址），当所有的机器接收到这条ARP消息后，即可得知客户机的新MAC地址，这样即可越过源节点，将所有的网络包发送给目的节点上的客户机。而对于本地的硬盘资源，虚拟机热迁移一般依赖于设备整合（Device Consolidation）这一解决方案，如NAS（Network-attached storage）网络存储，由于NAS的地址不会因为虚拟机热迁移而发生变化，所以免去了磁盘迁移的需求。
 
+\label{chap:mmm}
 虚拟机内存的迁移和容器的内存迁移类似，也有前拷贝、后拷贝两种选项，为了使得下线时间尽可能短，且重新启动后较少发生远程缺页异常，一般采用前拷贝的工作方式。虚拟机内存迁移主要分为如下几个步骤：在开始虚拟机的热迁移之前，首先选择资源可以满足迁移来的客户机的节点作为迁移的目标节点，且要求该节点在物理位置上更为临近于源节点，从而不需要远距离的网络传输，出错的可能性更小；接下来就是在虚拟机继续运行的同时对内存页进行循环拷贝，第一轮循环将客户机所有的物理页发送给目的节点，接下来的每个循环依次重传上一个循环中被客户机修改的页。当第$i$个循环重传的页多于第$i-1$个循环时，即表明继续进行内存页传输将是无意义的，于是将虚拟机冻结，再传递CPU、设备等状态，然后传递剩余的内存页，最后在目的节点上恢复虚拟机的执行。虚拟机在目标节点上开始执行后，不会产生远程缺页异常，且下线时间较短。研究人员对一个运行WebServer的VM进行热迁移测试，虽然WebServer服务只有165ms的下线时间，远小于容器热迁移的2-3秒，但迁移过程产生了巨大的网络开销。如图\ref{fig:livem}所示，在这个迁移过程中，网络开销从一开始的870Mbit/sec减小到最后的694Mbit/sec，如此大的网络开销持续了近100秒\cite{livemigration}，这对于数据中心的网络带宽是一种极大的占用。
 
 综上所述，不同的迁移方式各有优劣，应用于不同的场景。容器热迁移具有较低的网络开销，但是下线时间较长；而虚拟机热迁移的下线时间极短，但由于其前拷贝的工作方式且虚拟机内存占用较高，所以具有较大的网络开销。数据中心在作出虚拟机迁移决定时一般较为慎重，只在满足了苛刻的条件之后才会进行虚拟机的热迁移。
